@@ -405,8 +405,10 @@ The Saarthi AI project was developed as a collaborative team project.
 
 ## Team Members
 
-- **Galla jagadeesh**
+- **Galla Jagadeesh**
 - **Anup Ajit Painginkar**
+- **Raghwendra Kumar**
+- **Aaditya Sathapathy**
 
 
 ---
