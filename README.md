@@ -71,13 +71,57 @@ Instead of spending 30–60 minutes researching, users receive a complete AI-gen
 
 ## 🤖 AI Meeting Intelligence
 
-Automatically generates intelligent meeting briefs.
+Saarthi AI automatically generates comprehensive meeting briefings by combining information from multiple trusted sources into a single, easy-to-read summary.
 
+Before every scheduled meeting, the platform analyzes the target company and prepares contextual insights that help sales representatives understand the business before speaking with the customer.
+
+### The AI briefing includes
+
+- Executive Summary
+- Company Overview
+- Latest Business News
+- Products & Services
+- Industry Analysis
+- Financial Highlights
+- Opportunities
+- Risks & Challenges
+- Suggested Talking Points
+- Competitive Landscape
+- Strategic Recommendations
+
+### Benefits
+
+- Saves 30–60 minutes of manual research
+- Improves meeting confidence
+- Provides consistent and up-to-date information
+- Enables data-driven sales conversations
 ---
 
 ## 📰 Latest Company News
 
-Collects recent business news from trusted sources.
+Keeping up with company announcements is essential before every customer interaction.
+
+Saarthi AI automatically retrieves the latest publicly available news articles related to the company and presents only the most relevant updates inside the dashboard.
+
+The platform filters important business events such as product launches, acquisitions, partnerships, executive appointments, funding announcements, expansion strategies, regulatory updates, and market trends.
+
+### News Categories
+
+- Product Launches
+- Business Expansion
+- Funding & Investments
+- Acquisitions
+- Executive Leadership
+- Financial Updates
+- Industry Trends
+
+### Benefits
+
+- Stay informed before meetings
+- Understand current business priorities
+- Identify discussion opportunities
+- Build more meaningful customer conversations
+
 
 ---
 
@@ -356,36 +400,43 @@ DATABASE_URL=
 
 ---
 
-# 👨‍💻 Author
+# 👥 Project Team
 
-## Galla Jagadeesh
+The Saarthi AI project was developed as a collaborative team project.
 
-AI Developer • Full Stack Developer • Automation Enthusiast
+## Team Members
 
-GitHub
-
-https://github.com/gallajagadeesh17
-
-LinkedIn
-
-(Add your LinkedIn Profile)
+- **Galla Jagadeesh**
+- **Anup Painginkar**
 
 ---
 
 # ⭐ Support
 
-If you like this project, consider giving it a ⭐ on GitHub.
+If you found **Saarthi AI** useful, consider giving this repository a ⭐.
 
-It motivates future development and improvements.
+Your support motivates future improvements and new features.
+
+---
+
+# 📄 License
+
+This project is licensed under the **MIT License**.
+
+See the [LICENSE](LICENSE) file for more details.
 
 ---
 
 <div align="center">
 
-## 🚀 Saarthi AI
+# 🚀 Saarthi AI
 
-### Empowering Sales Teams Through Artificial Intelligence
+### AI-Powered Sales Intelligence Platform
 
-Made with ❤️ by **Galla Jagadeesh**
+**Empowering Sales Teams Through Artificial Intelligence**
+
+Made with ❤️ by the **Saarthi AI Team**
+
+© 2026 Saarthi AI. All Rights Reserved.
 
 </div>
