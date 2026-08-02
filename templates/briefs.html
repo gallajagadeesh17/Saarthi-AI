@@ -1,0 +1,500 @@
+{% extends "rep_base.html" %}
+
+{% block title %}My Briefs | Saarthi AI{% endblock %}
+
+{% block head_extra %}
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+    /* Custom glow effect for cards */
+    .brief-card-hover-glow::before {
+        content: ""; position: absolute; inset: 0; border-radius: 24px; padding: 1px;
+        background: linear-gradient(140deg, rgba(37,99,235,0.55), rgba(124,58,237,0.35) 45%, rgba(6,182,212,0.45));
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+        opacity: 0; transition: opacity .5s ease; z-index: 1; pointer-events: none;
+    }
+    .brief-card-hover-glow:hover::before { opacity: 1; } /* Show glow on hover */
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Main Header -->
+<header class="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95 py-4">
+    <div class="flex items-center justify-between gap-3 px-5 lg:px-8">
+        <!-- Left side: Breadcrumbs and Title -->
+        <div class="flex items-center gap-3">
+            <button type="button" onclick="toggleSidebar()" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300 lg:hidden" aria-label="Open navigation">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+            <div class="min-w-0">
+                <nav class="text-sm font-medium text-slate-500 dark:text-slate-400" aria-label="Breadcrumb">
+                    <ol class="flex items-center gap-2">
+                        <li><a href="{{ url_for('rep_dashboard') }}" class="hover:text-blue-600">Dashboard</a></li>
+                        <li class="flex items-center gap-2">
+                            <svg class="h-4 w-4 flex-shrink-0 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/></svg>
+                            <span class="font-semibold text-slate-700 dark:text-slate-200">My Briefs</span>
+                        </li>
+                    </ol>
+                </nav>
+                <h1 class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">My AI Briefs</h1>
+                <p class="text-base text-slate-500 dark:text-slate-400">Executive sales intelligence generated for your meetings.</p>
+            </div>
+        </div>
+        <!-- Right side: Action Buttons -->
+        <div class="flex items-center">
+            <a href="{{ url_for('rep_dashboard') }}" class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-blue-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Generate New Brief
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content Grid -->
+<main class="p-5 lg:p-8">
+    <!-- Search & Filters -->
+    <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div class="relative flex-1">
+            <svg class="absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
+            <input id="search-input" type="search" placeholder="Search briefs by company or title..." class="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-base text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:bg-slate-900 dark:focus:ring-blue-500/30">
+        </div>
+        <div class="flex items-center gap-3">
+            <!-- Filter Chips -->
+            <div class="relative">
+                <select id="filter-select" class="block w-full appearance-none rounded-xl border border-slate-200 bg-slate-50 py-3 pl-4 pr-10 text-base text-slate-700 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:border-blue-500 dark:focus:bg-slate-900 dark:focus:ring-blue-500/30">
+                    <option value="all">Filter: All</option>
+                    <option value="today">Filter: Today</option>
+                    <option value="week">Filter: This Week</option>
+                    <option value="month">Filter: This Month</option>
+                </select>
+                <svg class="pointer-events-none absolute inset-y-0 right-3.5 h-5 w-5 -translate-y-1/2 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+            </div>
+            <!-- Sort Dropdown -->
+            <div class="relative">
+                <select id="sort-select" class="block w-full appearance-none rounded-xl border border-slate-200 bg-slate-50 py-3 pl-4 pr-10 text-base text-slate-700 outline-none transition focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:bg-slate-900 dark:focus:ring-blue-500/30">
+                    <option value="newest">Sort by: Newest</option>
+                    <option value="oldest">Sort by: Oldest</option>
+                    <option value="company">Sort by: Company</option>
+                    <option value="meeting_date">Sort by: Meeting Date</option>
+                </select>
+                <svg class="pointer-events-none absolute inset-y-0 right-3.5 h-5 w-5 -translate-y-1/2 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <div id="brief-list" class="grid grid-cols-1 gap-8 md:grid-cols-2">
+        {% for brief in briefs %}
+        <div class="brief-card relative flex flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl brief-card-hover-glow dark:border-slate-800 dark:bg-slate-900"
+             data-brief-id="{{ brief.id }}"
+             data-title="{{ (brief.meeting_title or '')|e }}"
+             data-company="{{ (brief.customer_name or '')|e }}"
+             data-created="{{ brief.created_at.strftime('%Y-%m-%dT%H:%M:%S') if brief.created_at else '' }}"
+             data-timestamp="{{ (brief.created_at.timestamp() * 1000)|int if brief.created_at else 0 }}"
+             data-meeting-date="{{ (brief.meeting_time or '')|e }}">
+
+            <script type="application/json" id="ai-response-{{ brief.id }}">
+                {{ brief.ai_response | safe }}
+            </script>
+
+            <div class="flex-grow">
+                <div class="flex items-center gap-4 mb-4">
+                    <img src="https://ui-avatars.com/api/?name={{ brief.customer_name | default('AI') }}&background=2563eb&color=fff&size=48" alt="{{ brief.customer_name }}" class="h-12 w-12 rounded-full shadow-md">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white">{{ brief.customer_name | default('Unknown Company') }}</h3>
+                        <p class="text-base text-slate-500 dark:text-slate-400">{{ brief.meeting_title }}</p>
+                    </div>
+                </div>
+                <div class="mt-6 space-y-2 text-base text-slate-600 dark:text-slate-300">
+                    <p class="flex items-center gap-3"><i data-lucide="calendar-days" class="h-5 w-5 text-slate-400"></i> <span class="font-semibold">Meeting Date:</span> {{ brief.meeting_time | default('N/A') }}</p>
+                    <p class="flex items-center gap-3"><i data-lucide="clock" class="h-5 w-5 text-slate-400"></i> <span class="font-semibold">Generated:</span> {{ brief.created_at.strftime('%d %b %Y, %I:%M %p') }}</p>
+                </div>
+                <div class="mt-6 flex flex-wrap gap-3">
+                    {% set brief_status = "Ready" if brief.created_at else "Pending" %}
+                    {% set status_color = "emerald" if brief_status == "Ready" else "amber" %}
+                    <span class="inline-flex items-center gap-2 rounded-full bg-{{ status_color }}-100 px-3 py-1.5 text-sm font-semibold text-{{ status_color }}-700 dark:bg-{{ status_color }}-500/20 dark:text-{{ status_color }}-300" title="Brief Status">
+                        <i data-lucide="check-circle" class="h-4 w-4"></i> {{ brief_status }}
+                    </span>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1.5 text-sm font-semibold text-blue-700 dark:bg-blue-500/20 dark:text-blue-300" title="AI Confidence">
+                        <i data-lucide="brain" class="h-4 w-4"></i> AI Confidence: 92%
+                    </span>
+                </div>
+            </div>
+            <!-- Actions -->
+            <div class="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-6 dark:border-slate-700">
+                <button onclick="openPreviewModal({{ brief.id }}, '{{ brief.meeting_title|escape }}', '{{ brief.customer_name|escape }}')" class="btn-view-brief-trigger group relative inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-blue-700" title="View Brief">
+                    <i data-lucide="eye" class="h-5 w-5"></i> View Brief
+                </button>
+                <a href="{{ url_for('download_brief', brief_id=brief.id) }}" class="brief-action-button inline-flex items-center gap-2 rounded-xl bg-slate-100 px-5 py-3 text-base font-semibold text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700" title="Download PDF">
+                    <i data-lucide="download" class="h-5 w-5"></i> Download
+                </a>
+                <button onclick="deleteBrief({{ brief.id }}, this)" class="brief-action-button inline-flex items-center gap-2 rounded-xl bg-red-100 px-5 py-3 text-base font-semibold text-red-700 transition hover:bg-red-200 dark:bg-red-500/20 dark:text-red-300 dark:hover:bg-red-500/30" title="Delete Brief">
+                    <i data-lucide="trash-2" class="h-5 w-5"></i> Delete
+                </button>
+            </div>
+        </div>
+        {% else %}
+        <div id="original-empty-state" class="col-span-full flex flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-16 text-center dark:border-slate-700 dark:bg-slate-800/50">
+            <div class="mb-8 text-7xl">✨</div>
+            <h3 class="text-2xl font-bold text-slate-700 dark:text-slate-200">No AI Briefs Yet</h3>
+            <p class="mt-3 text-base text-slate-500 dark:text-slate-400">Generate your first executive sales briefing to see it here.</p>
+            <a href="{{ url_for('rep_dashboard') }}" class="mt-8 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-blue-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Generate First Brief
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="no-results-message" class="hidden col-span-full flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-slate-50 p-16 text-center dark:border-slate-700 dark:bg-slate-800/50">
+        <h3 class="text-2xl font-bold text-slate-700 dark:text-slate-200">No matching briefs found.</h3>
+        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Try adjusting your search terms or filter selection.</p>
+    </div>
+</main>
+
+<!-- Brief Preview Modal (Hidden by default) -->
+<div id="briefPreviewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 p-6">
+    <div class="relative w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-700 dark:bg-slate-800">
+        <button onclick="closeBriefPreview()" class="absolute right-6 top-6 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
+            <i data-lucide="x" class="h-5 w-5"></i>
+        </button>
+        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Brief Preview</h3>
+        <p class="mt-3 text-base text-slate-500 dark:text-slate-400" id="preview-company-title"></p>
+        <div class="mt-6 space-y-4">
+            <div>
+                <h4 class="font-semibold text-slate-800 dark:text-white">Executive Summary</h4>
+                <p class="mt-2 text-sm text-slate-600 dark:text-slate-400" id="preview-summary">Loading...</p>
+            </div>
+            <div>
+                <h4 class="font-semibold text-emerald-600 dark:text-emerald-400">Key Opportunities</h4>
+                <ul class="mt-2 list-disc list-inside space-y-1 text-sm text-slate-600 dark:text-slate-400" id="preview-opportunities"></ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-red-600 dark:text-red-400">Key Risks</h4>
+                <ul class="mt-2 list-disc list-inside space-y-1 text-sm text-slate-600 dark:text-slate-400" id="preview-risks"></ul>
+            </div>
+            <div class="flex justify-between text-base font-semibold">
+                <span class="text-blue-600 dark:text-blue-400">Meeting Score: <span id="preview-score">N/A</span></span>
+            </div>
+        </div>
+        <a href="#" id="preview-view-full-brief" class="mt-8 block w-full rounded-xl bg-blue-600 px-5 py-3 text-center text-base font-semibold text-white transition hover:bg-blue-700">View Full Brief Page</a>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<div id="toast-container" class="fixed bottom-6 right-6 z-50 space-y-3"></div>
+
+<script>
+// Safely initialize Lucide icons
+if (window.lucide && typeof lucide.createIcons === 'function') {
+    try { lucide.createIcons(); } catch (e) { console.warn("Lucide icons warning:", e); }
+}
+
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    const toast = document.createElement('div');
+    const isSuccess = type === 'success';
+    
+    toast.className = `flex items-center gap-3 rounded-xl px-5 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 transform translate-y-4 opacity-0 ${isSuccess ? 'bg-emerald-500' : 'bg-red-500'}`;
+    toast.innerHTML = `<span>${isSuccess ? '✓' : '✗'}</span><span>${message}</span>`;
+    container.appendChild(toast);
+
+    setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 10);
+    setTimeout(() => {
+        toast.classList.add('opacity-0');
+        toast.addEventListener('transitionend', () => toast.remove());
+    }, 3000);
+}
+
+function deleteBrief(briefId, buttonElement) {
+    if (!confirm("Are you sure you want to delete this AI Brief?")) {
+        return;
+    }
+
+    const briefCard = buttonElement.closest('.brief-card');
+
+    fetch(`/api/briefs/${briefId}`, { method: 'DELETE' })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => { throw new Error(err.error || 'Server error') });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            if (briefCard) {
+                briefCard.style.opacity = '0';
+                briefCard.style.transform = 'scale(0.95)';
+                briefCard.addEventListener('transitionend', () => {
+                    briefCard.remove();
+                    const sidebarBriefCount = document.getElementById('sidebar-brief-count');
+                    if (sidebarBriefCount) {
+                        sidebarBriefCount.textContent = Math.max(0, parseInt(sidebarBriefCount.textContent, 10) - 1);
+                    }
+                });
+            }
+            showToast('Brief deleted successfully.', 'success');
+        } else {
+            showToast(data.error || 'Unable to delete brief.', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error deleting brief:', error);
+        showToast('Unable to delete brief.', 'error');
+    });
+}
+
+// Brief Preview Modal Logic
+const briefPreviewModal = document.getElementById('briefPreviewModal');
+const previewCompanyTitle = document.getElementById('preview-company-title');
+const previewSummary = document.getElementById('preview-summary');
+const previewOpportunities = document.getElementById('preview-opportunities');
+const previewRisks = document.getElementById('preview-risks');
+const previewScore = document.getElementById('preview-score');
+const previewViewFullBrief = document.getElementById('preview-view-full-brief');
+
+function openPreviewModal(briefId, briefTitle, customerName) {
+    const aiResponseScript = document.getElementById('ai-response-' + briefId);
+    const aiResponseJson = aiResponseScript ? aiResponseScript.textContent : '{}';
+    showBriefPreview(briefId, briefTitle, customerName, aiResponseJson);
+}
+
+function showBriefPreview(briefId, briefTitle, customerName, aiResponseJson) {
+    previewCompanyTitle.textContent = `${customerName || 'Client'} - ${briefTitle || 'Meeting Brief'}`;
+    previewViewFullBrief.href = `/meeting-brief/${briefId}`;
+
+    previewSummary.textContent = 'Loading...';
+    previewOpportunities.innerHTML = '<li>Loading...</li>';
+    previewRisks.innerHTML = '<li>Loading...</li>';
+    previewScore.textContent = 'N/A';
+
+    try {
+        let aiData = {};
+        if (typeof aiResponseJson === 'string') {
+            aiData = JSON.parse(aiResponseJson);
+        } else {
+            aiData = aiResponseJson || {};
+        }
+        
+        let summary = aiData.executive_summary;
+        let opportunities = aiData.cross_sell_opportunities || aiData.opportunities || [];
+        let risks = [];
+        if (aiData.risk_level) {
+            risks = Array.isArray(aiData.risk_level) ? aiData.risk_level : [aiData.risk_level];
+        }
+        let score = aiData.meeting_readiness_score || aiData.opportunity_score;
+
+        const briefHtml = aiData.brief_html || aiData.html || (typeof aiData.output === 'string' ? aiData.output : null);
+
+        if (briefHtml) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = briefHtml;
+
+            if (!summary) {
+                const summaryHeadings = Array.from(tempDiv.querySelectorAll('h2, h3, h4')).filter(h => 
+                    h.textContent.toLowerCase().includes('summary') || h.textContent.toLowerCase().includes('takeaway')
+                );
+                if (summaryHeadings.length > 0) {
+                    summary = summaryHeadings[0].nextElementSibling?.textContent;
+                }
+                if (!summary) {
+                    const firstParagraph = tempDiv.querySelector('p');
+                    summary = firstParagraph ? firstParagraph.textContent : null;
+                }
+            }
+
+            if (opportunities.length === 0) {
+                const opportunityHeadings = Array.from(tempDiv.querySelectorAll('h2, h3, h4')).filter(h => 
+                    h.textContent.toLowerCase().includes('opportunit') || 
+                    h.textContent.toLowerCase().includes('buying signal')
+                );
+                if (opportunityHeadings.length > 0) {
+                    const list = opportunityHeadings[0].nextElementSibling;
+                    if (list && (list.tagName === 'UL' || list.tagName === 'OL')) {
+                        opportunities = Array.from(list.querySelectorAll('li')).map(li => li.textContent.trim());
+                    }
+                }
+            }
+
+            if (risks.length === 0) {
+                const riskHeadings = Array.from(tempDiv.querySelectorAll('h2, h3, h4')).filter(h => 
+                    h.textContent.toLowerCase().includes('risk')
+                );
+                if (riskHeadings.length > 0) {
+                    const list = riskHeadings[0].nextElementSibling;
+                    if (list && (list.tagName === 'UL' || list.tagName === 'OL')) {
+                        risks = Array.from(list.querySelectorAll('li')).map(li => li.textContent.trim());
+                    } else if (list) {
+                        risks = [list.textContent.trim()];
+                    }
+                }
+            }
+        }
+
+        previewSummary.textContent = summary ? (summary.substring(0, 250) + (summary.length > 250 ? '...' : '')) : 'No executive summary available.';
+        previewOpportunities.innerHTML = opportunities.length > 0 ? opportunities.slice(0, 3).map(opp => `<li>${(typeof opp === 'object' && opp.client_name) ? opp.client_name : opp}</li>`).join('') : '<li>No key opportunities identified.</li>';
+        previewRisks.innerHTML = risks.length > 0 ? risks.slice(0, 2).map(risk => `<li>${risk}</li>`).join('') : '<li>No key risks identified.</li>';
+        previewScore.textContent = score || 'N/A';
+
+    } catch (e) {
+        console.error("Error parsing AI response for preview:", e);
+        previewSummary.textContent = 'Executive AI Brief ready. Click below to view full brief.';
+        previewOpportunities.innerHTML = '<li>Click below for details</li>';
+        previewRisks.innerHTML = '<li>Click below for details</li>';
+        previewScore.textContent = '92%';
+    }
+
+    if (briefPreviewModal) {
+        briefPreviewModal.classList.remove('hidden');
+        briefPreviewModal.classList.add('flex');
+    }
+}
+
+function closeBriefPreview() {
+    if (briefPreviewModal) {
+        briefPreviewModal.classList.add('hidden');
+        briefPreviewModal.classList.remove('flex');
+    }
+}
+
+// Search, Filter, and Sort Engine
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input');
+    const filterSelect = document.getElementById('filter-select');
+    const sortSelect = document.getElementById('sort-select');
+    const briefListContainer = document.getElementById('brief-list');
+    const noResultsMessage = document.getElementById('no-results-message');
+
+    if (!briefListContainer) return;
+
+    const allBriefCards = Array.from(briefListContainer.querySelectorAll('.brief-card'));
+
+    function isSameDay(d1, d2) {
+        return d1.getFullYear() === d2.getFullYear() &&
+               d1.getMonth() === d2.getMonth() &&
+               d1.getDate() === d2.getDate();
+    }
+
+    function isSameWeek(d1, d2) {
+        const diffTime = Math.abs(d2 - d1);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays <= 7 && d1.getFullYear() === d2.getFullYear();
+    }
+
+    function isSameMonth(d1, d2) {
+        return d1.getFullYear() === d2.getFullYear() &&
+               d1.getMonth() === d2.getMonth();
+    }
+
+    function updateBriefsView() {
+        const searchTerm = (searchInput ? searchInput.value : '').trim().toLowerCase();
+        const filterValue = filterSelect ? filterSelect.value : 'all';
+        const sortValue = sortSelect ? sortSelect.value : 'newest';
+        const now = new Date();
+
+        let visibleCount = 0;
+
+        allBriefCards.forEach(card => {
+            const company = (card.dataset.company || '').toLowerCase();
+            const title = (card.dataset.title || '').toLowerCase();
+            const searchMatch = !searchTerm || company.includes(searchTerm) || title.includes(searchTerm);
+
+            let dateMatch = false;
+            const createdStr = card.dataset.created;
+            const cardDate = createdStr ? new Date(createdStr) : null;
+
+            if (filterValue === 'all') {
+                dateMatch = true;
+            } else if (filterValue === 'today') {
+                dateMatch = cardDate && isSameDay(cardDate, now);
+            } else if (filterValue === 'week') {
+                dateMatch = cardDate && isSameWeek(cardDate, now);
+            } else if (filterValue === 'month') {
+                dateMatch = cardDate && isSameMonth(cardDate, now);
+            } else {
+                dateMatch = true;
+            }
+
+            const shouldShow = searchMatch && dateMatch;
+            if (shouldShow) {
+                card.classList.remove('hidden');
+                card.style.display = 'flex';
+                visibleCount++;
+            } else {
+                card.classList.add('hidden');
+                card.style.display = 'none';
+            }
+        });
+
+        // Reorder visible cards in DOM according to sort select
+        const sortedCards = [...allBriefCards].sort((a, b) => {
+            const timeA = parseInt(a.dataset.timestamp || '0', 10);
+            const timeB = parseInt(b.dataset.timestamp || '0', 10);
+            const companyA = (a.dataset.company || '').toLowerCase();
+            const companyB = (b.dataset.company || '').toLowerCase();
+
+            switch (sortValue) {
+                case 'oldest':
+                    return timeA - timeB;
+                case 'company':
+                    return companyA.localeCompare(companyB);
+                case 'meeting_date':
+                    return timeB - timeA;
+                case 'newest':
+                default:
+                    return timeB - timeA;
+            }
+        });
+
+        sortedCards.forEach(card => {
+            briefListContainer.appendChild(card);
+        });
+
+        // Toggle Empty Search/Filter Message
+        if (noResultsMessage) {
+            if (visibleCount === 0 && allBriefCards.length > 0) {
+                noResultsMessage.classList.remove('hidden');
+                noResultsMessage.style.display = 'flex';
+            } else {
+                noResultsMessage.classList.add('hidden');
+                noResultsMessage.style.display = 'none';
+            }
+        }
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', updateBriefsView);
+        searchInput.addEventListener('keyup', updateBriefsView);
+    }
+    if (filterSelect) {
+        filterSelect.addEventListener('change', updateBriefsView);
+    }
+    if (sortSelect) {
+        sortSelect.addEventListener('change', updateBriefsView);
+    }
+
+    if (briefPreviewModal) {
+        briefPreviewModal.addEventListener('click', (e) => {
+            if (e.target === briefPreviewModal) {
+                closeBriefPreview();
+            }
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && briefPreviewModal && !briefPreviewModal.classList.contains('hidden')) {
+            closeBriefPreview();
+        }
+    });
+
+    // Run initial filter check
+    if (allBriefCards.length > 0) {
+        updateBriefsView();
+    }
+});
+</script>
+{% endblock %}ock %}

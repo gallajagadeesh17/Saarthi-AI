@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Console | Saarthi AI{% endblock %}</title>
+    <!-- Fonts & Tailwind -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/enterprise.css') }}">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="h-full flex overflow-hidden font-sans text-slate-800 bg-slate-50 antialiased">
+
+    <!-- Mobile Overlay Backdrop -->
+    <div id="backdrop" class="fixed inset-0 z-40 hidden bg-slate-900/60 backdrop-blur-sm lg:hidden"></div>
+
+    <!-- Admin Sidebar Navigation -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 flex w-72 -translate-x-full flex-col border-r border-slate-800 bg-slate-900 text-slate-300 shadow-2xl transition-transform duration-300 lg:static lg:translate-x-0 lg:shadow-none">
+        
+        <!-- Logo & Brand Header -->
+        <div class="flex h-20 items-center justify-between border-b border-slate-800 px-6">
+            <a href="{{ url_for('admin_dashboard') }}" class="flex items-center gap-3">
+                <span class="grid h-10 w-10 place-items-center rounded-xl bg-blue-600 font-extrabold text-white shadow-lg shadow-blue-600/30">S</span>
+                <div>
+                    <span class="block text-base font-bold text-white tracking-tight">Saarthi AI</span>
+                    <span class="block text-[11px] font-semibold tracking-wider text-blue-400 uppercase">Admin Portal</span>
+                </div>
+            </a>
+            <button id="closeMenu" class="grid h-8 w-8 place-items-center rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white lg:hidden">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <div class="flex-1 overflow-y-auto px-4 py-6 space-y-7">
+            <div>
+                <p class="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-500">System Governance</p>
+                <nav class="space-y-1">
+                    <!-- Dashboard -->
+                    <a href="{{ url_for('admin_dashboard') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'admin_dashboard' %}bg-blue-600 text-white shadow-md shadow-blue-600/20{% else %}text-slate-400 hover:bg-slate-800/80 hover:text-white{% endif %}">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                        Dashboard
+                    </a>
+                    <!-- Users -->
+                    <a href="{{ url_for('admin_users') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'admin_users' and not request.args.get('role') %}bg-blue-600 text-white shadow-md shadow-blue-600/20{% else %}text-slate-400 hover:bg-slate-800/80 hover:text-white{% endif %}">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        Users
+                    </a>
+                    <!-- Managers -->
+                    <a href="{{ url_for('admin_managers') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'admin_managers' %}bg-blue-600 text-white shadow-md shadow-blue-600/20{% else %}text-slate-400 hover:bg-slate-800/80 hover:text-white{% endif %}">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        Managers
+                    </a>
+                    <!-- Representatives -->
+                    <a href="{{ url_for('admin_representatives') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'admin_representatives' %}bg-blue-600 text-white shadow-md shadow-blue-600/20{% else %}text-slate-400 hover:bg-slate-800/80 hover:text-white{% endif %}">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                        Representatives
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Admin Profile Footer -->
+        <div class="border-t border-slate-800 p-4">
+            <div class="flex items-center gap-3 rounded-xl bg-slate-800/60 p-2.5">
+                <img src="https://ui-avatars.com/api/?name={{ name|default('Admin') }}&background=2563eb&color=fff&bold=true" class="h-10 w-10 rounded-xl border border-blue-500/30">
+                <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-bold text-white">{{ name|default('Admin User') }}</p>
+                    <span class="inline-flex items-center text-[10px] font-bold text-emerald-400 uppercase tracking-wide">● Administrator</span>
+                </div>
+                <a href="{{ url_for('logout') }}" title="Logout" class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-700 hover:text-rose-400">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="flex flex-1 flex-col overflow-y-auto">
+        <!-- Top App Bar -->
+        <header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white/95 px-6 backdrop-blur">
+            <div class="flex items-center gap-4">
+                <button id="openMenu" class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 lg:hidden">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <span class="hidden md:inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 border border-emerald-200">
+                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
+                    System Live &amp; Synced
+                </span>
+            </div>
+        </header>
+
+        <!-- Main Body View -->
+        <main class="flex-1 p-6 lg:p-8">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <!-- Mobile Drawer Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('backdrop');
+            const openMenu = document.getElementById('openMenu');
+            const closeMenu = document.getElementById('closeMenu');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('-translate-x-full');
+                backdrop.classList.toggle('hidden');
+            }
+
+            if (openMenu) openMenu.addEventListener('click', toggleSidebar);
+            if (closeMenu) closeMenu.addEventListener('click', toggleSidebar);
+            if (backdrop) backdrop.addEventListener('click', toggleSidebar);
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+    {% include 'components/ai_chat.html' %}
+    <script src="{{ url_for('static', filename='js/ai_chat.js') }}"></script>
+</body>
+</html>

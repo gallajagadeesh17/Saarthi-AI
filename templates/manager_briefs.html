@@ -1,0 +1,138 @@
+{% extends "manager_base.html" %}
+
+{% block page_title %}AI Briefs | Saarthi AI Manager{% endblock %}
+
+{% block content %}
+<div class="space-y-6 animate-fade-in">
+
+    <!-- Header -->
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">AI Executive Briefs</h1>
+            <p class="text-sm text-slate-500">Gemini AI-generated briefings from your team's customer visits. Preview, download, and share.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="badge badge-success">Gemini 3.6 Pro</span>
+            <span class="badge badge-slate">{{ filtered_briefs|length }} Briefs</span>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="ent-card p-4">
+        <form method="GET" action="{{ url_for('manager_briefs') }}" class="flex flex-wrap items-end gap-3">
+            <div class="relative flex-1 min-w-[200px]">
+                <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input name="q" value="{{ q }}" type="text" placeholder="Search by title or customer..." class="ent-input pl-10 text-xs py-2 w-full">
+            </div>
+            <div>
+                <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Representative</label>
+                <select name="rep" class="ent-input text-xs py-2 pr-8">
+                    <option value="">All Reps</option>
+                    {% for rep in team_members %}
+                    <option value="{{ rep.id }}" {{ 'selected' if rep_filter == rep.id|string }}>{{ rep.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-primary text-xs py-2">Filter</button>
+            <a href="{{ url_for('manager_briefs') }}" class="btn-secondary text-xs py-2">Reset</a>
+        </form>
+    </div>
+
+    <!-- Stats Strip -->
+    <div class="grid gap-4 sm:grid-cols-4">
+        <div class="ent-card p-4 text-center">
+            <span class="text-2xl font-extrabold text-slate-900 block">{{ filtered_briefs|length }}</span>
+            <span class="text-xs text-slate-500 font-semibold">Total Briefs</span>
+        </div>
+        <div class="ent-card p-4 text-center">
+            <span class="text-2xl font-extrabold text-blue-600 block">{{ briefs_today }}</span>
+            <span class="text-xs text-slate-500 font-semibold">Generated Today</span>
+        </div>
+        <div class="ent-card p-4 text-center">
+            <span class="text-2xl font-extrabold text-emerald-600 block">98.4%</span>
+            <span class="text-xs text-slate-500 font-semibold">AI Success Rate</span>
+        </div>
+        <div class="ent-card p-4 text-center">
+            <span class="text-2xl font-extrabold text-purple-600 block">42s</span>
+            <span class="text-xs text-slate-500 font-semibold">Avg Generation Time</span>
+        </div>
+    </div>
+
+    <!-- Brief Cards Grid -->
+    {% if filtered_briefs %}
+    <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        {% for brief in filtered_briefs %}
+        {% set brief_owner = brief.user %}
+        <div class="ent-card ent-card-hover p-5 flex flex-col gap-4">
+            <!-- Card Header -->
+            <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="grid h-11 w-11 flex-shrink-0 place-items-center rounded-xl bg-purple-100 text-purple-700">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="font-bold text-slate-900 text-sm leading-tight line-clamp-2">{{ brief.meeting_title }}</p>
+                        <p class="text-xs text-slate-400 mt-0.5">{{ brief.customer_name or 'Customer Meeting' }}</p>
+                    </div>
+                </div>
+                <span class="badge badge-success flex-shrink-0">Ready</span>
+            </div>
+
+            <!-- Meta Info -->
+            <div class="space-y-2 text-xs">
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-500 font-semibold">Representative</span>
+                    <span class="font-bold text-slate-800">{{ brief_owner.name if brief_owner else 'Unknown' }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-500 font-semibold">Generated</span>
+                    <span class="font-bold text-slate-800">{{ brief.created_at.strftime('%d %b, %I:%M %p') }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-500 font-semibold">AI Engine</span>
+                    <span class="font-bold text-purple-600">Gemini 2.5 Pro</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-slate-500 font-semibold">Confidence Score</span>
+                    <span class="font-bold text-emerald-600">High</span>
+                </div>
+            </div>
+
+            <!-- Confidence Progress -->
+            <div>
+                <div class="h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                    <div class="h-full rounded-full bg-emerald-500" style="width: 92%"></div>
+                </div>
+                <span class="text-[11px] text-slate-400 font-semibold mt-1 block">92% AI confidence score</span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+                <a href="{{ url_for('meeting_brief', brief_id=brief.id) }}" class="btn-secondary py-1.5 text-xs flex-1 text-center">
+                    <svg class="h-3.5 w-3.5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                    Preview
+                </a>
+                <a href="{{ url_for('download_brief', brief_id=brief.id) }}" class="btn-primary py-1.5 text-xs flex-1 text-center">
+                    <svg class="h-3.5 w-3.5 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    PDF
+                </a>
+                <button title="Share" class="rounded-xl border border-slate-200 p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- Empty State -->
+    <div class="ent-card p-14 text-center">
+        <div class="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-purple-50 text-purple-600">
+            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        </div>
+        <h3 class="text-base font-bold text-slate-800">No AI Briefs Generated Yet</h3>
+        <p class="mt-1 text-sm text-slate-400">AI Briefs are generated by representatives after their meetings are triggered through the n8n automation pipeline.</p>
+        <a href="{{ url_for('manager_new_meeting') }}" class="mt-4 inline-flex btn-primary text-xs py-2">Create a Meeting to Get Started</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

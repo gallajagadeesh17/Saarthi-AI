@@ -1,0 +1,361 @@
+{
+  "name": "Report Generation Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const body = $('Webhook').first().json.body;\n\nreturn [{\n  json: {\n\n    // Company Information\n    company_name: body.company || \"\",\n    industry: body.industry || \"FMCG\",\n    country: body.country || \"India\",\n\n    // Meeting Information\n    meeting_id: body.meeting_id || \"\",\n    meeting_title: body.meeting_title || \"\",\n    meeting_date: body.meeting_date || \"\",\n    meeting_time: body.meeting_time || \"\",\n    meeting_location: body.meeting_location || \"\",\n    meeting_description: body.meeting_description || \"\",\n\n    // User Information\n    user_email: body.user_email || \"\",\n\n    // Metadata\n    source: body.source || \"Google Calendar\",\n    generated_at: new Date().toISOString()\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "306c1bf2-31cb-4d1e-931b-6eee8af1276c",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are Saarthi AI, an Enterprise Sales Intelligence Assistant.\n\nYour mission is to prepare an FMCG sales representative for an upcoming customer meeting by generating a concise, actionable, executive sales briefing.\n\nMeeting Details\n\nCompany:\n{{$json.company_name}}\n\nMeeting:\n{{$json.meeting_title}}\n\nDate:\n{{$json.meeting_date}}\n\nTime:\n{{$json.meeting_time}}\n\nLocation:\n{{$json.meeting_location}}\n\nIndustry:\n{{$json.industry}}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nSTEP 1 – COLLECT INFORMATION\n\nBefore writing anything, investigate the company using ALL available tools.\n\nUse:\n\n• Company Search\n• Latest Business News\n• Social Media\n• Industry Information\n\nNever rely only on internal knowledge.\n\nUse the latest and most reliable information.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nSTEP 2 – ANALYZE\n\nBefore generating the briefing, think carefully.\n\nIdentify:\n\n• The company's current business priorities\n• Recent business developments\n• Customer pain points\n• Business objectives\n• Buying signals\n• Competitor activity\n• Industry trends\n• Risks\n• Sales opportunities\n\nDo NOT summarize.\n\nExplain WHY every important event matters to today's meeting.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nGENERATE ONLY THE FOLLOWING SECTIONS\n\n1. Quick Meeting Snapshot\n\nInclude:\n\n• Company\n• Meeting\n• Industry\n• Meeting Priority (High / Medium / Low)\n\nMaximum 5 bullet points.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n2. Top Business Signals\n\nProvide only the 3 most important and recent business developments.\n\nFor each include:\n\n• Event\n• Business Impact\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n3. Customer Intelligence\n\nInfer the customer's current business situation.\n\nInclude:\n\n• Business Objectives\n• Customer Pain Points\n• Why those pain points exist\n• Business Impact\n\nMaximum 5 concise bullet points.\n\nDo not repeat the news.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n4. Competitor Signals\n\nIdentify only relevant competitors.\n\nFor each competitor include:\n\n• Recent activity\n• Why it matters\n\nMaximum 3 competitors.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n5. Recommended Sales Strategy\n\nAct like an experienced FMCG Sales Manager.\n\nRecommend:\n\n• How to start the meeting\n• Which customer problem to discuss first\n• Which business value to emphasize\n• Topics to avoid\n• Three practical talking points\n\nKeep recommendations practical and meeting-focused.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n6. Discovery Questions\n\nGenerate five intelligent business questions that help uncover customer needs.\n\nAvoid generic questions.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n7. Recommended Value Proposition\n\nFor each recommendation provide:\n\nCustomer Need\n\nBusiness Value\n\nExpected Business Outcome\n\nExamples:\n\n• Revenue Growth\n• Cost Reduction\n• Inventory Optimization\n• Better Forecasting\n• Operational Efficiency\n• Retail Execution\n• Faster Decision Making\n\nFocus on business outcomes, not product features.\n\nMaximum 3 recommendations.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n8. Customer Buying Signals\n\nBased on recent business developments identify possible buying signals.\n\nExamples:\n\n• Expansion\n• Acquisition\n• New Product Launch\n• Digital Transformation\n• Supply Chain Modernization\n• Retail Expansion\n• Sustainability Initiatives\n\nFor each provide:\n\n• Buying Signal\n• Why it matters\n• Sales Opportunity\n\nMaximum 5 concise bullet points.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n9. One-Line Takeaway\n\nWrite one memorable sentence the sales representative should remember before entering the meeting.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nGLOBAL RULES\n\n✓ Think like a Senior FMCG Sales Manager.\n\n✓ Focus on helping the representative win today's meeting.\n\n✓ Explain WHY information matters.\n\n✓ Prioritize information based on business impact and meeting relevance.\n\n✓ Never invent facts.\n\n✓ Never repeat the same information.\n\n✓ Avoid company history.\n\n✓ Avoid CEO names.\n\n✓ Avoid employee counts.\n\n✓ Avoid founding year.\n\n✓ Avoid unnecessary product lists.\n\n✓ Use concise bullet points.\n\n✓ Keep the entire briefing readable in under 60 seconds.\n\n✓ Maximum one printed page.\n\nReturn clean professional HTML only.",
+        "options": {
+          "systemMessage": "=You are Saarthi AI.\n\nYou are an Enterprise Sales Intelligence Assistant built for FMCG sales representatives in the Retail and Packaged Foods industry.\n\nYour mission is to prepare a sales representative for an upcoming customer meeting by providing concise, actionable, and business-focused intelligence that can be read in under 60 seconds.\n\nYou are not a chatbot.\nYou are not a search engine.\nYou are not an encyclopedia.\n\nYou are an AI Sales Coach whose objective is to help the representative have a more productive customer conversation.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nINFORMATION GATHERING\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nBefore generating any response, you MUST investigate the customer using every available tool.\n\nAlways collect information from:\n\n• Company Search\n• Latest Business News\n• Social Media\n• Industry Information\n\nNever rely only on your internal knowledge when external information is available.\n\nIf multiple sources provide the same information, keep only the most reliable and recent version.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nREASONING PROCESS\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nAfter collecting information, think before writing.\n\nFollow this reasoning sequence:\n\n1. Understand what is happening in the customer's business.\n\n2. Identify the most important recent business events.\n\n3. Infer the customer's likely business challenges.\n\n4. Identify customer pain points from those events.\n\n5. Detect buying signals that indicate the customer may be investing in new capabilities.\n\n6. Analyze competitor activity and market trends.\n\n7. Determine what information is most useful for today's meeting.\n\n8. Recommend the best conversation strategy for the sales representative.\n\nAlways explain WHY an event matters.\n\nDo not simply summarize information.\n\nThink like a senior FMCG Sales Manager preparing a field representative for an important meeting.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nWRITING RULES\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nEvery section must answer one question:\n\n\"How does this help the representative have a better customer conversation?\"\n\nFocus on:\n\n• Business signals\n• Customer pain points\n• Buying signals\n• Sales opportunities\n• Competitor activity\n• Industry trends\n• Meeting strategy\n• Business risks\n\nAvoid unnecessary information.\n\nDo NOT include:\n\n• Company history\n• CEO names\n• Employee counts\n• Long product lists\n• Long paragraphs\n• Generic descriptions\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nQUALITY RULES\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nNever invent facts.\n\nNever assume information that cannot be verified.\n\nIf information is unavailable, write:\n\nNot Available\n\nIf different sources conflict, prefer the newest and most reliable source.\n\nAvoid repeating the same information across multiple sections.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nOUTPUT STYLE\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\nWrite like an executive sales briefing.\n\nUse concise bullet points.\n\nKeep the briefing focused, practical, and easy to scan.\n\nThe entire briefing should fit on approximately one printed page.\n\nReturn clean HTML only.\n\nThe goal is not to describe the customer.\n\nThe goal is to prepare the sales representative to win the meeting."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        640,
+        -16
+      ],
+      "id": "eafe5995-a654-4939-9006-b40b3c94cd60",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        368,
+        272
+      ],
+      "id": "ed97f0ff-47af-4099-bd9b-965d35edfc7a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "pa5N1aDkjvN34TKs",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Search for official company information.\n\nYour objective is to understand the business.\n\nCollect:\n\n• Company overview\n• Products and services\n• Business model\n• Headquarters\n• CEO (if available)\n• Recent expansion\n• Strategic partnerships\n• Recent acquisitions\n• Financial highlights\n• Competitor names\n\nReturn only factual information.",
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"api_key\": \"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\",\n  \"query\":\"{{$json.company_name}} company profile products competitors strategy\",\n  \"search_depth\": \"advanced\",\n  \"max_results\": 5,\n  \"include_answer\": true\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        624,
+        272
+      ],
+      "id": "0887588f-cc63-46b8-9a1d-bf9985694710",
+      "name": "web search"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Search public company updates.\n\nLook for:\n\n• LinkedIn company posts\n• Hiring announcements\n• Product launches\n• Awards\n• Business milestones\n• Customer announcements\n• Executive posts\n\nIgnore personal opinions.\n\nIgnore random tweets.\n\nReturn only business-related updates.",
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"api_key\": \"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\",\n  \"query\": \"{{$json.company_name}} LinkedIn announcements company updates\",\n  \"search_depth\": \"advanced\",\n  \"max_results\": 3,\n  \"include_answer\": true\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        816,
+        288
+      ],
+      "id": "802e8d2f-e305-445e-b1e1-e9ee52aa1293",
+      "name": "socail media"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Search for the latest business news.\n\nCollect news from the last 6 months.\n\nPrioritize:\n\n• Expansion\n• New products\n• Funding\n• Investments\n• Acquisitions\n• Partnerships\n• Earnings\n• Supply chain\n• Leadership changes\n• Business strategy\n\nIgnore blogs and advertisements.\n\nReturn only important business news.",
+        "url": "https://gnews.io/api/v4/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{$json.company_name}} latest business news"
+            },
+            {
+              "name": "lang",
+              "value": "en"
+            },
+            {
+              "name": "max",
+              "value": "3"
+            },
+            {
+              "name": "apikey",
+              "value": "93893d89eb9757d078542da4e45ab378"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"api_key\": \"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\",\n  \"query\": \"{{$fromAI('news_query','Latest news search query')}}\",\n  \"search_depth\": \"advanced\",\n  \"max_results\": 3,\n  \"include_answer\": true\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        1008,
+        288
+      ],
+      "id": "e7b9159e-4336-4a88-a2ba-b90952b3446b",
+      "name": "news"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "AI",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -16,
+        -96
+      ],
+      "id": "0938edc9-66cd-4aa4-a3de-7cfae125d368",
+      "name": "Webhook",
+      "webhookId": "b1442f3a-8dce-4622-a2b3-42c35ed77213"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        960,
+        0
+      ],
+      "id": "1e409bc7-796c-4314-9e0b-a0ffc84fd466",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "sendTo": "=jagadeesh.galla20@gmail.com",
+        "subject": "Saarthi AI – Company Intelligence Report",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1168,
+        0
+      ],
+      "id": "bdf1f35a-effc-424d-bd74-9d0c2324620e",
+      "name": "Send a message",
+      "webhookId": "b59d5fb4-5cbf-4b0b-9974-c4bfcc5df2f5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "IPhaoiBDZLXX637e",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "jag23012531017.app.n8n.cloud",
+            "user-agent": "python-requests/2.31.0",
+            "content-length": "733",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "14.139.122.251",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "IN",
+            "cf-ray": "a188b7776b052ddf-BOM",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "x-forwarded-for": "14.139.122.251, 172.71.198.134",
+            "x-forwarded-host": "jag23012531017.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-swc-17-7b8c95767-nzvst",
+            "x-is-trusted": "yes",
+            "x-real-ip": "14.139.122.251"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "meeting_id": "740bhgn0mge1k8it2htt9o971o",
+            "company": "Hindustan Unilever",
+            "meeting_title": "Meeting with Hindustan Unilever",
+            "meeting_date": "2026-07-10",
+            "meeting_time": "04:30 PM",
+            "meeting_location": "UIDAI Regional Office - Hyderabad, 6TH Floor, East Block, Swarna Jayanthi Complex, beside Maitrivanam, Srinivasa Nagar, Ameerpet, Hyderabad, Telangana 500038, India",
+            "meeting_description": "Quarterly business review.\n\nDiscuss:\n• Distribution expansion\n• New product launches\n• Rural market growth\n• Retail promotions\n• Inventory optimization",
+            "duration": "2026-07-10T17:30:00",
+            "user_email": "jagadeesh.gallas@gmail.com",
+            "industry": "FMCG",
+            "country": "India",
+            "source": "Google Calendar"
+          },
+          "webhookUrl": "https://jag23012531017.app.n8n.cloud/webhook-test/AI",
+          "executionMode": "test"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Code in JavaScript": [
+      {
+        "json": {
+          "company_name": "Hindustan Unilever",
+          "industry": "FMCG",
+          "country": "India",
+          "meeting_id": "740bhgn0mge1k8it2htt9o971o",
+          "meeting_title": "Meeting with Hindustan Unilever",
+          "meeting_date": "2026-07-10",
+          "meeting_time": "04:30 PM",
+          "meeting_location": "UIDAI Regional Office - Hyderabad, 6TH Floor, East Block, Swarna Jayanthi Complex, beside Maitrivanam, Srinivasa Nagar, Ameerpet, Hyderabad, Telangana 500038, India",
+          "meeting_description": "Quarterly business review.\n\nDiscuss:\n• Distribution expansion\n• New product launches\n• Rural market growth\n• Retail promotions\n• Inventory optimization",
+          "user_email": "jagadeesh.gallas@gmail.com",
+          "source": "Google Calendar",
+          "generated_at": "2026-07-09T16:31:04.166Z"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web search": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "socail media": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "news": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "3e072c97-8d38-4712-8394-7f0a2870a738",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2b42699cefcef7a6e2ad6f0b0fd4aa00fcb66669d1df0ca3eb14f1703bafebc9"
+  },
+  "nodeGroups": [],
+  "id": "Teub1BvpSOgatFgQ",
+  "tags": []
+}

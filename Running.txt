@@ -1,0 +1,90 @@
+This screenshot shows the actual problem:
+
+> **The Windows Time service is not running.**
+
+That's why `w32tm` can't query or sync the time.
+
+## Step 1: Start the Windows Time service
+
+In **Administrator Command Prompt**, run these commands one by one:
+
+```cmd
+sc config w32time start= auto
+```
+
+Then:
+
+```cmd
+net start w32time
+```
+
+If it starts successfully, you'll see:
+
+```text
+The Windows Time service was started successfully.
+```
+
+---
+
+## Step 2: Force a resync
+
+Run:
+
+```cmd
+w32tm /resync
+```
+
+---
+
+## Step 3: Verify
+
+Run:
+
+```cmd
+w32tm /query /status
+```
+
+and
+
+```cmd
+w32tm /query /source
+```
+
+The source should ideally be something like:
+
+```text
+time.windows.com
+```
+
+or another network time source—not **Local CMOS Clock**.
+
+---
+
+## If `net start w32time` fails
+
+Tell me the exact error message.
+
+Or check the service manually:
+
+1. Press **Win + R**
+2. Type:
+
+```text
+services.msc
+```
+
+3. Find **Windows Time**
+4. Double-click it.
+5. Set:
+
+   * **Startup type:** Automatic
+   * Click **Start**
+6. Click **Apply** → **OK**
+
+---
+
+### One important point
+
+Fixing the Windows Time service is worthwhile, especially since you previously saw **"Token used too early"**.
+
+However, your **current Google Sign-In behavior** (successful callback followed by a redirect back to `/login`) still suggests there's also an issue in your Flask login flow after the callback. Once your time service is running, if Google Sign-In still returns you to the login page, we'll need to inspect the `google_callback()` function next.

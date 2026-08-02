@@ -1,0 +1,140 @@
+{% extends "rep_base.html" %}
+
+{% block title %}Sales Opportunities | Saarthi AI{% endblock %}
+
+{% block content %}
+<div class="space-y-6 animate-fade-in">
+    <!-- Page Header -->
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Sales Opportunities</h1>
+            <p class="text-sm text-slate-500">Track your active deals, pipeline stages, and expected revenue by client.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="relative w-56">
+                <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input id="oppSearch" type="text" placeholder="Filter opportunities..." class="ent-input pl-10 text-xs py-2">
+            </div>
+        </div>
+    </div>
+
+    <!-- Pipeline Summary Cards -->
+    <div class="grid gap-4 sm:grid-cols-3">
+        <div class="ent-card p-4">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Total Opportunities</span>
+            <span class="text-2xl font-extrabold text-slate-900 mt-1 block">{{ opportunities|length }}</span>
+        </div>
+        <div class="ent-card p-4">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Active Pipeline</span>
+            <span class="text-2xl font-extrabold text-blue-600 mt-1 block">₹{{ (opportunities|length * 12)|int }}L</span>
+        </div>
+        <div class="ent-card p-4">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Avg. Confidence</span>
+            <span class="text-2xl font-extrabold text-emerald-600 mt-1 block">78%</span>
+        </div>
+    </div>
+
+    <!-- Stage Filter Tabs -->
+    <div class="ent-card p-3 flex flex-wrap items-center gap-2">
+        <button onclick="filterOpp('all')" class="opp-tab rounded-xl px-3.5 py-1.5 text-xs font-bold bg-blue-600 text-white shadow-sm">All Stages</button>
+        <button onclick="filterOpp('Pitching')" class="opp-tab rounded-xl px-3.5 py-1.5 text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">Pitching</button>
+        <button onclick="filterOpp('Negotiation')" class="opp-tab rounded-xl px-3.5 py-1.5 text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">Negotiation</button>
+        <button onclick="filterOpp('Closed')" class="opp-tab rounded-xl px-3.5 py-1.5 text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200">Closed Won</button>
+    </div>
+
+    <!-- Opportunities Table -->
+    <div class="ent-card overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="ent-table">
+                <thead>
+                    <tr>
+                        <th>Company / Client</th>
+                        <th>Expected Revenue</th>
+                        <th>Sales Stage</th>
+                        <th>Priority</th>
+                        <th>Confidence Score</th>
+                        <th class="text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for opp in opportunities %}
+                    <tr class="opp-row" data-name="{{ opp.client_name|lower }}" data-stage="{{ opp.stage }}">
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <div class="grid h-9 w-9 place-items-center rounded-xl bg-blue-50 text-blue-700 font-extrabold text-sm border border-blue-100">
+                                    {{ opp.client_name[0]|upper if opp.client_name else 'C' }}
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900">{{ opp.client_name }}</p>
+                                    <span class="text-[11px] text-slate-400">Active Account</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="font-extrabold text-slate-900">{{ opp.deal_value }}</td>
+                        <td>
+                            {% if opp.stage == 'Closed' %}
+                            <span class="badge badge-success">Closed Won</span>
+                            {% elif opp.stage == 'Negotiation' %}
+                            <span class="badge badge-warning">Negotiation</span>
+                            {% else %}
+                            <span class="badge badge-info">{{ opp.stage }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if loop.index % 3 == 1 %}
+                            <span class="badge badge-danger">High Priority</span>
+                            {% elif loop.index % 3 == 2 %}
+                            <span class="badge badge-warning">Medium</span>
+                            {% else %}
+                            <span class="badge badge-slate">Standard</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <div class="h-2 w-20 rounded-full bg-slate-100 overflow-hidden">
+                                    <div class="h-full rounded-full {% if opp.confidence|int > 80 %}bg-emerald-500{% elif opp.confidence|int > 60 %}bg-blue-500{% else %}bg-amber-500{% endif %}" style="width: {{ opp.confidence }}"></div>
+                                </div>
+                                <span class="text-xs font-bold text-slate-700">{{ opp.confidence }}</span>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <button class="btn-secondary py-1 px-3 text-xs">View Brief</button>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="py-12 text-center">
+                            <svg class="mx-auto h-10 w-10 text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                            <p class="text-sm font-semibold text-slate-600">No pipeline opportunities found</p>
+                            <p class="text-xs text-slate-400 mt-1">Create meetings and generate AI briefs to build your pipeline.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('oppSearch')?.addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase();
+    document.querySelectorAll('.opp-row').forEach(row => {
+        row.style.display = row.getAttribute('data-name').includes(term) ? '' : 'none';
+    });
+});
+
+function filterOpp(stage) {
+    document.querySelectorAll('.opp-tab').forEach(t => {
+        t.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
+        t.classList.add('bg-slate-100', 'text-slate-600');
+    });
+    event.target.classList.remove('bg-slate-100', 'text-slate-600');
+    event.target.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
+
+    document.querySelectorAll('.opp-row').forEach(row => {
+        row.style.display = (stage === 'all' || row.getAttribute('data-stage') === stage) ? '' : 'none';
+    });
+}
+</script>
+{% endblock %}

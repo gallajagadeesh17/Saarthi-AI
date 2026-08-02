@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saarthi AI — Enterprise AI Sales Intelligence Platform</title>
+<meta name="description" content="Saarthi AI prepares executive sales meeting briefings automatically — company intelligence, competitor analysis, and AI recommendations, delivered before every meeting.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700,800&display=swap">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --blue:#2563EB;
+  --indigo:#4F46E5;
+  --teal:#14B8A6;
+  --dark:#081224;
+  --dark-2:#0D1B33;
+  --light:#F8FAFC;
+  --white:#FFFFFF;
+  --ink:#0B1220;
+  --muted:#5B6B84;
+  --muted-soft:#8592A8;
+  --border:#E4E9F1;
+  --border-dark:#1B2A45;
+
+  --grad-primary: linear-gradient(135deg, var(--blue), var(--indigo));
+  --grad-accent: linear-gradient(135deg, var(--teal), var(--blue));
+  --grad-mesh: radial-gradient(60% 60% at 15% 10%, rgba(37,99,235,.35), transparent 60%),
+               radial-gradient(50% 50% at 90% 20%, rgba(20,184,166,.25), transparent 60%),
+               radial-gradient(60% 60% at 50% 100%, rgba(79,70,229,.30), transparent 60%);
+
+  --font-display: 'General Sans', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow-sm: 0 2px 8px rgba(8,18,36,.06);
+  --shadow-md: 0 12px 32px -8px rgba(8,18,36,.14);
+  --shadow-lg: 0 24px 60px -12px rgba(8,18,36,.22);
+  --shadow-glow: 0 0 0 1px rgba(37,99,235,.08), 0 20px 50px -12px rgba(37,99,235,.25);
+
+  --container: 1180px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+*{ box-sizing: border-box; margin:0; padding:0; }
+html{ scroll-behavior: smooth; }
+body{
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--light);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img,svg{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+button{ font-family: inherit; cursor:pointer; border:none; background:none; }
+ul{ list-style:none; }
+
+h1,h2,h3,h4{
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.eyebrow{
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.section{ padding: 128px 0; position: relative; }
+.section--tight{ padding: 96px 0; }
+.container{ width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 32px; }
+
+.section-head{ max-width: 640px; margin-bottom: 64px; }
+.section-head.center{ margin-left:auto; margin-right:auto; text-align:center; }
+.section-head h2{ font-size: 40px; margin-top: 14px; }
+.section-head p{ font-size: 17px; color: var(--muted); margin-top: 16px; line-height: 1.65; }
+
+:focus-visible{ outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding: 13px 26px; border-radius: 12px;
+  font-weight: 600; font-size: 14.5px;
+  transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, background .25s ease;
+  white-space: nowrap; position: relative; overflow: hidden;
+}
+.btn-primary{
+  background: var(--grad-primary); color:#fff;
+  box-shadow: 0 8px 20px -6px rgba(37,99,235,.55);
+}
+.btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 14px 28px -6px rgba(37,99,235,.65); }
+.btn-ghost{
+  background: rgba(255,255,255,.06); color: var(--ink); border: 1px solid var(--border);
+}
+.btn-ghost:hover{ background: #fff; border-color: #c9d3e2; transform: translateY(-2px); }
+.btn-ghost.on-dark{ color:#fff; border-color: var(--border-dark); background: rgba(255,255,255,.04); }
+.btn-ghost.on-dark:hover{ background: rgba(255,255,255,.09); }
+.btn-sm{ padding: 10px 18px; font-size: 13.5px; }
+.btn .ripple{
+  position:absolute; border-radius:50%; background: rgba(255,255,255,.5);
+  transform: scale(0); animation: ripple .6s ease-out;
+  pointer-events:none;
+}
+@keyframes ripple{ to{ transform: scale(3); opacity:0; } }
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position: fixed; top:0; left:0; right:0; z-index: 1000;
+  padding: 22px 0;
+  transition: padding .35s ease, background .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;
+}
+.nav.scrolled{
+  padding: 12px 0;
+  background: rgba(248,250,252,.78);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: 0 1px 0 rgba(11,18,32,.06), 0 12px 30px -18px rgba(11,18,32,.25);
+}
+.nav__inner{ display:flex; align-items:center; justify-content:space-between; }
+.nav__logo{ display:flex; align-items:center; gap:10px; font-family: var(--font-display); font-weight:700; font-size:18px; }
+.nav__mark{ width:30px; height:30px; border-radius:9px; background: var(--grad-primary); display:flex; align-items:center; justify-content:center; box-shadow: 0 4px 12px -2px rgba(37,99,235,.55); flex-shrink:0; }
+.nav__links{ display:flex; align-items:center; gap:36px; }
+.nav__links a{ font-size:14.5px; font-weight:500; color: var(--muted); transition: color .2s ease; position:relative; }
+.nav__links a:hover{ color: var(--ink); }
+.nav__links a::after{ content:''; position:absolute; left:0; bottom:-6px; width:0; height:2px; background: var(--grad-primary); transition: width .25s ease; border-radius:2px; }
+.nav__links a:hover::after{ width:100%; }
+.nav__actions{ display:flex; align-items:center; gap:14px; }
+.nav__login{ font-size:14.5px; font-weight:600; color: var(--ink); padding: 10px 6px; }
+.nav__toggle{ display:none; }
+
+@media (max-width: 900px){
+  .nav__links{ display:none; }
+  .nav__toggle{ display:flex; width:38px; height:38px; align-items:center; justify-content:center; border-radius:10px; border:1px solid var(--border); }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position: relative;
+  padding: 176px 0 120px;
+  overflow: hidden;
+  background: var(--light);
+}
+.hero::before{
+  content:''; position:absolute; inset: -20% -10% auto -10%; height: 900px;
+  background: var(--grad-mesh); filter: blur(60px); opacity:.55; z-index:0;
+}
+.hero__inner{ position:relative; z-index:1; display:grid; grid-template-columns: 1.02fr 1fr; gap:56px; align-items:center; }
+
+.badge{
+  display:inline-flex; align-items:center; gap:8px; padding:7px 14px 7px 8px;
+  border-radius:999px; background:#fff; border:1px solid var(--border);
+  font-size:13px; font-weight:600; color: var(--ink); box-shadow: var(--shadow-sm);
+}
+.badge__dot{ width:8px; height:8px; border-radius:50%; background: var(--grad-accent); box-shadow: 0 0 0 4px rgba(20,184,166,.16); }
+
+.hero h1{ font-size: 56px; margin-top: 22px; }
+.hero h1 .grad{
+  background: var(--grad-primary); -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero__sub{ font-size:17.5px; color: var(--muted); max-width: 540px; margin-top: 22px; line-height: 1.7; }
+.hero__cta{ display:flex; gap:14px; margin-top: 34px; }
+.hero__trust{ display:flex; flex-wrap:wrap; gap: 10px 22px; margin-top: 40px; }
+.hero__trust span{ display:flex; align-items:center; gap:7px; font-size:13.5px; color: var(--muted); font-weight:500; }
+.hero__trust svg{ width:15px; height:15px; color: var(--teal); flex-shrink:0; }
+
+/* Dashboard mockup */
+.hero__visual{ position:relative; }
+.console{
+  background:#fff; border-radius: var(--radius); border:1px solid var(--border);
+  box-shadow: var(--shadow-lg); overflow:hidden; position:relative;
+}
+.console__bar{ display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid var(--border); background: linear-gradient(180deg,#fff, #FBFCFE); }
+.console__dots{ display:flex; gap:6px; }
+.console__dots span{ width:9px; height:9px; border-radius:50%; background:#DCE3ED; }
+.console__title{ font-family: var(--font-mono); font-size:11.5px; color: var(--muted); letter-spacing:.02em; }
+.console__body{ padding: 20px; }
+
+.meeting-row{ display:flex; align-items:center; justify-content:space-between; padding-bottom:16px; margin-bottom:16px; border-bottom:1px dashed var(--border); }
+.meeting-row__co{ display:flex; align-items:center; gap:10px; }
+.meeting-row__logo{ width:36px; height:36px; border-radius:10px; background: var(--grad-primary); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:13px; font-family: var(--font-display); }
+.meeting-row__name{ font-weight:600; font-size:14.5px; }
+.meeting-row__meta{ font-size:12px; color: var(--muted-soft); font-family: var(--font-mono); margin-top:2px; }
+.status-chip{ display:flex; align-items:center; gap:6px; font-family: var(--font-mono); font-size:11px; font-weight:500; padding:5px 10px; border-radius:999px; background:#EFF6FF; color: var(--blue); }
+.status-chip .pulse{ width:6px; height:6px; border-radius:50%; background: var(--blue); animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse{ 0%,100%{ opacity:1; transform:scale(1);} 50%{ opacity:.4; transform:scale(1.3);} }
+
+.metric-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:16px; }
+.metric-card{ background: var(--light); border:1px solid var(--border); border-radius: var(--radius-sm); padding:14px; }
+.metric-card__label{ font-family: var(--font-mono); font-size:10.5px; color: var(--muted-soft); text-transform:uppercase; letter-spacing:.05em; }
+.metric-card__value{ font-family: var(--font-display); font-size:22px; font-weight:700; margin-top:4px; }
+.metric-card__value.accent{ color: var(--teal); }
+.score-ring{ width:38px; height:38px; }
+
+.brief-list{ display:flex; flex-direction:column; gap:9px; }
+.brief-item{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; background: var(--light); border:1px solid var(--border); font-size:12.5px; color: var(--muted); }
+.brief-item svg{ width:15px; height:15px; color: var(--blue); flex-shrink:0; }
+.brief-item b{ color: var(--ink); font-weight:600; }
+
+.console__footer{ padding:14px 18px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; background:#FBFCFE; }
+.console__footer .btn{ padding:9px 16px; font-size:12.5px; }
+
+.float-chip{ position:absolute; background:#fff; border:1px solid var(--border); border-radius:14px; padding:10px 14px; box-shadow: var(--shadow-md); display:flex; align-items:center; gap:9px; z-index:2; }
+.float-chip--1{ top:-4%; right:-8%; }
+.float-chip--2{ bottom:6%; left:-9%; }
+.float-chip__icon{ width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; background: var(--grad-accent); color:#fff; flex-shrink:0; }
+.float-chip__label{ font-size:10px; font-family: var(--font-mono); color: var(--muted-soft); text-transform:uppercase; }
+.float-chip__value{ font-size:14px; font-weight:700; font-family: var(--font-display); }
+
+@media (max-width: 980px){
+  .hero__inner{ grid-template-columns: 1fr; }
+  .hero{ padding-top:140px; }
+  .hero h1{ font-size:38px; }
+  .float-chip{ display:none; }
+}
+
+/* ============================================================
+   LOGO STRIP
+   ============================================================ */
+.logostrip{ padding: 56px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:#fff; }
+.logostrip__label{ text-align:center; font-family: var(--font-mono); font-size:12px; color: var(--muted-soft); text-transform:uppercase; letter-spacing:.08em; margin-bottom:32px; }
+.logostrip__row{ display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap: 48px; }
+.logostrip__item{ display:flex; align-items:center; gap:9px; font-weight:600; font-size:15px; color:#94A2B8; transition: color .25s ease, opacity .25s ease; }
+.logostrip__item:hover{ color: var(--ink); }
+.logostrip__item svg{ width:20px; height:20px; }
+
+/* ============================================================
+   PROBLEM / TIMELINE
+   ============================================================ */
+.problem{ background: var(--light); }
+.timeline-compare{ display:grid; grid-template-columns: 1fr auto 1fr; gap:32px; align-items:center; margin-top: 56px; }
+.time-col{ background:#fff; border:1px solid var(--border); border-radius: var(--radius); padding:28px; }
+.time-col__head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
+.time-col__head h4{ font-size:15px; font-family: var(--font-body); font-weight:600; }
+.time-col__total{ font-family: var(--font-mono); font-size:13px; font-weight:600; padding:5px 12px; border-radius:999px; }
+.time-col--before .time-col__total{ background:#FEF2F2; color:#DC2626; }
+.time-col--after .time-col__total{ background:#ECFDF5; color:#059669; }
+.time-step{ display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid var(--border); font-size:14px; }
+.time-step:last-child{ border-bottom:none; }
+.time-step__num{ font-family: var(--font-mono); font-size:11px; color: var(--muted-soft); width:20px; }
+.time-step__dur{ margin-left:auto; font-family: var(--font-mono); font-size:12px; color: var(--muted-soft); }
+.timeline-compare__arrow{ display:flex; flex-direction:column; align-items:center; gap:8px; }
+.timeline-compare__arrow svg{ width:26px; height:26px; color: var(--blue); }
+.timeline-compare__arrow span{ font-family: var(--font-mono); font-size:11px; color: var(--muted-soft); text-align:center; }
+
+@media (max-width: 860px){ .timeline-compare{ grid-template-columns:1fr; } .timeline-compare__arrow{ flex-direction:row; justify-content:center; } .timeline-compare__arrow svg{ transform: rotate(90deg);} }
+
+/* ============================================================
+   FEATURES
+   ============================================================ */
+.features{ background:#fff; }
+.feature-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.feature-card{
+  position:relative; padding: 26px 22px; border-radius: var(--radius); background: var(--light);
+  border: 1px solid var(--border); overflow:hidden;
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
+}
+.feature-card::before{
+  content:''; position:absolute; inset:0; border-radius: var(--radius); padding:1px;
+  background: var(--grad-primary); opacity:0; transition: opacity .35s ease;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+}
+.feature-card:hover{ transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: transparent; background:#fff; }
+.feature-card:hover::before{ opacity:1; }
+.feature-card__icon{ width:42px; height:42px; border-radius:12px; background: var(--grad-primary); display:flex; align-items:center; justify-content:center; color:#fff; margin-bottom:18px; }
+.feature-card__icon svg{ width:21px; height:21px; }
+.feature-card h4{ font-size:16.5px; font-family: var(--font-body); font-weight:600; margin-bottom:8px; }
+.feature-card p{ font-size:13.5px; color: var(--muted); line-height:1.6; }
+
+@media (max-width: 980px){ .feature-grid{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 560px){ .feature-grid{ grid-template-columns: 1fr; } }
+
+/* ============================================================
+   HOW IT WORKS (dark)
+   ============================================================ */
+.howitworks{ background: var(--dark); color:#fff; position:relative; overflow:hidden; }
+.howitworks::before{ content:''; position:absolute; inset:0; background: var(--grad-mesh); opacity:.4; }
+.howitworks .section-head h2{ color:#fff; }
+.howitworks .section-head p{ color: #93A0B8; }
+.howitworks .eyebrow{ color: var(--teal); }
+.flow{ position:relative; max-width:520px; margin: 0 auto; z-index:1; }
+.flow__line{ position:absolute; left:23px; top:24px; bottom:24px; width:2px; background: linear-gradient(180deg, var(--blue), var(--teal)); opacity:.35; }
+.flow-step{ display:flex; align-items:flex-start; gap:18px; padding: 16px 0; position:relative; }
+.flow-step__node{ width:48px; height:48px; border-radius:14px; background: var(--dark-2); border:1px solid var(--border-dark); display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; z-index:1; }
+.flow-step__node svg{ width:22px; height:22px; color: var(--teal); }
+.flow-step__node.branch{ background: var(--grad-primary); border:none; }
+.flow-step__text{ padding-top:10px; }
+.flow-step__text h5{ font-family: var(--font-body); font-weight:600; font-size:15.5px; }
+.flow-step__text span{ font-size:13px; color:#8592A8; }
+.flow-step--branch{ margin-left: 40px; gap:18px; }
+.flow-branch-row{ display:flex; gap:14px; margin-left:66px; padding: 4px 0 4px; }
+.flow-branch-pill{ font-family: var(--font-mono); font-size:11.5px; padding:7px 13px; border-radius:999px; background: var(--dark-2); border:1px solid var(--border-dark); color:#B7C2D6; }
+
+/* ============================================================
+   DASHBOARD SHOWCASE
+   ============================================================ */
+.showcase{ background: var(--light); }
+.showcase-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.browser-card{ background:#fff; border:1px solid var(--border); border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow-sm); transition: transform .35s ease, box-shadow .35s ease; }
+.browser-card:hover{ transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.browser-card__chrome{ display:flex; align-items:center; gap:8px; padding:11px 14px; background: var(--light); border-bottom:1px solid var(--border); }
+.browser-card__chrome span{ width:8px; height:8px; border-radius:50%; background:#DCE3ED; }
+.browser-card__url{ margin-left:8px; font-family: var(--font-mono); font-size:10.5px; color: var(--muted-soft); background:#fff; padding:3px 10px; border-radius:6px; border:1px solid var(--border); }
+.browser-card__body{ padding:22px; min-height:200px; }
+.browser-card__label{ font-family: var(--font-mono); font-size:11px; color: var(--blue); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; display:block; }
+.browser-card__title{ font-family: var(--font-body); font-weight:600; font-size:15.5px; margin-bottom:14px; }
+
+.bars{ display:flex; align-items:flex-end; gap:8px; height:90px; margin-bottom: 10px; }
+.bars div{ flex:1; border-radius:6px 6px 0 0; background: var(--grad-primary); opacity:.85; }
+.rep-list .brief-item{ background:#fff; }
+
+.pdf-mock{ border:1px solid var(--border); border-radius:10px; padding:18px; background: linear-gradient(180deg,#fff,#FAFBFD); }
+.pdf-mock__line{ height:8px; border-radius:4px; background: var(--border); margin-bottom:9px; }
+.pdf-mock__line:nth-child(1){ width:60%; height:12px; background: var(--grad-primary); opacity:.5;}
+.pdf-mock__line:nth-child(3){ width:85%; }
+.pdf-mock__line:nth-child(4){ width:70%; }
+.pdf-mock__line:nth-child(5){ width:92%; }
+
+@media (max-width: 860px){ .showcase-grid{ grid-template-columns:1fr; } }
+
+/* ============================================================
+   BENEFITS
+   ============================================================ */
+.benefits{ background:#fff; }
+.benefit-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:1px; background: var(--border); border:1px solid var(--border); border-radius: var(--radius); overflow:hidden; }
+.benefit-item{ background:#fff; padding:34px 28px; transition: background .3s ease; }
+.benefit-item:hover{ background: var(--light); }
+.benefit-item__icon{ width:38px; height:38px; border-radius:10px; background: var(--light); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin-bottom:16px; color: var(--teal); }
+.benefit-item__icon svg{ width:19px; height:19px; }
+.benefit-item h4{ font-size:16px; font-family: var(--font-body); font-weight:600; margin-bottom:7px; }
+.benefit-item p{ font-size:13.5px; color: var(--muted); line-height:1.6; }
+@media (max-width: 860px){ .benefit-grid{ grid-template-columns: 1fr; } }
+
+/* ============================================================
+   INTERACTIVE DEMO
+   ============================================================ */
+.demo{ background: var(--light); }
+.demo-panel{ background:#fff; border:1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-md); padding: 40px; }
+.demo-top{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; margin-bottom: 34px; }
+.demo-top h3{ font-family: var(--font-body); font-size:17px; font-weight:600; }
+.demo-top p{ font-size:13.5px; color: var(--muted); margin-top:4px; }
+.pipeline{ display:flex; align-items:center; justify-content:space-between; gap:6px; flex-wrap:wrap; }
+.pipe-step{ flex:1; min-width:90px; text-align:center; position:relative; }
+.pipe-step__node{ width:52px; height:52px; margin:0 auto 10px; border-radius:50%; background: var(--light); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; transition: all .4s ease; position:relative; z-index:1; }
+.pipe-step__node svg{ width:22px; height:22px; color: var(--muted-soft); transition: color .4s ease; }
+.pipe-step__label{ font-family: var(--font-mono); font-size:11px; color: var(--muted-soft); transition: color .3s ease; }
+.pipe-step.active .pipe-step__node{ border-color: var(--blue); background: #EFF6FF; box-shadow: 0 0 0 6px rgba(37,99,235,.1); }
+.pipe-step.active .pipe-step__node svg{ color: var(--blue); }
+.pipe-step.active .pipe-step__label{ color: var(--blue); font-weight:600; }
+.pipe-step.done .pipe-step__node{ border-color: var(--teal); background: var(--grad-accent); }
+.pipe-step.done .pipe-step__node svg{ color:#fff; }
+.pipe-step.done .pipe-step__label{ color: var(--teal); }
+.pipe-connector{ flex:0 0 auto; width:40px; height:2px; background: var(--border); margin-top:-30px; transition: background .4s ease; }
+.pipe-connector.done{ background: var(--teal); }
+.demo-status{ margin-top: 30px; text-align:center; font-family: var(--font-mono); font-size:13px; color: var(--muted); min-height:20px; }
+.demo-actions{ display:flex; justify-content:center; margin-top:20px; }
+@media (max-width: 700px){ .pipeline{ flex-direction:column; } .pipe-connector{ width:2px; height:24px; margin: 0; } }
+
+/* ============================================================
+   PRICING
+   ============================================================ */
+.pricing{ background:#fff; }
+.price-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap:22px; align-items:stretch; }
+.price-card{ border:1px solid var(--border); border-radius: var(--radius); padding: 32px 28px; display:flex; flex-direction:column; transition: transform .3s ease, box-shadow .3s ease; }
+.price-card:hover{ transform: translateY(-6px); box-shadow: var(--shadow-md); }
+.price-card--featured{ border:2px solid transparent; background: linear-gradient(#fff,#fff) padding-box, var(--grad-primary) border-box; position:relative; box-shadow: var(--shadow-glow); }
+.price-card__tag{ position:absolute; top:-13px; left:28px; background: var(--grad-primary); color:#fff; font-size:11px; font-weight:600; font-family: var(--font-mono); padding:5px 12px; border-radius:999px; }
+.price-card h4{ font-family: var(--font-body); font-size:15px; font-weight:600; color: var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+.price-card__price{ font-family: var(--font-display); font-size:42px; font-weight:700; margin: 14px 0 6px; }
+.price-card__price span{ font-family: var(--font-body); font-size:14px; font-weight:500; color: var(--muted-soft); }
+.price-card__desc{ font-size:13.5px; color: var(--muted); margin-bottom:24px; }
+.price-card ul{ display:flex; flex-direction:column; gap:12px; margin-bottom:28px; flex:1; }
+.price-card li{ display:flex; align-items:flex-start; gap:9px; font-size:14px; color: var(--ink); }
+.price-card li svg{ width:16px; height:16px; color: var(--teal); flex-shrink:0; margin-top:2px; }
+@media (max-width: 900px){ .price-grid{ grid-template-columns:1fr; } }
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq{ background: var(--light); }
+.faq-list{ max-width: 760px; margin: 0 auto; display:flex; flex-direction:column; gap:12px; }
+.faq-item{ background:#fff; border:1px solid var(--border); border-radius: var(--radius-sm); overflow:hidden; }
+.faq-q{ width:100%; display:flex; align-items:center; justify-content:space-between; padding: 20px 22px; text-align:left; font-family: var(--font-body); font-weight:600; font-size:15px; }
+.faq-q svg{ width:18px; height:18px; color: var(--blue); transition: transform .35s ease; flex-shrink:0; }
+.faq-item.open .faq-q svg{ transform: rotate(45deg); }
+.faq-a{ max-height:0; overflow:hidden; transition: max-height .4s ease; }
+.faq-a p{ padding: 0 22px 22px; font-size:14px; color: var(--muted); line-height:1.7; }
+
+/* ============================================================
+   FINAL CTA (dark)
+   ============================================================ */
+.final-cta{ background: var(--dark); color:#fff; text-align:center; position:relative; overflow:hidden; }
+.final-cta::before{ content:''; position:absolute; inset:0; background: var(--grad-mesh); opacity:.45; }
+.final-cta__inner{ position:relative; z-index:1; max-width:620px; margin:0 auto; }
+.final-cta h2{ color:#fff; font-size:42px; }
+.final-cta p{ color:#93A0B8; font-size:17px; margin-top:16px; }
+.final-cta .hero__cta{ justify-content:center; margin-top:32px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{ background: var(--dark); color:#fff; padding: 60px 0 30px; border-top:1px solid var(--border-dark); }
+.footer__top{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:40px; padding-bottom:40px; border-bottom:1px solid var(--border-dark); }
+.footer__brand p{ font-size:13.5px; color:#8592A8; max-width:280px; margin-top:12px; line-height:1.6; }
+.footer__cols{ display:flex; gap:64px; flex-wrap:wrap; }
+.footer__col h5{ font-family: var(--font-mono); font-size:11.5px; color:#8592A8; text-transform:uppercase; letter-spacing:.06em; margin-bottom:16px; }
+.footer__col a{ display:block; font-size:14px; color:#C4CDDD; padding:6px 0; transition: color .2s ease; }
+.footer__col a:hover{ color:#fff; }
+.footer__bottom{ display:flex; justify-content:space-between; align-items:center; padding-top:26px; flex-wrap:wrap; gap:14px; }
+.footer__bottom span{ font-size:13px; color:#65728A; }
+.footer__social{ display:flex; gap:14px; }
+.footer__social a{ width:34px; height:34px; border-radius:9px; border:1px solid var(--border-dark); display:flex; align-items:center; justify-content:center; }
+.footer__social svg{ width:15px; height:15px; color:#B7C2D6; }
+.footer__social a:hover{ border-color: var(--blue); }
+@media (max-width: 700px){ .footer__cols{ gap:32px; } }
+
+/* Reveal utility */
+.reveal{ opacity:0; transform: translateY(28px); }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav class="nav" id="nav">
+  <div class="container nav__inner">
+    <a href="#" class="nav__logo">
+      <span class="nav__mark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 12l9-5M12 12v10M12 12L3 7" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      </span>
+      Saarthi AI
+    </a>
+    <ul class="nav__links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav__actions">
+      <a href="login" class="nav__login" id="loginBtn">Login</a>
+      <a href="signup" class="btn btn-primary btn-sm" id="getStartedNav">Get Started</a>
+    </div>
+    <button class="nav__toggle" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="hero">
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <span class="badge"><span class="badge__dot"></span> Enterprise AI Sales Intelligence</span>
+      <h1>Prepare every sales meeting <span class="grad">with AI‑powered intelligence</span></h1>
+      <p class="hero__sub">Saarthi AI automatically prepares executive sales meeting briefings using Google Calendar, manual meetings, live company intelligence, competitor analysis, financial insights, and AI‑generated recommendations.</p>
+      <div class="hero__cta">
+        <a href="signup" class="btn btn-primary" id="startFreeBtn">Start Free</a>
+        <a href="#demo" class="btn btn-ghost" id="watchDemoBtn">Watch Demo</a>
+      </div>
+      <div class="hero__trust">
+        <span><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Google Calendar</span>
+        <span><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Gemini AI</span>
+        <span><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> n8n Automation</span>
+        <span><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Executive Briefs</span>
+        <span><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> PDF Reports</span>
+      </div>
+    </div>
+
+    <div class="hero__visual" id="heroVisual">
+      <div class="console">
+        <div class="console__bar">
+          <div class="console__dots"><span></span><span></span><span></span></div>
+          <span class="console__title">LIVE BRIEFING CONSOLE</span>
+        </div>
+        <div class="console__body">
+          <div class="meeting-row">
+            <div class="meeting-row__co">
+              <div class="meeting-row__logo">AC</div>
+              <div>
+                <div class="meeting-row__name">Acme Corporation</div>
+                <div class="meeting-row__meta">Today · 2:00 PM · Renewal Call</div>
+              </div>
+            </div>
+            <span class="status-chip"><span class="pulse"></span> Researching</span>
+          </div>
+          <div class="metric-grid">
+            <div class="metric-card">
+              <div class="metric-card__label">Opportunity Score</div>
+              <div class="metric-card__value accent">87 / 100</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-card__label">Company Intel</div>
+              <div class="metric-card__value">4 sources</div>
+            </div>
+          </div>
+          <div class="brief-list">
+            <div class="brief-item"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> <span><b>Latest news:</b> Acme raises Series C, expands APAC ops</span></div>
+            <div class="brief-item"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l4-4 4 4 4-8 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <span><b>Competitor watch:</b> 2 vendors mentioned in review sites</span></div>
+            <div class="brief-item"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> <span><b>AI recommendation:</b> Lead with expansion ROI framing</span></div>
+          </div>
+        </div>
+        <div class="console__footer">
+          <span class="eyebrow" style="font-size:11px;">Generated in 47s</span>
+          <a href="#demo" class="btn btn-primary btn-sm">Generate Brief</a>
+        </div>
+      </div>
+      <div class="float-chip float-chip--1">
+        <div class="float-chip__icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg></div>
+        <div><div class="float-chip__label">Executive Brief</div><div class="float-chip__value">Ready for review</div></div>
+      </div>
+      <div class="float-chip float-chip--2">
+        <div class="float-chip__icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4z" stroke="#fff" stroke-width="2"/><path d="M8 9h8M8 13h5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div><div class="float-chip__label">PDF Report</div><div class="float-chip__value">Sent via Email</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     SOCIAL PROOF
+     ============================================================ -->
+<section class="logostrip">
+  <div class="container">
+    <div class="logostrip__label">Built on a modern, reliable stack</div>
+    <div class="logostrip__row">
+      <div class="logostrip__item"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l9 4.5v9L12 20l-9-4.5v-9L12 2z" stroke="currentColor" stroke-width="1.6"/></svg> Gemini AI</div>
+      <div class="logostrip__item"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="1.6"/></svg> Google Calendar</div>
+      <div class="logostrip__item"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h16v6H4zM4 14h10v6H4z" stroke="currentColor" stroke-width="1.6"/></svg> Flask</div>
+      <div class="logostrip__item"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="6" rx="8" ry="3" stroke="currentColor" stroke-width="1.6"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" stroke="currentColor" stroke-width="1.6"/></svg> SQLite</div>
+      <div class="logostrip__item"><svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="18" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 7.5L15.5 16.5" stroke="currentColor" stroke-width="1.6"/></svg> n8n</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROBLEM SECTION
+     ============================================================ -->
+<section class="section problem">
+  <div class="container">
+    <div class="section-head center" style="margin:0 auto 0;">
+      <span class="eyebrow">The problem</span>
+      <h2>Sales teams waste hours preparing for meetings</h2>
+      <p>Every meeting starts the same way — a scramble across browser tabs, CRM notes, and news sites just to walk in prepared.</p>
+    </div>
+
+    <div class="timeline-compare">
+      <div class="time-col time-col--before">
+        <div class="time-col__head"><h4>Manual preparation</h4><span class="time-col__total">2+ Hours</span></div>
+        <div class="time-step"><span class="time-step__num">01</span> Research company background <span class="time-step__dur">25 min</span></div>
+        <div class="time-step"><span class="time-step__num">02</span> Search recent news <span class="time-step__dur">20 min</span></div>
+        <div class="time-step"><span class="time-step__num">03</span> Analyze competitors <span class="time-step__dur">30 min</span></div>
+        <div class="time-step"><span class="time-step__num">04</span> Create meeting notes <span class="time-step__dur">25 min</span></div>
+        <div class="time-step"><span class="time-step__num">05</span> Prepare presentation <span class="time-step__dur">25 min</span></div>
+      </div>
+
+      <div class="timeline-compare__arrow">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>with<br>Saarthi&nbsp;AI</span>
+      </div>
+
+      <div class="time-col time-col--after">
+        <div class="time-col__head"><h4>With Saarthi AI</h4><span class="time-col__total">&lt; 60 Seconds</span></div>
+        <div class="time-step"><span class="time-step__num">01</span> Meeting detected automatically <span class="time-step__dur">instant</span></div>
+        <div class="time-step"><span class="time-step__num">02</span> Company + news researched <span class="time-step__dur">~15s</span></div>
+        <div class="time-step"><span class="time-step__num">03</span> Competitors analyzed <span class="time-step__dur">~15s</span></div>
+        <div class="time-step"><span class="time-step__num">04</span> Executive brief generated <span class="time-step__dur">~20s</span></div>
+        <div class="time-step"><span class="time-step__num">05</span> PDF delivered to your inbox <span class="time-step__dur">~10s</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FEATURES
+     ============================================================ -->
+<section class="section features" id="features">
+  <div class="container">
+    <div class="section-head center" style="margin:0 auto 64px;">
+      <span class="eyebrow">Platform</span>
+      <h2>Everything a rep needs before they walk in</h2>
+      <p>One connected system from meeting detection to a briefing in your inbox.</p>
+    </div>
+
+    <div class="feature-grid" id="featureGrid">
+      <div class="feature-card"><div class="feature-card__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="1.8"/></svg></div><h4>Google Calendar Integration</h4><p>Meetings are detected the moment they're scheduled — no manual entry required.</p></div>
+      <div class="feature-card"><div class="feature-card__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><h4>Manual Meeting Creation</h4><p>Add a meeting in seconds when it isn't on your calendar yet.</p></div>
+      <div class="feature-card"><div class="feature-card__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 21l6-6M21 3l-6 6M9 3H3v6M15 21h6v-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>Company Intelligence</h4><p>A live snapshot of the company, its products, and its market position.</p></div>
+      <div class="feature-card"><div class="feature-card__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><h4>Latest News</h4><p>The headlines that matter, pulled and summarized before every call.</p></div>
+      <div class="feature-card"><div class="feature-card__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l4-4 4 4 4-8 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>Competitor Analysis</h4><p>See who else is in the conversation and how you compare.</p></div>
+      <div class="feature-card"><div class="feature-card__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10M12 20V4M20 20v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><h4>Financial Insights</h4><p>Funding, revenue signals, and growth trends surfaced automatically.</p></div>
+      <div class="feature-card"><div class="feature-card__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><h4>Executive Summary</h4><p>A concise brief written the way an executive actually reads.</p></div>
+      <div class="feature-card"><div class="feature-card__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div><h4>AI Recommendations</h4><p>Talking points and positioning suggested for this specific deal.</p></div>
+      <div class="feature-card"><div class="feature-card__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="12" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="16" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.8"/></svg></div><h4>Representative Dashboard</h4><p>Every meeting, every brief, organized in one place.</p></div>
+      <div class="feature-card"><div class="feature-card__icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c1.4-3.6 4.6-5.5 8-5.5s6.6 1.9 8 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><h4>Admin Dashboard</h4><p>Team-wide visibility into usage, coverage, and brief quality.</p></div>
+      <div class="feature-card"><div class="feature-card__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><h4>PDF Report</h4><p>A polished, presentation-ready document generated automatically.</p></div>
+      <div class="feature-card"><div class="feature-card__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>Email Delivery</h4><p>Your briefing lands in your inbox before you even open the calendar invite.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HOW IT WORKS
+     ============================================================ -->
+<section class="section howitworks" id="how-it-works">
+  <div class="container">
+    <div class="section-head center" style="margin:0 auto 64px;">
+      <span class="eyebrow">How it works</span>
+      <h2>From meeting to briefing, automatically</h2>
+      <p>One connected pipeline runs behind every meeting on your calendar.</p>
+    </div>
+
+    <div class="flow" id="flow">
+      <div class="flow__line"></div>
+      <div class="flow-step"><div class="flow-step__node"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="flow-step__text"><h5>Meeting created</h5><span>Detected or added manually</span></div></div>
+      <div class="flow-branch-row">
+        <span class="flow-branch-pill">Google Calendar</span>
+        <span class="flow-branch-pill">Manual meeting</span>
+      </div>
+      <div class="flow-step"><div class="flow-step__node branch"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg></div><div class="flow-step__text"><h5>Saarthi AI agent activates</h5><span>Powered by Gemini AI + n8n</span></div></div>
+      <div class="flow-step"><div class="flow-step__node"><svg viewBox="0 0 24 24" fill="none"><path d="M3 21l6-6M21 3l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="flow-step__text"><h5>Company intelligence</h5><span>Products, services, market position</span></div></div>
+      <div class="flow-step"><div class="flow-step__node"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="flow-step__text"><h5>Latest news</h5><span>Recent headlines summarized</span></div></div>
+      <div class="flow-step"><div class="flow-step__node"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l4-4 4 4 4-8 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="flow-step__text"><h5>Competitor analysis</h5><span>Who else is in the deal</span></div></div>
+      <div class="flow-step"><div class="flow-step__node"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="flow-step__text"><h5>Executive summary</h5><span>Written the way execs read</span></div></div>
+      <div class="flow-step"><div class="flow-step__node"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="1.5" stroke="currentColor" stroke-width="2"/><path d="M9 9h6M9 13h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="flow-step__text"><h5>Premium PDF</h5><span>Presentation-ready document</span></div></div>
+      <div class="flow-step"><div class="flow-step__node"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="flow-step__text"><h5>Email delivery</h5><span>Sent straight to your inbox</span></div></div>
+      <div class="flow-step"><div class="flow-step__node branch"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="flow-step__text"><h5>Ready for meeting</h5><span>Stored in your dashboard</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DASHBOARD SHOWCASE
+     ============================================================ -->
+<section class="section showcase" id="dashboard">
+  <div class="container">
+    <div class="section-head center" style="margin:0 auto 64px;">
+      <span class="eyebrow">Inside the platform</span>
+      <h2>Purpose-built for reps and sales leaders</h2>
+      <p>Every workspace is designed around a single job: walk into the meeting prepared.</p>
+    </div>
+
+    <div class="showcase-grid">
+      <div class="browser-card">
+        <div class="browser-card__chrome"><span></span><span></span><span></span><div class="browser-card__url">app.saarthi.ai/dashboard</div></div>
+        <div class="browser-card__body">
+          <span class="browser-card__label">Representative Dashboard</span>
+          <div class="browser-card__title">Today's meetings, at a glance</div>
+          <div class="rep-list" style="display:flex;flex-direction:column;gap:8px;">
+            <div class="brief-item"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/></svg> <span><b>10:00 AM</b> — Nimbus Retail, Brief ready</span></div>
+            <div class="brief-item"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/></svg> <span><b>1:30 PM</b> — Vantage Logistics, Generating</span></div>
+            <div class="brief-item"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/></svg> <span><b>4:00 PM</b> — Acme Corporation, Scheduled</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="browser-card">
+        <div class="browser-card__chrome"><span></span><span></span><span></span><div class="browser-card__url">app.saarthi.ai/brief/4821</div></div>
+        <div class="browser-card__body">
+          <span class="browser-card__label">AI Executive Brief</span>
+          <div class="browser-card__title">Acme Corporation — renewal call</div>
+          <div class="metric-grid" style="grid-template-columns:1fr 1fr 1fr;">
+            <div class="metric-card"><div class="metric-card__label">Score</div><div class="metric-card__value accent">87</div></div>
+            <div class="metric-card"><div class="metric-card__label">News</div><div class="metric-card__value">3</div></div>
+            <div class="metric-card"><div class="metric-card__label">Rivals</div><div class="metric-card__value">2</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="browser-card">
+        <div class="browser-card__chrome"><span></span><span></span><span></span><div class="browser-card__url">app.saarthi.ai/admin</div></div>
+        <div class="browser-card__body">
+          <span class="browser-card__label">Admin Dashboard</span>
+          <div class="browser-card__title">Team briefing volume</div>
+          <div class="bars">
+            <div style="height:35%"></div><div style="height:55%"></div><div style="height:40%"></div>
+            <div style="height:80%"></div><div style="height:60%"></div><div style="height:95%"></div><div style="height:70%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="browser-card">
+        <div class="browser-card__chrome"><span></span><span></span><span></span><div class="browser-card__url">brief-acme-corp.pdf</div></div>
+        <div class="browser-card__body">
+          <span class="browser-card__label">PDF Report</span>
+          <div class="browser-card__title">Export preview</div>
+          <div class="pdf-mock">
+            <div class="pdf-mock__line"></div>
+            <div class="pdf-mock__line" style="width:40%;"></div>
+            <div class="pdf-mock__line"></div>
+            <div class="pdf-mock__line"></div>
+            <div class="pdf-mock__line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BENEFITS
+     ============================================================ -->
+<section class="section benefits">
+  <div class="container">
+    <div class="section-head center" style="margin:0 auto 56px;">
+      <span class="eyebrow">Why teams switch</span>
+      <h2>Built for how reps actually prepare</h2>
+    </div>
+    <div class="benefit-grid">
+      <div class="benefit-item"><div class="benefit-item__icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><h4>Reduce research time</h4><p>Cut hours of manual prep down to under a minute, every time.</p></div>
+      <div class="benefit-item"><div class="benefit-item__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></div><h4>Better sales preparation</h4><p>Walk into every call knowing what actually matters to the buyer.</p></div>
+      <div class="benefit-item"><div class="benefit-item__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></div><h4>AI-powered insights</h4><p>Gemini AI reads the signals so your reps don't have to dig for them.</p></div>
+      <div class="benefit-item"><div class="benefit-item__icon"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M9 8h6M9 12h6M9 16h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><h4>Professional reports</h4><p>Every briefing exports as a polished, client-ready PDF.</p></div>
+      <div class="benefit-item"><div class="benefit-item__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20c1.4-3.6 4.6-5.5 8-5.5s6.6 1.9 8 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.8"/></svg></div><h4>Executive ready</h4><p>Written in the tone and structure leadership expects to see.</p></div>
+      <div class="benefit-item"><div class="benefit-item__icon"><svg viewBox="0 0 24 24" fill="none"><path d="M21 12a9 9 0 11-3.5-7.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M21 4v5h-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>Always up to date</h4><p>Fresh research is pulled for every single meeting, automatically.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     INTERACTIVE DEMO
+     ============================================================ -->
+<section class="section demo" id="demo">
+  <div class="container">
+    <div class="section-head center" style="margin:0 auto 56px;">
+      <span class="eyebrow">Try it yourself</span>
+      <h2>Watch a briefing generate in real time</h2>
+      <p>This is a simplified simulation of the exact pipeline Saarthi AI runs before every meeting.</p>
+    </div>
+
+    <div class="demo-panel">
+      <div class="demo-top">
+        <div>
+          <h3>Acme Corporation — Renewal Call</h3>
+          <p>Today, 2:00 PM · Calendar event detected</p>
+        </div>
+        <button class="btn btn-primary" id="generateBriefBtn">Generate AI Brief</button>
+      </div>
+
+      <div class="pipeline" id="pipeline">
+        <div class="pipe-step" data-step="0"><div class="pipe-step__node"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.8"/></svg></div><div class="pipe-step__label">Meeting</div></div>
+        <div class="pipe-connector"></div>
+        <div class="pipe-step" data-step="1"><div class="pipe-step__node"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="pipe-step__label">Research</div></div>
+        <div class="pipe-connector"></div>
+        <div class="pipe-step" data-step="2"><div class="pipe-step__node"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l4-4 4 4 4-8 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="pipe-step__label">Analysis</div></div>
+        <div class="pipe-connector"></div>
+        <div class="pipe-step" data-step="3"><div class="pipe-step__node"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="pipe-step__label">Brief</div></div>
+        <div class="pipe-connector"></div>
+        <div class="pipe-step" data-step="4"><div class="pipe-step__node"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="1.5" stroke="currentColor" stroke-width="1.8"/></svg></div><div class="pipe-step__label">PDF</div></div>
+        <div class="pipe-connector"></div>
+        <div class="pipe-step" data-step="5"><div class="pipe-step__node"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="pipe-step__label">Ready</div></div>
+      </div>
+
+      <div class="demo-status" id="demoStatus">Click "Generate AI Brief" to run the pipeline.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING
+     ============================================================ -->
+<section class="section pricing" id="pricing">
+  <div class="container">
+    <div class="section-head center" style="margin:0 auto 56px;">
+      <span class="eyebrow">Pricing</span>
+      <h2>Plans that scale with your team</h2>
+      <p>Start free, upgrade when you're ready to bring your whole team on board.</p>
+    </div>
+
+    <div class="price-grid">
+      <div class="price-card">
+        <h4>Starter</h4>
+        <div class="price-card__price">$0<span>/month</span></div>
+        <p class="price-card__desc">For individual reps trying Saarthi AI on their own meetings.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Up to 10 briefings / month</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Manual meeting creation</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Company intelligence</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Representative dashboard</li>
+        </ul>
+        <a href="signup" class="btn btn-ghost">Start Free</a>
+      </div>
+
+      <div class="price-card price-card--featured">
+        <span class="price-card__tag">Most popular</span>
+        <h4>Professional</h4>
+        <div class="price-card__price">$49<span>/user/month</span></div>
+        <p class="price-card__desc">For sales teams who want every meeting covered automatically.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Unlimited briefings</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Google Calendar integration</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Competitor & financial insights</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Premium PDF + email delivery</li>
+        </ul>
+        <a href="signup" class="btn btn-primary">Get Started</a>
+      </div>
+
+      <div class="price-card">
+        <h4>Enterprise</h4>
+        <div class="price-card__price">Custom</div>
+        <p class="price-card__desc">For organizations that need control, security, and scale.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Admin dashboard & controls</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Dedicated onboarding</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Custom integrations</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> SLA & priority support</li>
+        </ul>
+        <a href="login" class="btn btn-ghost">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section class="section faq" id="faq">
+  <div class="container">
+    <div class="section-head center" style="margin:0 auto 48px;">
+      <span class="eyebrow">FAQ</span>
+      <h2>Frequently asked questions</h2>
+    </div>
+    <div class="faq-list" id="faqList">
+      <div class="faq-item open">
+        <button class="faq-q">How does Saarthi AI know about my meetings?<svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+        <div class="faq-a"><p>Connect Google Calendar and Saarthi AI detects upcoming meetings automatically, or you can add a meeting manually in a few seconds.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Where does the research come from?<svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+        <div class="faq-a"><p>Saarthi AI's automation layer, built on n8n, gathers company data and recent news, which Gemini AI then synthesizes into an executive summary and recommendations.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can I get the briefing as a PDF?<svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+        <div class="faq-a"><p>Yes. Every briefing is generated as a premium PDF report and delivered straight to your inbox, in addition to being stored in your dashboard.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Is my data stored securely?<svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+        <div class="faq-a"><p>Meetings and briefings are stored in your dashboard, backed by a secure database, with admin-level controls for enterprise teams.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Do I need to install anything?<svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+        <div class="faq-a"><p>No. Saarthi AI runs entirely in the browser — connect your calendar, and briefings start generating automatically.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FINAL CTA
+     ============================================================ -->
+<section class="section final-cta">
+  <div class="container final-cta__inner">
+    <span class="eyebrow">Get started today</span>
+    <h2>Ready to transform sales meetings?</h2>
+    <p>Join the future of AI-powered executive sales intelligence.</p>
+    <div class="hero__cta">
+      <a href="signup" class="btn btn-primary">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="#" class="nav__logo" style="color:#fff;">
+          <span class="nav__mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+          Saarthi AI
+        </a>
+        <p>Executive sales meeting briefings, generated automatically by AI.</p>
+      </div>
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h5>Product</h5>
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#dashboard">Dashboard</a>
+          <a href="#pricing">Pricing</a>
+        </div>
+        <div class="footer__col">
+          <h5>Company</h5>
+          <a href="#faq">FAQ</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+        <div class="footer__col">
+          <h5>Contact</h5>
+          <a href="mailto:hello@saarthi.ai">hello@saarthi.ai</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>&copy; 2026 Saarthi AI. All rights reserved.</span>
+      <div class="footer__social">
+        <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="none"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 00-1.3-3.2 4.2 4.2 0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 00-6.2 0C6.5 3 5.4 3.3 5.4 3.3a4.2 4.2 0 00-.1 3.2A4.6 4.6 0 004 9.7c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10v7M7 7v.01M11 17v-4.5c0-1.4 1-2.5 2.5-2.5S16 11.1 16 12.5V17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a>
+        <a href="mailto:hello@saarthi.ai" aria-label="Email"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ---------- NAV shrink on scroll ---------- */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+/* ---------- Hero entrance ---------- */
+gsap.timeline({ defaults: { ease: 'power3.out' } })
+  .from('.hero .badge', { opacity: 0, y: -14, duration: .6 })
+  .from('.hero h1', { opacity: 0, y: 26, duration: .8 }, '-=.35')
+  .from('.hero__sub', { opacity: 0, y: 22, duration: .7 }, '-=.5')
+  .from('.hero__cta .btn', { opacity: 0, y: 18, duration: .6, stagger: .12 }, '-=.4')
+  .from('.hero__trust span', { opacity: 0, y: 10, duration: .5, stagger: .06 }, '-=.3')
+  .from('.hero__visual', { opacity: 0, y: 34, scale: .97, duration: .9 }, '-=.9')
+  .from('.float-chip', { opacity: 0, y: 14, duration: .6, stagger: .15 }, '-=.4');
+
+/* Ambient float for hero console + mouse parallax */
+gsap.to('.console', { y: -10, duration: 3.2, ease: 'sine.inOut', repeat: -1, yoyo: true });
+gsap.to('.float-chip--1', { y: -14, duration: 2.6, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: .2 });
+gsap.to('.float-chip--2', { y: 12, duration: 3, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: .4 });
+
+const heroVisual = document.getElementById('heroVisual');
+if (window.matchMedia('(min-width: 981px)').matches) {
+  heroVisual.addEventListener('mousemove', (e) => {
+    const r = heroVisual.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    gsap.to('.console', { rotateY: px * 6, rotateX: -py * 6, transformPerspective: 900, duration: .6, ease: 'power2.out' });
+  });
+  heroVisual.addEventListener('mouseleave', () => gsap.to('.console', { rotateX: 0, rotateY: 0, duration: .8, ease: 'power3.out' }));
+}
+
+/* ---------- Generic scroll reveals ---------- */
+const revealGroups = [
+  '.timeline-compare .time-col', '.feature-card', '.flow-step', '.flow-branch-row',
+  '.browser-card', '.benefit-item', '.price-card', '.faq-item', '.section-head'
+];
+revealGroups.forEach(sel => {
+  gsap.utils.toArray(sel).forEach((el, i) => {
+    gsap.fromTo(el, { opacity: 0, y: 26 }, {
+      opacity: 1, y: 0, duration: .7, ease: 'power3.out',
+      delay: (i % 4) * 0.06,
+      scrollTrigger: { trigger: el, start: 'top 88%' }
+    });
+  });
+});
+
+gsap.fromTo('.timeline-compare__arrow', { opacity: 0, scale: .7 }, {
+  opacity: 1, scale: 1, duration: .6, ease: 'back.out(2)',
+  scrollTrigger: { trigger: '.timeline-compare', start: 'top 80%' }
+});
+
+gsap.utils.toArray('.bars div').forEach((bar, i) => {
+  const h = bar.style.height;
+  gsap.fromTo(bar, { height: '0%' }, {
+    height: h, duration: .9, delay: i * .06, ease: 'power3.out',
+    scrollTrigger: { trigger: bar, start: 'top 92%' }
+  });
+});
+
+/* ---------- Ripple on primary buttons ---------- */
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('click', function (e) {
+    const rect = this.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    ripple.style.left = (e.clientX - rect.left - 10) + 'px';
+    ripple.style.top = (e.clientY - rect.top - 10) + 'px';
+    ripple.style.width = ripple.style.height = '20px';
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 650);
+  });
+});
+
+/* ---------- FAQ accordion ---------- */
+document.querySelectorAll('.faq-item').forEach(item => {
+  const q = item.querySelector('.faq-q');
+  const a = item.querySelector('.faq-a');
+  if (item.classList.contains('open')) a.style.maxHeight = a.scrollHeight + 'px';
+  q.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(open => {
+      open.classList.remove('open');
+      open.querySelector('.faq-a').style.maxHeight = 0;
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      a.style.maxHeight = a.scrollHeight + 'px';
+    }
+  });
+});
+
+/* ---------- Interactive demo pipeline ---------- */
+const pipelineSteps = Array.from(document.querySelectorAll('.pipe-step'));
+const pipeConnectors = Array.from(document.querySelectorAll('.pipe-connector'));
+const demoStatus = document.getElementById('demoStatus');
+const generateBriefBtn = document.getElementById('generateBriefBtn');
+const stepMessages = [
+  'Meeting detected on calendar…',
+  'Researching Acme Corporation…',
+  'Analyzing competitors and market position…',
+  'Drafting executive summary and recommendations…',
+  'Generating premium PDF report…',
+  'Brief ready — delivered to your inbox.'
+];
+let demoRunning = false;
+
+function resetPipeline() {
+  pipelineSteps.forEach(s => s.classList.remove('active', 'done'));
+  pipeConnectors.forEach(c => c.classList.remove('done'));
+}
+
+function runPipeline() {
+  if (demoRunning) return;
+  demoRunning = true;
+  resetPipeline();
+  generateBriefBtn.disabled = true;
+  generateBriefBtn.style.opacity = '.6';
+
+  const tl = gsap.timeline({
+    onComplete: () => {
+      demoRunning = false;
+      generateBriefBtn.disabled = false;
+      generateBriefBtn.style.opacity = '1';
+    }
+  });
+
+  pipelineSteps.forEach((step, i) => {
+    tl.call(() => {
+      pipelineSteps.forEach(s => s.classList.remove('active'));
+      step.classList.add('active');
+      demoStatus.textContent = stepMessages[i];
+    })
+    .to({}, { duration: 0.65 })
+    .call(() => {
+      step.classList.remove('active');
+      step.classList.add('done');
+      if (pipeConnectors[i]) pipeConnectors[i].classList.add('done');
+    });
+  });
+}
+
+generateBriefBtn.addEventListener('click', runPipeline);
+document.getElementById('watchDemoBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(runPipeline, 650);
+});
+</script>
+</body>
+</html>

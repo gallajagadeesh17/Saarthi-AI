@@ -1,0 +1,46 @@
+{% extends "auth_base.html" %}
+
+{% block title %}Verify OTP | Saarthi AI{% endblock %}
+
+{% block form_card %}
+    <div class="text-center">
+        <h2 class="text-2xl font-bold leading-9 tracking-tight text-slate-900">Verify Your Identity</h2>
+        <p class="mt-2 text-sm text-slate-500">An OTP has been sent to your email. Please enter it below.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="mt-6 space-y-2">
+            {% for category, message in messages %}
+                <div class="rounded-lg p-3 text-sm font-semibold {{ 'bg-red-100 text-red-800' if category == 'error' or category == 'danger' else 'bg-green-100 text-green-800' if category == 'success' else 'bg-blue-100 text-blue-800' }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('verify_otp') }}" class="mt-8 space-y-6">
+        <div>
+            <label for="otp" class="block text-sm font-medium leading-6 text-slate-900">One-Time Password (OTP)</label>
+            <div class="relative mt-2">
+                <input id="otp" name="otp" type="text" inputmode="numeric" pattern="\d{6}" maxlength="6" required class="w-full rounded-lg border-slate-300 bg-white py-2.5 text-center text-lg tracking-[1em] shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="w-full flex justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">Verify OTP</button>
+        </div>
+    </form>
+
+    <div class="mt-6 text-center text-sm">
+        <p class="text-slate-500">Didn't receive the code? 
+            <a href="{{ url_for('resend_otp') }}" class="font-semibold text-blue-600 hover:text-blue-500">Resend OTP</a>
+        </p>
+    </div>
+{% endblock %}
+
+{% block bottom_link %}
+<p class="mt-8 text-center text-sm text-slate-500">
+    <a href="{{ url_for('login') }}" class="font-semibold leading-6 text-blue-600 hover:text-blue-500">← Back to Sign In</a>
+</p>
+{% endblock %}

@@ -1,0 +1,233 @@
+{% extends "manager_base.html" %}
+
+{% block page_title %}Sales Opportunities | Saarthi AI Manager{% endblock %}
+
+{% block content %}
+<div class="space-y-6 animate-fade-in">
+
+    <!-- Header -->
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Sales Opportunities</h1>
+            <p class="text-sm text-slate-500">Track your team's pipeline, deal stages, expected revenue, and close probabilities.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="badge badge-slate">{{ filtered_opportunities|length }} Deals</span>
+        </div>
+    </div>
+
+    <!-- KPI Strip -->
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        {% set total_opps = filtered_opportunities|length %}
+        {% set high_priority = filtered_opportunities|selectattr('stage', 'ne', 'Closed')|list|length %}
+        {% set closed_won = filtered_opportunities|selectattr('stage', 'equalto', 'Closed')|list|length %}
+        <div class="ent-card p-4 text-center">
+            <span class="text-2xl font-extrabold text-slate-900 block">{{ total_opps }}</span>
+            <span class="text-xs text-slate-500 font-semibold">Total Opportunities</span>
+        </div>
+        <div class="ent-card p-4 text-center">
+            <span class="text-2xl font-extrabold text-blue-600 block">₹{{ (total_opps * 4.5)|round(1) }}L</span>
+            <span class="text-xs text-slate-500 font-semibold">Pipeline Value</span>
+        </div>
+        <div class="ent-card p-4 text-center">
+            <span class="text-2xl font-extrabold text-amber-600 block">{{ high_priority }}</span>
+            <span class="text-xs text-slate-500 font-semibold">Active Deals</span>
+        </div>
+        <div class="ent-card p-4 text-center">
+            <span class="text-2xl font-extrabold text-emerald-600 block">{{ closed_won }}</span>
+            <span class="text-xs text-slate-500 font-semibold">Closed Won</span>
+        </div>
+        <div class="ent-card p-4 text-center">
+            <span class="text-2xl font-extrabold text-purple-600 block">78%</span>
+            <span class="text-xs text-slate-500 font-semibold">Avg. Confidence</span>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="ent-card p-4">
+        <form method="GET" action="{{ url_for('manager_opportunities') }}" class="flex flex-wrap items-end gap-3">
+            <div class="relative flex-1 min-w-[200px]">
+                <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input name="q" value="{{ q }}" type="text" placeholder="Search by company or client..." class="ent-input pl-10 text-xs py-2 w-full">
+            </div>
+            <div>
+                <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Pipeline Stage</label>
+                <select name="stage" class="ent-input text-xs py-2 pr-8">
+                    <option value="">All Stages</option>
+                    <option value="Pitching" {{ 'selected' if stage_filter == 'Pitching' }}>Pitching</option>
+                    <option value="Negotiation" {{ 'selected' if stage_filter == 'Negotiation' }}>Negotiation</option>
+                    <option value="Proposal Sent" {{ 'selected' if stage_filter == 'Proposal Sent' }}>Proposal Sent</option>
+                    <option value="Closed" {{ 'selected' if stage_filter == 'Closed' }}>Closed Won</option>
+                    <option value="Lost" {{ 'selected' if stage_filter == 'Lost' }}>Lost</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary text-xs py-2">Filter</button>
+            <a href="{{ url_for('manager_opportunities') }}" class="btn-secondary text-xs py-2">Reset</a>
+        </form>
+    </div>
+
+    <!-- Stage Filter Tabs -->
+    <div class="flex flex-wrap gap-2">
+        {% for stage, count in [
+            ('All', filtered_opportunities|length),
+            ('Pitching', filtered_opportunities|selectattr('stage','equalto','Pitching')|list|length),
+            ('Negotiation', filtered_opportunities|selectattr('stage','equalto','Negotiation')|list|length),
+            ('Proposal Sent', filtered_opportunities|selectattr('stage','equalto','Proposal Sent')|list|length),
+            ('Closed', filtered_opportunities|selectattr('stage','equalto','Closed')|list|length)
+        ] %}
+        <div class="ent-card px-4 py-3 flex items-center gap-2 cursor-pointer hover:border-blue-300 transition">
+            <span class="text-sm font-bold text-slate-700">{{ stage }}</span>
+            <span class="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-extrabold text-blue-700">{{ count }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Opportunities Table -->
+    <div class="ent-card overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="ent-table">
+                <thead>
+                    <tr>
+                        <th>Company / Client</th>
+                        <th>Representative</th>
+                        <th>Expected Revenue</th>
+                        <th>Pipeline Stage</th>
+                        <th>Priority</th>
+                        <th>Confidence</th>
+                        <th>Status</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for opp in filtered_opportunities %}
+                    {% set opp_owner = opp.user %}
+                    <tr>
+                        <!-- Company -->
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <div class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-xl bg-slate-100 text-slate-700 font-extrabold text-sm border border-slate-200">
+                                    {{ opp.client_name[0]|upper if opp.client_name else 'C' }}
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900 max-w-[180px] truncate">{{ opp.client_name }}</p>
+                                    <span class="text-[11px] text-slate-400">Sales Account</span>
+                                </div>
+                            </div>
+                        </td>
+                        <!-- Representative -->
+                        <td>
+                            {% if opp_owner %}
+                            <div class="flex items-center gap-2">
+                                <img src="https://ui-avatars.com/api/?name={{ opp_owner.name }}&background=2563eb&color=fff&size=28&bold=true" class="h-6 w-6 rounded-lg flex-shrink-0">
+                                <span class="text-xs font-semibold text-slate-700">{{ opp_owner.name }}</span>
+                            </div>
+                            {% else %}
+                            <span class="text-xs text-slate-400">—</span>
+                            {% endif %}
+                        </td>
+                        <!-- Revenue -->
+                        <td class="font-extrabold text-slate-900">{{ opp.deal_value }}</td>
+                        <!-- Stage -->
+                        <td>
+                            {% if opp.stage == 'Closed' %}
+                            <span class="badge badge-success">Closed Won</span>
+                            {% elif opp.stage == 'Negotiation' %}
+                            <span class="badge badge-warning">Negotiation</span>
+                            {% elif opp.stage == 'Proposal Sent' %}
+                            <span class="badge badge-info">Proposal Sent</span>
+                            {% elif opp.stage == 'Lost' %}
+                            <span class="badge badge-danger">Lost</span>
+                            {% else %}
+                            <span class="badge badge-slate">{{ opp.stage }}</span>
+                            {% endif %}
+                        </td>
+                        <!-- Priority -->
+                        <td>
+                            {% if loop.index % 3 == 1 %}
+                            <span class="badge badge-danger">High</span>
+                            {% elif loop.index % 3 == 2 %}
+                            <span class="badge badge-warning">Medium</span>
+                            {% else %}
+                            <span class="badge badge-slate">Standard</span>
+                            {% endif %}
+                        </td>
+                        <!-- Confidence -->
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <div class="h-1.5 w-16 rounded-full bg-slate-100 overflow-hidden">
+                                    <div class="h-full rounded-full {% if opp.confidence|int > 80 %}bg-emerald-500{% elif opp.confidence|int > 60 %}bg-blue-500{% else %}bg-amber-500{% endif %}" style="width: {{ opp.confidence }}"></div>
+                                </div>
+                                <span class="text-xs font-bold text-slate-700">{{ opp.confidence }}</span>
+                            </div>
+                        </td>
+                        <!-- Status -->
+                        <td>
+                            {% if opp.stage == 'Closed' %}
+                            <span class="badge badge-success">Won</span>
+                            {% elif opp.stage == 'Lost' %}
+                            <span class="badge badge-danger">Lost</span>
+                            {% else %}
+                            <span class="badge badge-info">Active</span>
+                            {% endif %}
+                        </td>
+                        <!-- Actions -->
+                        <td class="text-right">
+                            <button class="btn-secondary py-1 px-3 text-xs">View Brief</button>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="py-14 text-center">
+                            <svg class="mx-auto h-10 w-10 text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                            <p class="text-sm font-bold text-slate-600">No opportunities in pipeline</p>
+                            <p class="mt-1 text-xs text-slate-400">Representatives' sales opportunities will appear here once created.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pipeline Chart -->
+    <div class="ent-card p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Pipeline Stage Distribution</h3>
+        <canvas id="pipelineChart" height="90"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('pipelineChart');
+    if (!ctx) return;
+
+    const stages = {{ filtered_opportunities|map(attribute='stage')|list|tojson }};
+    const stageCounts = {};
+    stages.forEach(s => { stageCounts[s] = (stageCounts[s] || 0) + 1; });
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(stageCounts),
+            datasets: [{
+                label: 'Opportunities',
+                data: Object.values(stageCounts),
+                backgroundColor: ['#3b82f6', '#f59e0b', '#8b5cf6', '#10b981', '#ef4444'],
+                borderRadius: 8,
+                borderSkipped: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false }, ticks: { font: { size: 11, weight: '600' } } },
+                y: { beginAtZero: true, ticks: { precision: 0, font: { size: 11 } }, grid: { color: '#f1f5f9' } }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

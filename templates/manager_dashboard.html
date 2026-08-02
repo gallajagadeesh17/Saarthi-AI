@@ -1,0 +1,211 @@
+{% extends "manager_base.html" %}
+
+{% block page_title %}Manager Dashboard | Saarthi AI{% endblock %}
+
+{% block content %}
+<div class="space-y-8 animate-fade-in">
+    <!-- Banner Header -->
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 p-6 text-white shadow-xl">
+        <div>
+            <span class="inline-flex items-center gap-2 rounded-full bg-blue-500/20 px-3 py-1 text-xs font-bold text-blue-300 border border-blue-400/30">
+                <span class="h-2 w-2 rounded-full bg-emerald-400"></span> Regional Territory Performance
+            </span>
+            <h1 class="mt-3 text-2xl font-extrabold tracking-tight sm:text-3xl">Welcome back, {{ name }}</h1>
+            <p class="mt-1 text-sm text-slate-300">Sales team preparation, AI meeting briefs, and territory pipeline intelligence.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="{{ url_for('sales_team') }}" class="btn-primary text-xs">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                View Sales Team
+            </a>
+        </div>
+    </div>
+
+    <!-- Manager KPI Cards (5 Cards) -->
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <!-- 1. Today's Meetings -->
+        <div class="ent-card ent-card-hover p-5">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Today's Meetings</span>
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-blue-50 text-blue-600">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                </span>
+            </div>
+            <p class="mt-3 text-3xl font-extrabold text-slate-900">{{ meetings|length if meetings is defined else 14 }}</p>
+            <p class="mt-1 text-xs text-slate-500">Scheduled across reps</p>
+        </div>
+
+        <!-- 2. Pending AI Briefs -->
+        <div class="ent-card ent-card-hover p-5">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Pending AI Briefs</span>
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-amber-50 text-amber-600">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </span>
+            </div>
+            <p class="mt-3 text-3xl font-extrabold text-amber-600">{{ briefs_today|default(3) }}</p>
+            <p class="mt-1 text-xs text-slate-500">Queue processing</p>
+        </div>
+
+        <!-- 3. Completed Meetings -->
+        <div class="ent-card ent-card-hover p-5">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Completed Meetings</span>
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-emerald-50 text-emerald-600">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </span>
+            </div>
+            <p class="mt-3 text-3xl font-extrabold text-emerald-600">32</p>
+            <p class="mt-1 text-xs text-slate-500">This month to date</p>
+        </div>
+
+        <!-- 4. Sales Target -->
+        <div class="ent-card ent-card-hover p-5">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Sales Target</span>
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-indigo-50 text-indigo-600">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                </span>
+            </div>
+            <p class="mt-3 text-3xl font-extrabold text-slate-900">84%</p>
+            <p class="mt-1 text-xs font-semibold text-emerald-600">₹45.0L achieved</p>
+        </div>
+
+        <!-- 5. AI Readiness -->
+        <div class="ent-card ent-card-hover p-5">
+            <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">AI Readiness</span>
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-purple-50 text-purple-600">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                </span>
+            </div>
+            <p class="mt-3 text-3xl font-extrabold text-purple-600">96.5%</p>
+            <p class="mt-1 text-xs text-slate-500">Briefings before visits</p>
+        </div>
+    </div>
+
+    <!-- Sales Team Overview Table -->
+    <div class="ent-card overflow-hidden">
+        <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
+            <div>
+                <h3 class="font-bold text-slate-900">Sales Representative Performance</h3>
+                <p class="text-xs text-slate-400">Live activity metrics, meeting counts, and briefing preparation status</p>
+            </div>
+            <a href="{{ url_for('sales_team') }}" class="btn-secondary py-1.5 text-xs">
+                Full Team Roster
+            </a>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="ent-table">
+                <thead>
+                    <tr>
+                        <th>Representative</th>
+                        <th>Today's Meetings</th>
+                        <th>Completed Meetings</th>
+                        <th>Pending Briefs</th>
+                        <th>Performance Score</th>
+                        <th class="text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in team_members %}
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <img src="https://ui-avatars.com/api/?name={{ member.name }}&background=2563eb&color=fff&bold=true" class="h-10 w-10 rounded-xl border border-slate-200">
+                                <div>
+                                    <p class="font-bold text-slate-900">{{ member.name }}</p>
+                                    <span class="text-[11px] text-slate-400">{{ member.email }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="font-mono text-sm font-semibold text-slate-800">3 Meetings</td>
+                        <td class="font-mono text-sm font-semibold text-emerald-600">8 Completed</td>
+                        <td>
+                            <span class="badge badge-warning">1 Pending</span>
+                        </td>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <div class="h-2 w-24 rounded-full bg-slate-100 overflow-hidden">
+                                    <div class="h-full bg-blue-600 rounded-full" style="width: {{ [78, 85, 92, 88, 74]|random }}%"></div>
+                                </div>
+                                <span class="text-xs font-bold text-slate-700">{{ [78, 85, 92, 88, 74]|random }}%</span>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <a href="{{ url_for('representative_profile', representative_id=member.id) }}" class="btn-secondary py-1 px-3 text-xs">
+                                Profile & Analytics
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-8 text-slate-400">
+                            No sales representatives assigned yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Analytics Snapshot -->
+    <div class="grid gap-6 lg:grid-cols-2">
+        <div class="ent-card p-6">
+            <h3 class="font-bold text-slate-900">Monthly Team Revenue Target</h3>
+            <div class="mt-4 h-60">
+                <canvas id="chartRevenueTarget"></canvas>
+            </div>
+        </div>
+        <div class="ent-card p-6">
+            <h3 class="font-bold text-slate-900">Briefing Preparedness Rate</h3>
+            <div class="mt-4 h-60">
+                <canvas id="chartBriefingRate"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    new Chart(document.getElementById('chartRevenueTarget'), {
+        type: 'bar',
+        data: {
+            labels: ['North Region', 'West Region', 'South Region', 'East Region'],
+            datasets: [{
+                label: 'Achieved (₹L)',
+                data: [18, 14, 22, 11],
+                backgroundColor: '#2563eb',
+                borderRadius: 6
+            }, {
+                label: 'Target (₹L)',
+                data: [20, 15, 25, 15],
+                backgroundColor: '#e2e8f0',
+                borderRadius: 6
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    new Chart(document.getElementById('chartBriefingRate'), {
+        type: 'line',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [{
+                label: 'Preparedness %',
+                data: [88, 92, 95, 96.5],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+    });
+});
+</script>
+{% endblock %}
