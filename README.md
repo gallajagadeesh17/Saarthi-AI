@@ -1,3 +1,4 @@
+HEAD
 <div align="center">
 
 # 🚀 Saarthi AI
@@ -424,3 +425,6 @@ Made with ❤️ by the **Saarthi AI Team**
 © 2026 Saarthi AI. All Rights Reserved.
 
 </div>
+=======
+# Saarthi-AI
+a9b92b8 (Initial commit)
