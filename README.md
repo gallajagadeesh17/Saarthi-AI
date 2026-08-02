@@ -267,7 +267,6 @@ Saarthi AI Dashboard
 | AI | Google Gemini |
 | Workflow | n8n |
 | APIs | Google Calendar, News API |
-| Deployment | Render |
 
 ---
 
