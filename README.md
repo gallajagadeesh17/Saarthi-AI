@@ -346,26 +346,6 @@ pip install -r requirements.txt
 python app.py
 ```
 
----
-
-# 🔐 Environment Variables
-
-```
-SECRET_KEY=
-
-GOOGLE_API_KEY=
-
-GEMINI_API_KEY=
-
-NEWS_API_KEY=
-
-N8N_WEBHOOK=
-
-DATABASE_URL=
-```
-
----
-
 # 📊 Key Benefits
 
 ✅ Reduces manual research time
