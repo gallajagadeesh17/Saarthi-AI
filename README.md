@@ -4,6 +4,8 @@
 
 ### Intelligent Sales Intelligence Platform Powered by Artificial Intelligence
 
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=900&color=4285F4&center=true&vCenter=true&width=900&lines=Research+companies+before+every+meeting;Turn+live+data+into+sales+intelligence;Generate+AI-powered+meeting+briefings;Help+sales+teams+walk+in+prepared)](https://github.com/DenverCoder1/readme-typing-svg)
+
 Transforming pre-sales research through AI-driven company intelligence, automated meeting preparation, and contextual business insights.
 
 ---
