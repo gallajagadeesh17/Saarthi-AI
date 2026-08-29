@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-50">
+<html lang="en" class="h-full bg-slate-950">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/enterprise.css') }}">
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
@@ -24,24 +25,24 @@
         }
     </script>
 </head>
-<body class="h-full flex overflow-hidden font-sans text-slate-800 bg-slate-50 antialiased">
+<body class="h-full flex overflow-hidden font-sans text-slate-100 bg-slate-950 antialiased">
 
     <!-- Mobile Backdrop -->
-    <div id="backdrop" class="fixed inset-0 z-40 hidden bg-slate-900/60 backdrop-blur-sm lg:hidden"></div>
+    <div id="backdrop" class="fixed inset-0 z-40 hidden bg-slate-950/80 backdrop-blur-sm lg:hidden"></div>
 
     <!-- Manager Navigation Sidebar -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 flex w-72 -translate-x-full flex-col border-r border-slate-200 bg-white shadow-2xl transition-transform duration-300 lg:static lg:translate-x-0 lg:shadow-none">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 flex w-72 -translate-x-full flex-col border-r border-slate-800 bg-slate-900 text-slate-300 shadow-2xl transition-transform duration-300 lg:static lg:translate-x-0 lg:shadow-none">
         
         <!-- Header Brand -->
-        <div class="flex h-20 items-center justify-between border-b border-slate-100 px-6">
+        <div class="flex h-20 items-center justify-between border-b border-slate-800 px-6">
             <a href="{{ url_for('manager_dashboard') }}" class="flex items-center gap-3">
-                <span class="grid h-10 w-10 place-items-center rounded-xl bg-blue-600 font-extrabold text-white shadow-lg shadow-blue-600/30">S</span>
+                <span class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 font-extrabold text-white shadow-lg shadow-blue-600/30">S</span>
                 <div>
-                    <span class="block text-base font-bold text-slate-900 tracking-tight">Saarthi AI</span>
-                    <span class="block text-[11px] font-semibold text-blue-600 uppercase tracking-wider">Manager Console</span>
+                    <span class="block text-base font-bold text-white tracking-tight">Saarthi AI</span>
+                    <span class="block text-[11px] font-semibold text-blue-400 uppercase tracking-wider">Manager Console</span>
                 </div>
             </a>
-            <button id="closeMenu" class="grid h-8 w-8 place-items-center rounded-lg text-slate-400 hover:bg-slate-100 lg:hidden">
+            <button id="closeMenu" class="grid h-8 w-8 place-items-center rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white lg:hidden">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
         </div>
@@ -49,102 +50,112 @@
         <!-- Links -->
         <div class="flex-1 overflow-y-auto px-4 py-6 space-y-6">
             <div>
-                <p class="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">Management Overview</p>
+                <p class="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-500">Management Overview</p>
                 <nav class="space-y-1">
                     <!-- Dashboard -->
-                    <a href="{{ url_for('manager_dashboard') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'manager_dashboard' %}bg-blue-600 text-white shadow-md shadow-blue-600/25{% else %}text-slate-600 hover:bg-blue-50 hover:text-blue-600{% endif %}">
+                    <a href="{{ url_for('manager_dashboard') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'manager_dashboard' %}bg-blue-600 text-white shadow-md shadow-blue-600/30{% else %}text-slate-400 hover:bg-slate-800/80 hover:text-white{% endif %}">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                         Dashboard
                     </a>
                     <!-- Sales Team -->
-                    <a href="{{ url_for('sales_team') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'sales_team' or request.endpoint == 'representative_profile' %}bg-blue-600 text-white shadow-md shadow-blue-600/25{% else %}text-slate-600 hover:bg-blue-50 hover:text-blue-600{% endif %}">
+                    <a href="{{ url_for('sales_team') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'sales_team' or request.endpoint == 'representative_profile' %}bg-blue-600 text-white shadow-md shadow-blue-600/30{% else %}text-slate-400 hover:bg-slate-800/80 hover:text-white{% endif %}">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                         Sales Team
                     </a>
                     <!-- Meetings -->
-                    <a href="{{ url_for('manager_meetings') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'manager_meetings' or request.endpoint == 'manager_new_meeting' %}bg-blue-600 text-white shadow-md shadow-blue-600/25{% else %}text-slate-600 hover:bg-blue-50 hover:text-blue-600{% endif %}">
+                    <a href="{{ url_for('manager_meetings') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'manager_meetings' or request.endpoint == 'manager_new_meeting' %}bg-blue-600 text-white shadow-md shadow-blue-600/30{% else %}text-slate-400 hover:bg-slate-800/80 hover:text-white{% endif %}">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                         Meetings
                     </a>
                     <!-- AI Briefs -->
-                    <a href="{{ url_for('manager_briefs') }}" class="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'manager_briefs' %}bg-blue-600 text-white shadow-md shadow-blue-600/25{% else %}text-slate-600 hover:bg-blue-50 hover:text-blue-600{% endif %}">
+                    <a href="{{ url_for('manager_briefs') }}" class="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'manager_briefs' %}bg-blue-600 text-white shadow-md shadow-blue-600/30{% else %}text-slate-400 hover:bg-slate-800/80 hover:text-white{% endif %}">
                         <div class="flex items-center gap-3">
                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                             AI Briefs
                         </div>
-                        <span class="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-bold text-blue-700">AI</span>
+                        <span class="rounded-full bg-blue-500/20 border border-blue-500/30 px-2 py-0.5 text-xs font-bold text-blue-400">AI</span>
                     </a>
                 </nav>
             </div>
 
             <div>
-                <p class="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">Sales Intelligence</p>
+                <p class="px-3 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-500">Sales Intelligence</p>
                 <nav class="space-y-1">
                     <!-- Retail Partners -->
-                    <a href="{{ url_for('retail_partners') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'retail_partners' %}bg-blue-600 text-white shadow-md shadow-blue-600/25{% else %}text-slate-600 hover:bg-blue-50 hover:text-blue-600{% endif %}">
+                    <a href="{{ url_for('retail_partners') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'retail_partners' %}bg-blue-600 text-white shadow-md shadow-blue-600/30{% else %}text-slate-400 hover:bg-slate-800/80 hover:text-white{% endif %}">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                         Retail Partners
                     </a>
                     <!-- Sales Opportunities -->
-                    <a href="{{ url_for('manager_opportunities') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'manager_opportunities' %}bg-blue-600 text-white shadow-md shadow-blue-600/25{% else %}text-slate-600 hover:bg-blue-50 hover:text-blue-600{% endif %}">
+                    <a href="{{ url_for('manager_opportunities') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'manager_opportunities' %}bg-blue-600 text-white shadow-md shadow-blue-600/30{% else %}text-slate-400 hover:bg-slate-800/80 hover:text-white{% endif %}">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
                         Sales Opportunities
                     </a>
                     <!-- Sales Analytics -->
-                    <a href="{{ url_for('sales_analytics') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'sales_analytics' %}bg-blue-600 text-white shadow-md shadow-blue-600/25{% else %}text-slate-600 hover:bg-blue-50 hover:text-blue-600{% endif %}">
+                    <a href="{{ url_for('sales_analytics') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'sales_analytics' %}bg-blue-600 text-white shadow-md shadow-blue-600/30{% else %}text-slate-400 hover:bg-slate-800/80 hover:text-white{% endif %}">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                         Sales Analytics
                     </a>
                     <!-- Reports -->
-                    <a href="{{ url_for('manager_reports') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'manager_reports' %}bg-blue-600 text-white shadow-md shadow-blue-600/25{% else %}text-slate-600 hover:bg-blue-50 hover:text-blue-600{% endif %}">
+                    <a href="{{ url_for('manager_reports') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'manager_reports' %}bg-blue-600 text-white shadow-md shadow-blue-600/30{% else %}text-slate-400 hover:bg-slate-800/80 hover:text-white{% endif %}">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         Reports
-                    </a>
-                    <!-- Settings -->
-                    <a href="{{ url_for('manager_settings') }}" class="flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition {% if request.endpoint == 'manager_settings' %}bg-blue-600 text-white shadow-md shadow-blue-600/25{% else %}text-slate-600 hover:bg-blue-50 hover:text-blue-600{% endif %}">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>
-                        Settings
                     </a>
                 </nav>
             </div>
         </div>
 
         <!-- Manager Footer -->
-        <div class="border-t border-slate-100 p-4">
-            <div class="flex items-center gap-3 rounded-xl bg-slate-50 p-2.5">
-                <img src="https://ui-avatars.com/api/?name={{ name|default('Manager') }}&background=2563eb&color=fff&bold=true" class="h-10 w-10 rounded-xl border border-blue-100">
+        <div class="border-t border-slate-800 p-4">
+            <div class="flex items-center gap-3 rounded-xl bg-slate-800/60 p-2.5">
+                <img src="https://ui-avatars.com/api/?name={{ name|default('Manager') }}&background=4f46e5&color=fff&bold=true" class="h-10 w-10 rounded-xl border border-indigo-500/30">
                 <div class="min-w-0 flex-1">
-                    <p class="truncate text-sm font-bold text-slate-800">{{ name|default('Sales Manager') }}</p>
-                    <span class="text-[11px] font-semibold text-blue-600">Sales Lead</span>
+                    <p class="truncate text-sm font-bold text-white">{{ name|default('Sales Manager') }}</p>
+                    <span class="text-[11px] font-semibold text-indigo-400">Sales Manager</span>
                 </div>
-                <a href="{{ url_for('logout') }}" title="Logout" class="rounded-lg p-1.5 text-slate-400 hover:bg-white hover:text-rose-600">
+                <a href="{{ url_for('logout') }}" title="Logout" class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-700 hover:text-rose-400">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                 </a>
             </div>
         </div>
     </aside>
 
-    <!-- Content Area -->
+    <!-- Main Content Wrapper -->
     <div class="flex flex-1 flex-col overflow-y-auto">
-        <!-- Top App Bar -->
-        <header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white/95 px-6 backdrop-blur">
+        <!-- Top Header -->
+        <header class="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-800 bg-slate-900/90 px-6 backdrop-blur">
             <div class="flex items-center gap-4">
-                <button id="openMenu" class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 lg:hidden">
+                <button id="openMenu" class="rounded-lg p-2 text-slate-400 hover:bg-slate-800 hover:text-white lg:hidden">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
             </div>
 
             <div class="flex items-center gap-4">
+                <a href="{{ url_for('manager_new_meeting') }}" class="btn-saarthi-primary text-xs">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                    Assign New Meeting
+                </a>
             </div>
         </header>
 
-        <!-- Main Body -->
+        <!-- Body Content -->
         <main class="flex-1 p-6 lg:p-8">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="mb-6 space-y-3">
+                        {% for category, message in messages %}
+                            <div class="rounded-xl border p-4 text-sm font-medium flex items-center justify-between {% if category == 'error' or category == 'danger' %}bg-rose-500/10 border-rose-500/20 text-rose-400{% elif category == 'success' %}bg-emerald-500/10 border-emerald-500/20 text-emerald-400{% else %}bg-blue-500/10 border-blue-500/20 text-blue-400{% endif %}">
+                                <span>{{ message }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
             {% block content %}{% endblock %}
         </main>
     </div>
 
-    <!-- Mobile Drawer Scripts -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const sidebar = document.getElementById('sidebar');
@@ -159,14 +170,9 @@
 
             if (openMenu) openMenu.addEventListener('click', toggleSidebar);
             if (closeMenu) closeMenu.addEventListener('click', toggleSidebar);
-            if (backdrop) backdrop.addEventListener('click', toggleSidebar);
-
-            // Enforce min date (today) on all meeting date pickers
-            const today = new Date().toISOString().split('T')[0];
-            document.querySelectorAll('input[type="date"]').forEach(input => {
-                if (!input.hasAttribute('data-allow-past')) {
-                    input.setAttribute('min', today);
-                }
+            if (backdrop) backdrop.addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.add('hidden');
             });
         });
     </script>

@@ -5,31 +5,31 @@
 {% block content %}
 <div class="space-y-6 animate-fade-in">
     <!-- Header -->
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-800 pb-5">
         <div>
-            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Executive Sales Reports</h1>
-            <p class="text-sm text-slate-500">Export weekly, monthly, and quarterly sales performance and briefing reports.</p>
+            <h1 class="text-2xl font-extrabold text-white tracking-tight">Executive Sales Reports</h1>
+            <p class="text-sm text-slate-400">Export weekly, monthly, and quarterly sales performance and briefing reports.</p>
         </div>
         <div class="flex items-center gap-3">
-            <button onclick="document.getElementById('generateReportModal').classList.remove('hidden')" class="btn-primary text-xs py-2">
+            <button onclick="document.getElementById('generateReportModal').classList.remove('hidden')" class="btn-saarthi-primary text-xs py-2">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                + Generate Custom Report
+                + Custom Report
             </button>
         </div>
     </div>
 
     <!-- Frequency Filter Tabs -->
-    <div class="ent-card p-3 flex items-center gap-2">
+    <div class="saarthi-card p-3 flex items-center gap-2">
         <button onclick="filterReports('all')" class="report-tab rounded-xl px-4 py-2 text-xs font-bold transition bg-blue-600 text-white shadow-sm">
             All Reports
         </button>
-        <button onclick="filterReports('weekly')" class="report-tab rounded-xl px-4 py-2 text-xs font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+        <button onclick="filterReports('weekly')" class="report-tab rounded-xl px-4 py-2 text-xs font-bold transition bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white">
             Weekly Reports
         </button>
-        <button onclick="filterReports('monthly')" class="report-tab rounded-xl px-4 py-2 text-xs font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+        <button onclick="filterReports('monthly')" class="report-tab rounded-xl px-4 py-2 text-xs font-bold transition bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white">
             Monthly Reports
         </button>
-        <button onclick="filterReports('quarterly')" class="report-tab rounded-xl px-4 py-2 text-xs font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">
+        <button onclick="filterReports('quarterly')" class="report-tab rounded-xl px-4 py-2 text-xs font-bold transition bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white">
             Quarterly Audit
         </button>
     </div>
@@ -37,90 +37,90 @@
     <!-- Reports Grid -->
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <!-- 1. Weekly Rep Report -->
-        <div class="ent-card ent-card-hover p-6 report-card" data-freq="weekly">
+        <div class="saarthi-card saarthi-card-hover p-6 report-card" data-freq="weekly">
             <div class="flex items-center justify-between">
                 <span class="badge badge-info">Weekly</span>
                 <span class="text-[11px] font-semibold text-slate-400">Jul 24 - Jul 30</span>
             </div>
-            <h3 class="mt-4 font-bold text-slate-900 text-base">Weekly Representative Activity Report</h3>
-            <p class="mt-2 text-xs text-slate-500">Summary of sales visits conducted, pending follow-ups, and AI briefing utilization per agent.</p>
-            <div class="mt-6 flex items-center gap-2 pt-4 border-t border-slate-100">
-                <button onclick="alert('Downloading Weekly Sales Report PDF...')" class="btn-primary text-xs py-1.5 flex-1">
+            <h3 class="mt-4 font-bold text-white text-base">Weekly Representative Activity Report</h3>
+            <p class="mt-2 text-xs text-slate-400 leading-relaxed">Summary of sales visits conducted, pending follow-ups, and AI briefing utilization per agent.</p>
+            <div class="mt-6 flex items-center gap-2 pt-4 border-t border-slate-800">
+                <button onclick="alert('Downloading Weekly Sales Report PDF...')" class="btn-saarthi-primary text-xs py-1.5 flex-1">
                     Download PDF
                 </button>
-                <button onclick="alert('Exporting Excel Sheet...')" class="btn-secondary text-xs py-1.5 flex-1">
+                <button onclick="alert('Exporting Excel Sheet...')" class="btn-saarthi-secondary text-xs py-1.5 flex-1">
                     Export Excel
                 </button>
             </div>
         </div>
 
         <!-- 2. Monthly Sales & Target Report -->
-        <div class="ent-card ent-card-hover p-6 report-card" data-freq="monthly">
+        <div class="saarthi-card saarthi-card-hover p-6 report-card" data-freq="monthly">
             <div class="flex items-center justify-between">
                 <span class="badge badge-success">Monthly</span>
                 <span class="text-[11px] font-semibold text-slate-400">July 2026</span>
             </div>
-            <h3 class="mt-4 font-bold text-slate-900 text-base">Monthly Sales & Target Achievement</h3>
-            <p class="mt-2 text-xs text-slate-500">Regional revenue achievement breakdown against quarterly sales targets and credit lines.</p>
-            <div class="mt-6 flex items-center gap-2 pt-4 border-t border-slate-100">
-                <button onclick="alert('Downloading Monthly Sales Report PDF...')" class="btn-primary text-xs py-1.5 flex-1">
+            <h3 class="mt-4 font-bold text-white text-base">Monthly Sales &amp; Target Achievement</h3>
+            <p class="mt-2 text-xs text-slate-400 leading-relaxed">Regional revenue achievement breakdown against quarterly sales targets and credit lines.</p>
+            <div class="mt-6 flex items-center gap-2 pt-4 border-t border-slate-800">
+                <button onclick="alert('Downloading Monthly Sales Report PDF...')" class="btn-saarthi-primary text-xs py-1.5 flex-1">
                     Download PDF
                 </button>
-                <button onclick="alert('Exporting Excel Sheet...')" class="btn-secondary text-xs py-1.5 flex-1">
+                <button onclick="alert('Exporting Excel Sheet...')" class="btn-saarthi-secondary text-xs py-1.5 flex-1">
                     Export Excel
                 </button>
             </div>
         </div>
 
         <!-- 3. Quarterly Board Briefing -->
-        <div class="ent-card ent-card-hover p-6 report-card" data-freq="quarterly">
+        <div class="saarthi-card saarthi-card-hover p-6 report-card" data-freq="quarterly">
             <div class="flex items-center justify-between">
                 <span class="badge badge-warning">Quarterly</span>
                 <span class="text-[11px] font-semibold text-slate-400">Q2 2026 Audit</span>
             </div>
-            <h3 class="mt-4 font-bold text-slate-900 text-base">Quarterly Executive Intelligence Report</h3>
-            <p class="mt-2 text-xs text-slate-500">Comprehensive AI intelligence impact analysis, customer financial health trends, and deal conversions.</p>
-            <div class="mt-6 flex items-center gap-2 pt-4 border-t border-slate-100">
-                <button onclick="alert('Downloading Quarterly Report PDF...')" class="btn-primary text-xs py-1.5 flex-1">
+            <h3 class="mt-4 font-bold text-white text-base">Quarterly Executive Intelligence Report</h3>
+            <p class="mt-2 text-xs text-slate-400 leading-relaxed">Comprehensive AI intelligence impact analysis, customer financial health trends, and deal conversions.</p>
+            <div class="mt-6 flex items-center gap-2 pt-4 border-t border-slate-800">
+                <button onclick="alert('Downloading Quarterly Report PDF...')" class="btn-saarthi-primary text-xs py-1.5 flex-1">
                     Download PDF
                 </button>
-                <button onclick="alert('Exporting Excel Sheet...')" class="btn-secondary text-xs py-1.5 flex-1">
+                <button onclick="alert('Exporting Excel Sheet...')" class="btn-saarthi-secondary text-xs py-1.5 flex-1">
                     Export Excel
                 </button>
             </div>
         </div>
 
         <!-- 4. Retail Partner Health Report -->
-        <div class="ent-card ent-card-hover p-6 report-card" data-freq="monthly">
+        <div class="saarthi-card saarthi-card-hover p-6 report-card" data-freq="monthly">
             <div class="flex items-center justify-between">
                 <span class="badge badge-success">Monthly</span>
                 <span class="text-[11px] font-semibold text-slate-400">July 2026</span>
             </div>
-            <h3 class="mt-4 font-bold text-slate-900 text-base">Retail Partner Health & Risk Report</h3>
-            <p class="mt-2 text-xs text-slate-500">Credit utilization, territory coverage, and risk classifications for all retail partners.</p>
-            <div class="mt-6 flex items-center gap-2 pt-4 border-t border-slate-100">
-                <button onclick="alert('Downloading Partner Health PDF...')" class="btn-primary text-xs py-1.5 flex-1">
+            <h3 class="mt-4 font-bold text-white text-base">Retail Partner Health &amp; Risk Report</h3>
+            <p class="mt-2 text-xs text-slate-400 leading-relaxed">Credit utilization, territory coverage, and risk classifications for all retail partners.</p>
+            <div class="mt-6 flex items-center gap-2 pt-4 border-t border-slate-800">
+                <button onclick="alert('Downloading Partner Health PDF...')" class="btn-saarthi-primary text-xs py-1.5 flex-1">
                     Download PDF
                 </button>
-                <button onclick="alert('Exporting Excel Sheet...')" class="btn-secondary text-xs py-1.5 flex-1">
+                <button onclick="alert('Exporting Excel Sheet...')" class="btn-saarthi-secondary text-xs py-1.5 flex-1">
                     Export Excel
                 </button>
             </div>
         </div>
 
         <!-- 5. AI Brief Generation Audit -->
-        <div class="ent-card ent-card-hover p-6 report-card" data-freq="weekly">
+        <div class="saarthi-card saarthi-card-hover p-6 report-card" data-freq="weekly">
             <div class="flex items-center justify-between">
                 <span class="badge badge-info">Weekly</span>
                 <span class="text-[11px] font-semibold text-slate-400">Jul 24 - Jul 30</span>
             </div>
-            <h3 class="mt-4 font-bold text-slate-900 text-base">AI Brief Generation & n8n Audit</h3>
-            <p class="mt-2 text-xs text-slate-500">System audit log of Gemini AI prompt requests, Google Search enrichment, and PDF renders.</p>
-            <div class="mt-6 flex items-center gap-2 pt-4 border-t border-slate-100">
-                <button onclick="alert('Downloading AI Brief Audit PDF...')" class="btn-primary text-xs py-1.5 flex-1">
+            <h3 class="mt-4 font-bold text-white text-base">AI Brief Generation &amp; n8n Audit</h3>
+            <p class="mt-2 text-xs text-slate-400 leading-relaxed">System audit log of Gemini AI prompt requests, Google Search enrichment, and PDF renders.</p>
+            <div class="mt-6 flex items-center gap-2 pt-4 border-t border-slate-800">
+                <button onclick="alert('Downloading AI Brief Audit PDF...')" class="btn-saarthi-primary text-xs py-1.5 flex-1">
                     Download PDF
                 </button>
-                <button onclick="alert('Exporting Excel Sheet...')" class="btn-secondary text-xs py-1.5 flex-1">
+                <button onclick="alert('Exporting Excel Sheet...')" class="btn-saarthi-secondary text-xs py-1.5 flex-1">
                     Export Excel
                 </button>
             </div>
@@ -129,26 +129,26 @@
 </div>
 
 <!-- Modal Custom Report Generator -->
-<div id="generateReportModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-    <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl border border-slate-200 animate-fade-in">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-4">
-            <h3 class="text-lg font-bold text-slate-900">Generate Custom Report</h3>
-            <button onclick="document.getElementById('generateReportModal').classList.add('hidden')" class="rounded-lg p-1 text-slate-400 hover:bg-slate-100">
+<div id="generateReportModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
+    <div class="w-full max-w-md rounded-2xl bg-slate-900 p-6 shadow-2xl border border-slate-800 animate-fade-in">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <h3 class="text-lg font-bold text-white">Generate Custom Report</h3>
+            <button onclick="document.getElementById('generateReportModal').classList.add('hidden')" class="rounded-lg p-1 text-slate-400 hover:bg-slate-800">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
         </div>
         <div class="mt-4 space-y-4">
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Report Frequency</label>
-                <select class="ent-input mt-1">
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Report Frequency</label>
+                <select class="saarthi-select mt-1 text-xs">
                     <option value="weekly">Weekly Summary</option>
                     <option value="monthly">Monthly Performance</option>
                     <option value="quarterly">Quarterly Executive Audit</option>
                 </select>
             </div>
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Scope & Territory</label>
-                <select class="ent-input mt-1">
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Scope &amp; Territory</label>
+                <select class="saarthi-select mt-1 text-xs">
                     <option>All Territories</option>
                     <option>North Region</option>
                     <option>West Region</option>
@@ -156,15 +156,15 @@
                 </select>
             </div>
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Export Format</label>
-                <select class="ent-input mt-1">
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Export Format</label>
+                <select class="saarthi-select mt-1 text-xs">
                     <option>Premium Executive PDF</option>
                     <option>Microsoft Excel (.xlsx)</option>
                 </select>
             </div>
-            <div class="mt-6 flex justify-end gap-3 pt-3 border-t border-slate-100">
-                <button type="button" onclick="document.getElementById('generateReportModal').classList.add('hidden')" class="btn-secondary text-xs">Cancel</button>
-                <button type="button" onclick="alert('Generating report...'); document.getElementById('generateReportModal').classList.add('hidden');" class="btn-primary text-xs">Generate Report</button>
+            <div class="mt-6 flex justify-end gap-3 pt-3 border-t border-slate-800">
+                <button type="button" onclick="document.getElementById('generateReportModal').classList.add('hidden')" class="btn-saarthi-secondary text-xs">Cancel</button>
+                <button type="button" onclick="alert('Generating report...'); document.getElementById('generateReportModal').classList.add('hidden');" class="btn-saarthi-primary text-xs">Generate Report</button>
             </div>
         </div>
     </div>
@@ -174,9 +174,9 @@
 function filterReports(freq) {
     document.querySelectorAll('.report-tab').forEach(tab => {
         tab.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
-        tab.classList.add('bg-slate-100', 'text-slate-600');
+        tab.classList.add('bg-slate-800', 'text-slate-400');
     });
-    event.target.classList.remove('bg-slate-100', 'text-slate-600');
+    event.target.classList.remove('bg-slate-800', 'text-slate-400');
     event.target.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
 
     document.querySelectorAll('.report-card').forEach(card => {

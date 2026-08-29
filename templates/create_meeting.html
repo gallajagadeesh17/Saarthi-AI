@@ -1,96 +1,86 @@
 {% extends "rep_base.html" %}
 
-{% block title %}Create New Meeting | Saarthi AI{% endblock %}
+{% block title %}Schedule Meeting | Saarthi AI{% endblock %}
 
 {% block head_extra %}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 {% endblock %}
 
 {% block content %}
-<form action="{{ url_for('create_meeting') }}" method="POST">
-    <!-- Main Header -->
-    <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
-        <div class="flex items-center justify-between gap-3 px-5 py-4 lg:px-8">
-            <!-- Left side: Breadcrumbs and Title -->
-            <div class="flex items-center gap-3">
-                <button type="button" onclick="toggleSidebar()" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300 lg:hidden" aria-label="Open navigation">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                </button>
-                <div class="min-w-0">
-                    <nav class="text-sm font-medium text-slate-500 dark:text-slate-400" aria-label="Breadcrumb">
-                        <ol class="flex items-center gap-2">
-                            <li><a href="{{ url_for('rep_dashboard') }}" class="hover:text-blue-600">Dashboard</a></li>
-                            <li class="flex items-center gap-2">
-                                <svg class="h-4 w-4 flex-shrink-0 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/></svg>
-                                <span class="font-semibold text-slate-700 dark:text-slate-200">Create Meeting</span>
-                            </li>
-                        </ol>
-                    </nav>
-                    <h1 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">Schedule New Meeting</h1>
-                </div>
-            </div>
-            <!-- Right side: Action Buttons -->
-            <div class="flex items-center gap-3">
-                <a href="{{ url_for('rep_dashboard') }}" class="rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">Cancel</a>
-                <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                    Save Meeting
-                </button>
-            </div>
+<form action="{{ url_for('create_meeting') }}" method="POST" class="animate-fade-in space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between gap-4 border-b border-slate-800 pb-6">
+        <div>
+            <nav class="text-xs font-semibold text-slate-400 mb-1" aria-label="Breadcrumb">
+                <ol class="flex items-center gap-2">
+                    <li><a href="{{ url_for('rep_dashboard') }}" class="hover:text-blue-400">Dashboard</a></li>
+                    <li>•</li>
+                    <li class="text-slate-200">Schedule Meeting</li>
+                </ol>
+            </nav>
+            <h1 class="text-2xl font-bold text-white sm:text-3xl">Schedule Customer Visit</h1>
+            <p class="mt-1 text-sm text-slate-400">Create a customer meeting manually when it is not synced from Google Calendar.</p>
         </div>
-        <p class="px-5 pb-4 text-sm text-slate-500 dark:text-slate-400 lg:px-8">Create a customer meeting manually when it is not available in Google Calendar.</p>
-    </header>
+        <div class="flex items-center gap-3">
+            <a href="{{ url_for('rep_dashboard') }}" class="btn-saarthi-secondary text-xs">Cancel</a>
+            <button type="submit" class="btn-saarthi-primary text-xs">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Save Meeting
+            </button>
+        </div>
+    </div>
 
-    <!-- Main Content Grid -->
-    <main class="grid grid-cols-1 gap-8 p-5 lg:grid-cols-10 lg:p-8">
-        <!-- Left Column: Form -->
-        <div class="space-y-8 lg:col-span-7">
+    <!-- Content Grid -->
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-10">
+        <!-- Left Form Column -->
+        <div class="space-y-6 lg:col-span-7">
+            
             <!-- Card 1: Meeting Information -->
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Meeting Information</h3>
-                <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div class="saarthi-card p-6">
+                <h3 class="text-base font-bold text-white border-b border-slate-800 pb-3">Meeting Information</h3>
+                <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div class="sm:col-span-2">
-                        <label for="title" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Meeting Title <span class="text-red-500">*</span></label>
-                        <input type="text" name="title" id="title" value="{{ meeting.title if is_edit else (form_data.get('title') if form_data else '') }}" required class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="title" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Meeting Title <span class="text-rose-400">*</span></label>
+                        <input type="text" name="title" id="title" value="{{ meeting.title if is_edit else (form_data.get('title') if form_data else '') }}" required placeholder="e.g. Q3 Renewal & Product Briefing" class="saarthi-input mt-1.5">
                     </div>
                     <div>
-                        <label for="company_name" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Company Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="company_name" id="company_name" value="{{ meeting.company_name if is_edit else (form_data.get('company_name') if form_data else '') }}" required class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="company_name" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Company Name <span class="text-rose-400">*</span></label>
+                        <input type="text" name="company_name" id="company_name" value="{{ meeting.company_name if is_edit else (form_data.get('company_name') if form_data else '') }}" required placeholder="e.g. Reliance Retail Ltd." class="saarthi-input mt-1.5">
                     </div>
                     <div>
-                        <label for="contact_person" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Contact Person</label>
-                        <input type="text" name="contact_person" id="contact_person" value="{{ meeting.contact_person if is_edit else '' }}" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="contact_person" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Contact Person</label>
+                        <input type="text" name="contact_person" id="contact_person" value="{{ meeting.contact_person if is_edit else '' }}" placeholder="e.g. Rajesh Sharma" class="saarthi-input mt-1.5">
                     </div>
                     <div>
-                        <label for="designation" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Designation</label>
-                        <input type="text" name="designation" id="designation" value="{{ meeting.designation if is_edit else '' }}" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="designation" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Designation</label>
+                        <input type="text" name="designation" id="designation" value="{{ meeting.designation if is_edit else '' }}" placeholder="e.g. VP of Procurement" class="saarthi-input mt-1.5">
                     </div>
                     <div>
-                        <label for="email" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
-                        <input type="email" name="email" id="email" value="{{ meeting.email if is_edit else '' }}" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="email" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Email Address</label>
+                        <input type="email" name="email" id="email" value="{{ meeting.email if is_edit else '' }}" placeholder="rajesh@company.com" class="saarthi-input mt-1.5">
                     </div>
                     <div class="sm:col-span-2">
-                        <label for="phone" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Phone Number</label>
-                        <input type="tel" name="phone" id="phone" value="{{ meeting.phone if is_edit else '' }}" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="phone" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Phone Number</label>
+                        <input type="tel" name="phone" id="phone" value="{{ meeting.phone if is_edit else '' }}" placeholder="+91 98765 43210" class="saarthi-input mt-1.5">
                     </div>
                 </div>
             </div>
 
             <!-- Card 2: Schedule -->
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Schedule</h3>
-                <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div class="saarthi-card p-6">
+                <h3 class="text-base font-bold text-white border-b border-slate-800 pb-3">Schedule & Timing</h3>
+                <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
-                        <label for="meeting_date" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Meeting Date <span class="text-red-500">*</span></label>
-                        <input type="date" name="meeting_date" id="meeting_date" value="{{ meeting.meeting_datetime.strftime('%Y-%m-%d') if (is_edit and meeting and meeting.meeting_datetime) else '' }}" required class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="meeting_date" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Meeting Date <span class="text-rose-400">*</span></label>
+                        <input type="date" name="meeting_date" id="meeting_date" value="{{ meeting.meeting_datetime.strftime('%Y-%m-%d') if (is_edit and meeting and meeting.meeting_datetime) else '' }}" required class="saarthi-input mt-1.5">
                     </div>
                     <div>
-                        <label for="meeting_time" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Meeting Time <span class="text-red-500">*</span></label>
-                        <input type="time" name="meeting_time" id="meeting_time" value="{{ meeting.meeting_datetime.strftime('%H:%M') if (is_edit and meeting and meeting.meeting_datetime) else '' }}" required class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="meeting_time" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Meeting Time <span class="text-rose-400">*</span></label>
+                        <input type="time" name="meeting_time" id="meeting_time" value="{{ meeting.meeting_datetime.strftime('%H:%M') if (is_edit and meeting and meeting.meeting_datetime) else '' }}" required class="saarthi-input mt-1.5">
                     </div>
                     <div>
-                        <label for="duration" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Duration</label>
-                        <select id="duration" name="duration" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="duration" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Duration</label>
+                        <select id="duration" name="duration" class="saarthi-select mt-1.5">
                             <option value="30" {{ 'selected' if is_edit and meeting.duration == '30' }}>30 Minutes</option>
                             <option value="45" {{ 'selected' if is_edit and meeting.duration == '45' }}>45 Minutes</option>
                             <option value="60" {{ 'selected' if (not is_edit or meeting.duration in ['60', None, '']) }}>60 Minutes</option>
@@ -98,8 +88,8 @@
                         </select>
                     </div>
                     <div>
-                        <label for="timezone" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Time Zone</label>
-                        <select id="timezone" name="timezone" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="timezone" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Time Zone</label>
+                        <select id="timezone" name="timezone" class="saarthi-select mt-1.5">
                             <option>Asia/Kolkata (IST)</option>
                         </select>
                     </div>
@@ -107,72 +97,72 @@
             </div>
 
             <!-- Card 3: Meeting Type -->
-            <div x-data="{ meetingType: '{{ meeting.meeting_type if is_edit and meeting.meeting_type else 'Online' }}' }" class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Meeting Type</h3>
+            <div x-data="{ meetingType: '{{ meeting.meeting_type if is_edit and meeting.meeting_type else 'Online' }}' }" class="saarthi-card p-6">
+                <h3 class="text-base font-bold text-white border-b border-slate-800 pb-3">Meeting Format</h3>
                 <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <label @click="meetingType = 'Online'" class="flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition" :class="meetingType === 'Online' ? 'border-blue-500 bg-blue-50 dark:bg-blue-500/10' : 'border-slate-200 dark:border-slate-700'">
-                        <input type="radio" name="meeting_type" value="Online" class="h-4 w-4 border-slate-300 text-blue-600 focus:ring-blue-500" :checked="meetingType === 'Online'">
-                        <span class="font-semibold text-slate-800 dark:text-slate-100">Online Meeting</span>
+                    <label @click="meetingType = 'Online'" class="flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition" :class="meetingType === 'Online' ? 'border-blue-500 bg-blue-500/10' : 'border-slate-800 bg-slate-900'">
+                        <input type="radio" name="meeting_type" value="Online" class="h-4 w-4 border-slate-700 bg-slate-800 text-blue-600 focus:ring-blue-500" :checked="meetingType === 'Online'">
+                        <span class="font-semibold text-slate-200">Online Meeting</span>
                     </label>
-                    <label @click="meetingType = 'Offline'" class="flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition" :class="meetingType === 'Offline' ? 'border-blue-500 bg-blue-50 dark:bg-blue-500/10' : 'border-slate-200 dark:border-slate-700'">
-                        <input type="radio" name="meeting_type" value="Offline" class="h-4 w-4 border-slate-300 text-blue-600 focus:ring-blue-500" :checked="meetingType === 'Offline'">
-                        <span class="font-semibold text-slate-800 dark:text-slate-100">Offline Meeting</span>
+                    <label @click="meetingType = 'Offline'" class="flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition" :class="meetingType === 'Offline' ? 'border-blue-500 bg-blue-500/10' : 'border-slate-800 bg-slate-900'">
+                        <input type="radio" name="meeting_type" value="Offline" class="h-4 w-4 border-slate-700 bg-slate-800 text-blue-600 focus:ring-blue-500" :checked="meetingType === 'Offline'">
+                        <span class="font-semibold text-slate-200">In-Person Visit</span>
                     </label>
                 </div>
-                <div class="mt-6">
+                <div class="mt-5">
                     <div x-show="meetingType === 'Online'" x-transition>
-                        <label for="meeting_link" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Google Meet / Zoom Link</label>
-                        <input type="url" name="meeting_link" id="meeting_link" value="{{ meeting.meeting_link if is_edit else '' }}" placeholder="https://..." class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="meeting_link" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Google Meet / Zoom Link</label>
+                        <input type="url" name="meeting_link" id="meeting_link" value="{{ meeting.meeting_link if is_edit else '' }}" placeholder="https://meet.google.com/..." class="saarthi-input mt-1.5">
                     </div>
                     <div x-show="meetingType === 'Offline'" x-transition style="display: none;">
-                        <label for="location" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Location</label>
-                        <input type="text" name="location" id="location" value="{{ meeting.location if is_edit else '' }}" placeholder="e.g., Office address" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="location" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Location Address</label>
+                        <input type="text" name="location" id="location" value="{{ meeting.location if is_edit else '' }}" placeholder="e.g. Building 4, Corporate Park, Mumbai" class="saarthi-input mt-1.5">
                     </div>
                 </div>
             </div>
 
             <!-- Card 4: Business Details -->
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Business Details</h3>
-                <div class="mt-6 grid grid-cols-1 gap-6">
+            <div class="saarthi-card p-6">
+                <h3 class="text-base font-bold text-white border-b border-slate-800 pb-3">Business & Agenda Details</h3>
+                <div class="mt-5 grid grid-cols-1 gap-5">
                     <div>
-                        <label for="purpose" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Meeting Purpose</label>
-                        <select id="purpose" name="purpose" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="purpose" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Meeting Purpose</label>
+                        <select id="purpose" name="purpose" class="saarthi-select mt-1.5">
                             {% for p in ['Discovery Call', 'Sales Pitch', 'Demo', 'Negotiation', 'Follow-up', 'Partnership', 'Quarterly Review', 'Other'] %}
                             <option value="{{ p }}" {{ 'selected' if is_edit and meeting.purpose == p }}>{{ p }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div>
-                        <label for="agenda" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Meeting Agenda</label>
-                        <textarea id="agenda" name="agenda" rows="4" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30 min-h-[100px]">{{ meeting.agenda if is_edit else '' }}</textarea>
+                        <label for="agenda" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Meeting Agenda</label>
+                        <textarea id="agenda" name="agenda" rows="3" placeholder="Key topics to discuss..." class="saarthi-input mt-1.5 min-h-[90px]">{{ meeting.agenda if is_edit else '' }}</textarea>
                     </div>
                     <div>
-                        <label for="notes" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Notes</label>
-                        <textarea id="notes" name="notes" rows="4" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30 min-h-[100px]">{{ meeting.notes if is_edit else '' }}</textarea>
+                        <label for="notes" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Internal Preparation Notes</label>
+                        <textarea id="notes" name="notes" rows="3" placeholder="Context, history, or specific questions..." class="saarthi-input mt-1.5 min-h-[90px]">{{ meeting.notes if is_edit else '' }}</textarea>
                     </div>
                 </div>
             </div>
 
             <!-- Card 5: Priority & Deal -->
-            <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Priority & Deal</h3>
-                <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div class="saarthi-card p-6">
+                <h3 class="text-base font-bold text-white border-b border-slate-800 pb-3">Priority & Deal Pipeline</h3>
+                <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
-                        <label for="priority" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Priority</label>
-                        <select id="priority" name="priority" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="priority" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Priority Level</label>
+                        <select id="priority" name="priority" class="saarthi-select mt-1.5">
                             <option value="Low" {{ 'selected' if is_edit and meeting.priority == 'Low' }}>Low</option>
                             <option value="Medium" {{ 'selected' if (not is_edit or meeting.priority == 'Medium') }}>Medium</option>
-                            <option value="High" {{ 'selected' if is_edit and meeting.priority == 'High' }}>High</option>
+                            <option value="High" {{ 'selected' if is_edit and meeting.priority == 'High' }}>High Priority</option>
                         </select>
                     </div>
                     <div>
-                        <label for="deal_value" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Estimated Deal Value (Optional)</label>
-                        <input type="text" name="deal_value" id="deal_value" value="{{ meeting.deal_value if is_edit else '' }}" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="deal_value" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Estimated Deal Value</label>
+                        <input type="text" name="deal_value" id="deal_value" value="{{ meeting.deal_value if is_edit else '' }}" placeholder="e.g. ₹15,00,000" class="saarthi-input mt-1.5">
                     </div>
                     <div class="sm:col-span-2">
-                        <label for="status" class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Status</label>
-                        <select id="status" name="status" class="mt-1 block w-full rounded-lg border-slate-300 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-blue-500 dark:focus:ring-blue-500/30">
+                        <label for="status" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Meeting Status</label>
+                        <select id="status" name="status" class="saarthi-select mt-1.5">
                             <option value="Upcoming" {{ 'selected' if (not is_edit or meeting.status == 'Upcoming') }}>Upcoming</option>
                             <option value="In Progress" {{ 'selected' if is_edit and meeting.status == 'In Progress' }}>In Progress</option>
                             <option value="Completed" {{ 'selected' if is_edit and meeting.status == 'Completed' }}>Completed</option>
@@ -183,44 +173,33 @@
             </div>
         </div>
 
-        <!-- Right Column: Sticky Summary -->
+        <!-- Right Column: AI Preparation Tips -->
         <div class="hidden lg:col-span-3 lg:block">
-            <div class="sticky top-24 space-y-8">
-                <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Meeting Summary</h3>
-                    <div class="mt-6 space-y-4 text-sm">
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Company</span><span class="font-semibold text-slate-700 dark:text-slate-200">{{ meeting.company_name if is_edit else '--' }}</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Contact</span><span class="font-semibold text-slate-700 dark:text-slate-200">{{ meeting.contact_person if (is_edit and meeting.contact_person) else '--' }}</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Date</span><span class="font-semibold text-slate-700 dark:text-slate-200">{{ meeting.meeting_datetime.strftime('%d %b %Y') if (is_edit and meeting and meeting.meeting_datetime) else '--' }}</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Time</span><span class="font-semibold text-slate-700 dark:text-slate-200">{{ meeting.meeting_datetime.strftime('%I:%M %p') if (is_edit and meeting and meeting.meeting_datetime) else '--' }}</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Duration</span><span class="font-semibold text-slate-700 dark:text-slate-200">{{ meeting.duration if (is_edit and meeting.duration) else '60' }} min</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Type</span><span class="font-semibold text-slate-700 dark:text-slate-200">{{ meeting.meeting_type if (is_edit and meeting.meeting_type) else 'Online' }}</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Priority</span><span class="font-semibold text-slate-700 dark:text-slate-200">{{ meeting.priority if (is_edit and meeting.priority) else 'Medium' }}</span></div>
-                        <div class="flex justify-between"><span class="text-slate-500 dark:text-slate-400">Deal Value</span><span class="font-semibold text-slate-700 dark:text-slate-200">{{ meeting.deal_value if (is_edit and meeting.deal_value) else '--' }}</span></div>
-                    </div>
-                </div>
-                <div class="rounded-2xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-500/20 dark:bg-blue-500/10">
-                    <h3 class="text-lg font-bold text-blue-800 dark:text-blue-300">AI Tips</h3>
-                    <ul class="mt-4 space-y-3 text-sm font-medium text-blue-700 dark:text-blue-300">
-                        <li class="flex items-start gap-2"><span class="mt-1 text-emerald-500">✓</span><span>Research the company before visiting</span></li>
-                        <li class="flex items-start gap-2"><span class="mt-1 text-emerald-500">✓</span><span>Review previous conversations</span></li>
-                        <li class="flex items-start gap-2"><span class="mt-1 text-emerald-500">✓</span><span>Carry latest sales brochure</span></li>
-                        <li class="flex items-start gap-2"><span class="mt-1 text-emerald-500">✓</span><span>Prepare pricing discussion</span></li>
-                        <li class="flex items-start gap-2"><span class="mt-1 text-emerald-500">✓</span><span>Keep follow-up notes ready</span></li>
+            <div class="sticky top-24 space-y-6">
+                <div class="saarthi-card p-6">
+                    <h3 class="text-base font-bold text-white border-b border-slate-800 pb-3">Automated AI Preparation</h3>
+                    <p class="mt-3 text-xs text-slate-400">Saving this meeting will queue Saarthi AI to automatically analyze:</p>
+                    <ul class="mt-4 space-y-3 text-xs font-medium text-slate-300">
+                        <li class="flex items-center gap-2.5"><span class="text-blue-400">⚡</span> Company Financials & News</li>
+                        <li class="flex items-center gap-2.5"><span class="text-blue-400">⚡</span> Competitor Positioning Watch</li>
+                        <li class="flex items-center gap-2.5"><span class="text-blue-400">⚡</span> Talking Points & Talking Pitch</li>
+                        <li class="flex items-center gap-2.5"><span class="text-blue-400">⚡</span> Executive PDF Brief Download</li>
                     </ul>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const today = new Date().toISOString().split('T')[0];
-    const dateInput = document.getElementById('meeting_date') || document.querySelector('input[name="meeting_date"]');
-    if (dateInput) {
+    const dateInput = document.getElementById('meeting_date');
+    if (dateInput && !dateInput.hasAttribute('data-allow-past')) {
         dateInput.setAttribute('min', today);
     }
 });
 </script>
 {% endblock %}
-
-{% block scripts %}{% endblock %}

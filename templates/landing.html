@@ -466,8 +466,8 @@ h1,h2,h3,h4{
       <li><a href="#faq">FAQ</a></li>
     </ul>
     <div class="nav__actions">
-      <a href="login" class="nav__login" id="loginBtn">Login</a>
-      <a href="signup" class="btn btn-primary btn-sm" id="getStartedNav">Get Started</a>
+      <a href="{{ url_for('login') }}" class="nav__login" id="loginBtn">Login</a>
+      <a href="{{ url_for('signup') }}" class="btn btn-primary btn-sm" id="getStartedNav">Get Started</a>
     </div>
     <button class="nav__toggle" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
   </div>
@@ -483,7 +483,7 @@ h1,h2,h3,h4{
       <h1>Prepare every sales meeting <span class="grad">with AI‑powered intelligence</span></h1>
       <p class="hero__sub">Saarthi AI automatically prepares executive sales meeting briefings using Google Calendar, manual meetings, live company intelligence, competitor analysis, financial insights, and AI‑generated recommendations.</p>
       <div class="hero__cta">
-        <a href="signup" class="btn btn-primary" id="startFreeBtn">Start Free</a>
+        <a href="{{ url_for('signup') }}" class="btn btn-primary" id="startFreeBtn">Start Free</a>
         <a href="#demo" class="btn btn-ghost" id="watchDemoBtn">Watch Demo</a>
       </div>
       <div class="hero__trust">

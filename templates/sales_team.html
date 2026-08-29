@@ -5,15 +5,15 @@
 {% block content %}
 <div class="space-y-6 animate-fade-in">
     <!-- Header -->
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-800 pb-5">
         <div>
-            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Sales Representatives Directory</h1>
-            <p class="text-sm text-slate-500">Monitor field team assignments, meeting output, and AI briefing utilization.</p>
+            <h1 class="text-2xl font-extrabold text-white tracking-tight">Sales Representatives Directory</h1>
+            <p class="text-sm text-slate-400">Monitor field team assignments, meeting output, and AI briefing utilization.</p>
         </div>
         <div class="flex items-center gap-3">
             <div class="relative w-64">
-                <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                <input id="teamSearch" type="text" placeholder="Search team member..." class="ent-input pl-10 text-xs py-2">
+                <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input id="teamSearch" type="text" placeholder="Search team member..." class="saarthi-input pl-10 text-xs py-2">
             </div>
         </div>
     </div>
@@ -21,51 +21,51 @@
     <!-- Team Cards Grid -->
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {% for member in team_members %}
-        <div class="ent-card ent-card-hover p-6 team-card" data-name="{{ member.name|lower }} {{ member.email|lower }}">
+        <div class="saarthi-card saarthi-card-hover p-6 team-card" data-name="{{ member.name|lower }} {{ member.email|lower }}">
             <div class="flex items-start justify-between">
                 <div class="flex items-center gap-3">
-                    <img src="https://ui-avatars.com/api/?name={{ member.name }}&background=2563eb&color=fff&bold=true" class="h-12 w-12 rounded-2xl border border-slate-200">
+                    <img src="https://ui-avatars.com/api/?name={{ member.name }}&background=2563eb&color=fff&bold=true" class="h-12 w-12 rounded-2xl border border-slate-700">
                     <div>
-                        <h3 class="font-bold text-slate-900 text-base">{{ member.name }}</h3>
-                        <p class="text-xs text-slate-500">{{ member.email }}</p>
+                        <h3 class="font-bold text-white text-base">{{ member.name }}</h3>
+                        <p class="text-xs text-slate-400">{{ member.email }}</p>
                     </div>
                 </div>
                 <span class="badge badge-success">Active Rep</span>
             </div>
 
             <div class="mt-6 grid grid-cols-2 gap-3 text-xs">
-                <div class="rounded-xl bg-slate-50 p-3">
+                <div class="rounded-xl bg-slate-800/60 p-3 border border-slate-800">
                     <span class="text-slate-400 font-semibold block">Completed Visits</span>
-                    <span class="text-base font-extrabold text-slate-900 mt-1 block">{{ [12, 18, 15, 22]|random }}</span>
+                    <span class="text-base font-extrabold text-white mt-1 block">{{ [12, 18, 15, 22]|random }}</span>
                 </div>
-                <div class="rounded-xl bg-slate-50 p-3">
+                <div class="rounded-xl bg-slate-800/60 p-3 border border-slate-800">
                     <span class="text-slate-400 font-semibold block">AI Briefs Used</span>
-                    <span class="text-base font-extrabold text-blue-600 mt-1 block">{{ [10, 16, 14, 20]|random }}</span>
+                    <span class="text-base font-extrabold text-blue-400 mt-1 block">{{ [10, 16, 14, 20]|random }}</span>
                 </div>
             </div>
 
-            <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+            <div class="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between">
                 <div>
                     <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Performance</span>
-                    <span class="text-sm font-bold text-emerald-600">{{ [82, 88, 91, 94]|random }}% Achievement</span>
+                    <span class="text-sm font-bold text-emerald-400">{{ [82, 88, 91, 94]|random }}% Achievement</span>
                 </div>
-                <a href="{{ url_for('representative_profile', representative_id=member.id) }}" class="btn-primary py-2 px-3 text-xs">
+                <a href="{{ url_for('representative_profile', representative_id=member.id) }}" class="btn-saarthi-primary py-2 px-3 text-xs">
                     View Profile
                 </a>
             </div>
         </div>
         {% else %}
-        <div class="col-span-full ent-card p-12 text-center">
-            <svg class="mx-auto h-12 w-12 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-            <h3 class="mt-4 text-base font-bold text-slate-800">No Sales Representatives Registered</h3>
-            <p class="mt-1 text-xs text-slate-500">Add sales representatives in the Admin panel to populate team roster.</p>
+        <div class="col-span-full saarthi-card p-12 text-center">
+            <svg class="mx-auto h-12 w-12 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <h3 class="mt-4 text-base font-bold text-white">No Sales Representatives Registered</h3>
+            <p class="mt-1 text-xs text-slate-400">Add sales representatives in the Admin panel to populate team roster.</p>
         </div>
         {% endfor %}
     </div>
 </div>
 
 <script>
-document.getElementById('teamSearch').addEventListener('input', function(e) {
+document.getElementById('teamSearch')?.addEventListener('input', function(e) {
     const term = e.target.value.toLowerCase();
     document.querySelectorAll('.team-card').forEach(card => {
         const text = card.getAttribute('data-name');

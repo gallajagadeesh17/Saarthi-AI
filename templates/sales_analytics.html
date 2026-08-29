@@ -5,14 +5,14 @@
 {% block content %}
 <div class="space-y-6 animate-fade-in">
     <!-- Header -->
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-800 pb-5">
         <div>
-            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Enterprise Sales Analytics</h1>
-            <p class="text-sm text-slate-500">Representative performance metrics, meeting velocity, and AI briefing utilization.</p>
+            <h1 class="text-2xl font-extrabold text-white tracking-tight">Enterprise Sales Analytics</h1>
+            <p class="text-sm text-slate-400">Representative performance metrics, meeting velocity, and AI briefing utilization.</p>
         </div>
         <div class="flex items-center gap-3">
             <span class="badge badge-info">Real-time Telemetry</span>
-            <button class="btn-secondary text-xs py-2">
+            <button class="btn-saarthi-secondary text-xs py-2">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 Export Report
             </button>
@@ -21,35 +21,35 @@
 
     <!-- Quick Stats Bar -->
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="ent-card p-4">
+        <div class="saarthi-card saarthi-card-hover p-4">
             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Pipeline Value</span>
-            <span class="text-2xl font-extrabold text-slate-900 mt-1 block">₹1.85 Cr</span>
-            <span class="text-xs text-emerald-600 font-semibold">+14% vs target</span>
+            <span class="text-2xl font-extrabold text-white mt-1 block">₹1.85 Cr</span>
+            <span class="text-xs text-emerald-400 font-semibold">+14% vs target</span>
         </div>
-        <div class="ent-card p-4">
+        <div class="saarthi-card saarthi-card-hover p-4">
             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Briefing Efficiency</span>
-            <span class="text-2xl font-extrabold text-blue-600 mt-1 block">96.8%</span>
-            <span class="text-xs text-slate-500">AI prepared prior to call</span>
+            <span class="text-2xl font-extrabold text-blue-400 mt-1 block">96.8%</span>
+            <span class="text-xs text-slate-400">AI prepared prior to call</span>
         </div>
-        <div class="ent-card p-4">
+        <div class="saarthi-card saarthi-card-hover p-4">
             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Deal Win Rate</span>
-            <span class="text-2xl font-extrabold text-emerald-600 mt-1 block">68.4%</span>
-            <span class="text-xs text-emerald-600 font-semibold">+6.2% lift with AI Briefs</span>
+            <span class="text-2xl font-extrabold text-emerald-400 mt-1 block">68.4%</span>
+            <span class="text-xs text-emerald-400 font-semibold">+6.2% lift with AI Briefs</span>
         </div>
-        <div class="ent-card p-4">
+        <div class="saarthi-card saarthi-card-hover p-4">
             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Avg Meeting Prep Time</span>
-            <span class="text-2xl font-extrabold text-purple-600 mt-1 block">4.2 mins</span>
-            <span class="text-xs text-slate-500">Reduced from 2.5 hrs</span>
+            <span class="text-2xl font-extrabold text-purple-400 mt-1 block">4.2 mins</span>
+            <span class="text-xs text-slate-400">Reduced from 2.5 hrs</span>
         </div>
     </div>
 
     <!-- 4 Enterprise Analytics Charts -->
     <div class="grid gap-6 xl:grid-cols-2">
         <!-- 1. Representative Performance -->
-        <div class="ent-card p-6">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div class="saarthi-card p-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
-                    <h3 class="font-bold text-slate-900">Representative Performance</h3>
+                    <h3 class="font-bold text-white">Representative Performance</h3>
                     <p class="text-xs text-slate-400">Target achievement percentage per sales agent</p>
                 </div>
                 <span class="badge badge-success">Top Rep: Rahul S.</span>
@@ -60,10 +60,10 @@
         </div>
 
         <!-- 2. Meeting Trends -->
-        <div class="ent-card p-6">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div class="saarthi-card p-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
-                    <h3 class="font-bold text-slate-900">Meeting Velocity Trends</h3>
+                    <h3 class="font-bold text-white">Meeting Velocity Trends</h3>
                     <p class="text-xs text-slate-400">Weekly customer visits vs completed briefings</p>
                 </div>
                 <span class="badge badge-info">284 Total Meetings</span>
@@ -74,10 +74,10 @@
         </div>
 
         <!-- 3. Brief Generation Volume -->
-        <div class="ent-card p-6">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div class="saarthi-card p-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
-                    <h3 class="font-bold text-slate-900">Brief Generation Growth</h3>
+                    <h3 class="font-bold text-white">Brief Generation Growth</h3>
                     <p class="text-xs text-slate-400">Gemini AI + n8n automation brief creation count</p>
                 </div>
                 <span class="badge badge-slate">n8n Workflow</span>
@@ -88,10 +88,10 @@
         </div>
 
         <!-- 4. Sales Pipeline Stage Distribution -->
-        <div class="ent-card p-6">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div class="saarthi-card p-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div>
-                    <h3 class="font-bold text-slate-900">Sales Pipeline Distribution</h3>
+                    <h3 class="font-bold text-white">Sales Pipeline Distribution</h3>
                     <p class="text-xs text-slate-400">Active deals by sales funnel stage</p>
                 </div>
             </div>
@@ -106,6 +106,9 @@
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    Chart.defaults.color = '#94a3b8';
+    Chart.defaults.borderColor = '#334155';
+
     // 1. Representative Performance
     new Chart(document.getElementById('chartRepPerformance'), {
         type: 'bar',
@@ -130,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 label: 'Visits Conducted',
                 data: [35, 42, 38, 54, 49, 62],
                 borderColor: '#2563eb',
-                backgroundColor: 'rgba(37, 99, 235, 0.08)',
+                backgroundColor: 'rgba(37, 99, 235, 0.15)',
                 fill: true,
                 tension: 0.3
             }]
@@ -160,11 +163,12 @@ document.addEventListener('DOMContentLoaded', () => {
             labels: ['Initial Pitching (35%)', 'Negotiation Stage (45%)', 'Closed Won (20%)'],
             datasets: [{
                 data: [35, 45, 20],
-                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b'],
+                backgroundColor: ['#2563eb', '#22c55e', '#f59e0b'],
+                borderColor: '#111827',
                 borderWidth: 2
             }]
         },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8' } } } }
     });
 });
 </script>

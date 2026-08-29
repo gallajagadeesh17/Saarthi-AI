@@ -9,120 +9,111 @@
 {% block content %}
 <div class="space-y-6 animate-fade-in" x-data="{ search: '', roleFilter: 'all', statusFilter: 'all' }">
 
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% for category, message in messages %}
-    <div class="rounded-xl px-4 py-3 text-sm font-semibold border {{ 'bg-emerald-50 text-emerald-800 border-emerald-200' if category == 'success' else 'bg-rose-50 text-rose-800 border-rose-200' }}">
-        {{ message }}
-    </div>
-    {% endfor %}
-    {% endwith %}
-
     <!-- Page Header -->
-    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-slate-800 pb-5">
         <div>
-            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">User Role Management</h1>
-            <p class="text-sm text-slate-500">View all system users and modify role permissions. Only Administrators can update user roles.</p>
+            <h1 class="text-2xl font-extrabold text-white tracking-tight">User Role Management</h1>
+            <p class="text-sm text-slate-400">View all system users and modify role permissions. Only Administrators can update user roles.</p>
         </div>
     </div>
 
     <!-- Search & Filter Controls -->
-    <div class="ent-card p-4 flex flex-col lg:flex-row items-center justify-between gap-4">
+    <div class="saarthi-card p-4 flex flex-col lg:flex-row items-center justify-between gap-4">
         <!-- Search input -->
         <div class="relative w-full lg:w-80">
-            <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            <input type="text" x-model="search" placeholder="Search by name or email..." class="w-full rounded-xl border border-slate-200 bg-slate-50 py-2 pl-10 pr-4 text-xs text-slate-800 focus:border-blue-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/20">
+            <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input type="text" x-model="search" placeholder="Search by name or email..." class="saarthi-input pl-10 text-xs py-2 w-full">
         </div>
 
         <!-- Filter buttons -->
         <div class="flex items-center gap-1.5 flex-wrap w-full lg:w-auto">
-            <button type="button" @click="roleFilter = 'all'; statusFilter = 'all'" :class="roleFilter === 'all' &amp;&amp; statusFilter === 'all' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="rounded-lg px-3 py-1.5 text-xs font-bold transition">All Users</button>
-            <button type="button" @click="roleFilter = 'admin'; statusFilter = 'all'" :class="roleFilter === 'admin' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="rounded-lg px-3 py-1.5 text-xs font-bold transition">Admins</button>
-            <button type="button" @click="roleFilter = 'manager'; statusFilter = 'all'" :class="roleFilter === 'manager' ? 'bg-purple-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="rounded-lg px-3 py-1.5 text-xs font-bold transition">Managers</button>
-            <button type="button" @click="roleFilter = 'rep'; statusFilter = 'all'" :class="roleFilter === 'rep' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="rounded-lg px-3 py-1.5 text-xs font-bold transition">Representatives</button>
-            <div class="h-4 w-px bg-slate-200 mx-1 hidden sm:block"></div>
-            <button type="button" @click="statusFilter = 'active'; roleFilter = 'all'" :class="statusFilter === 'active' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="rounded-lg px-3 py-1.5 text-xs font-bold transition">Active</button>
-            <button type="button" @click="statusFilter = 'inactive'; roleFilter = 'all'" :class="statusFilter === 'inactive' ? 'bg-rose-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="rounded-lg px-3 py-1.5 text-xs font-bold transition">Inactive</button>
+            <button type="button" @click="roleFilter = 'all'; statusFilter = 'all'" :class="roleFilter === 'all' &amp;&amp; statusFilter === 'all' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'" class="rounded-xl px-3 py-1.5 text-xs font-bold transition">All Users</button>
+            <button type="button" @click="roleFilter = 'admin'; statusFilter = 'all'" :class="roleFilter === 'admin' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'" class="rounded-xl px-3 py-1.5 text-xs font-bold transition">Admins</button>
+            <button type="button" @click="roleFilter = 'manager'; statusFilter = 'all'" :class="roleFilter === 'manager' ? 'bg-purple-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'" class="rounded-xl px-3 py-1.5 text-xs font-bold transition">Managers</button>
+            <button type="button" @click="roleFilter = 'rep'; statusFilter = 'all'" :class="roleFilter === 'rep' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'" class="rounded-xl px-3 py-1.5 text-xs font-bold transition">Representatives</button>
+            <div class="h-4 w-px bg-slate-800 mx-1 hidden sm:block"></div>
+            <button type="button" @click="statusFilter = 'active'; roleFilter = 'all'" :class="statusFilter === 'active' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'" class="rounded-xl px-3 py-1.5 text-xs font-bold transition">Active</button>
+            <button type="button" @click="statusFilter = 'inactive'; roleFilter = 'all'" :class="statusFilter === 'inactive' ? 'bg-rose-600 text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'" class="rounded-xl px-3 py-1.5 text-xs font-bold transition">Inactive</button>
         </div>
     </div>
 
     <!-- All Users Table -->
-    <div class="ent-card overflow-hidden">
+    <div class="saarthi-card overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs text-slate-600">
-                <thead class="bg-slate-50 text-slate-400 font-bold uppercase text-[10px] tracking-wider border-b border-slate-100">
+            <table class="saarthi-table">
+                <thead>
                     <tr>
-                        <th class="py-3.5 px-6">User</th>
-                        <th class="py-3.5 px-6">Email</th>
-                        <th class="py-3.5 px-6">Assigned Role</th>
-                        <th class="py-3.5 px-6">Account Status</th>
-                        <th class="py-3.5 px-6 text-right">Actions</th>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Assigned Role</th>
+                        <th>Account Status</th>
+                        <th class="text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100">
+                <tbody>
                     {% for user in users %}
-                    <tr class="hover:bg-slate-50/60 transition"
+                    <tr class="hover:bg-slate-800/40 transition"
                         x-show="(roleFilter === 'all' || roleFilter === '{{ user.persona }}') &amp;&amp;
                                 (statusFilter === 'all' || (statusFilter === 'active' &amp;&amp; {{ 'true' if user.is_active_account else 'false' }}) || (statusFilter === 'inactive' &amp;&amp; {{ 'false' if user.is_active_account else 'true' }})) &amp;&amp;
-                                ('{{ user.name|lower }}'.includes(search.lower()) || '{{ user.email|lower }}'.includes(search.lower()))">
+                                ('{{ user.name|lower }}'.includes(search.toLowerCase()) || '{{ user.email|lower }}'.includes(search.toLowerCase()))">
                         
-                        <!-- User (Avatar + Name) -->
-                        <td class="py-4 px-6 font-bold text-slate-900">
+                        <!-- User -->
+                        <td class="font-bold text-white">
                             <div class="flex items-center gap-3">
-                                <img src="https://ui-avatars.com/api/?name={{ user.name }}&background=2563eb&color=fff&size=36&bold=true" class="h-9 w-9 rounded-xl border border-slate-200 flex-shrink-0">
+                                <img src="https://ui-avatars.com/api/?name={{ user.name }}&background=2563eb&color=fff&size=36&bold=true" class="h-9 w-9 rounded-xl border border-slate-700 flex-shrink-0">
                                 <div>
-                                    <p class="font-bold text-slate-900 text-sm leading-snug">{{ user.name }}</p>
+                                    <p class="font-bold text-white text-sm leading-snug">{{ user.name }}</p>
                                     <p class="text-[11px] font-semibold text-slate-400">ID: #{{ user.id }}</p>
                                 </div>
                             </div>
                         </td>
 
                         <!-- Email -->
-                        <td class="py-4 px-6 text-slate-600 font-medium">{{ user.email }}</td>
+                        <td class="text-slate-300 font-medium">{{ user.email }}</td>
 
-                        <!-- Assigned Role (Dropdown + Save Button) -->
-                        <td class="py-4 px-6">
+                        <!-- Role -->
+                        <td>
                             {% if user.id == current_user.id %}
-                            <span class="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-3 py-1 text-xs font-bold text-white">
-                                <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span> Administrator (You)
+                            <span class="badge badge-info">
+                                <span class="h-2 w-2 rounded-full bg-blue-400 animate-pulse"></span> Administrator (You)
                             </span>
                             {% else %}
                             <form method="POST" action="{{ url_for('change_user_role', user_id=user.id) }}" class="flex items-center gap-2">
-                                <select name="role" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-800 focus:border-blue-500 focus:outline-none">
+                                <select name="role" class="saarthi-select text-xs py-1 px-2.5">
                                     <option value="rep" {{ 'selected' if user.persona == 'rep' }}>Representative</option>
                                     <option value="manager" {{ 'selected' if user.persona == 'manager' }}>Manager</option>
                                     <option value="admin" {{ 'selected' if user.persona == 'admin' }}>Administrator</option>
                                 </select>
-                                <button type="submit" class="rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-blue-700 transition shadow-sm">Save Role</button>
+                                <button type="submit" class="btn-saarthi-primary text-xs py-1 px-3">Save Role</button>
                             </form>
                             {% endif %}
                         </td>
 
-                        <!-- Account Status -->
-                        <td class="py-4 px-6">
+                        <!-- Status -->
+                        <td>
                             {% if user.is_active_account %}
-                            <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-bold text-emerald-700">
-                                <span class="h-2 w-2 rounded-full bg-emerald-500"></span> Active Account
+                            <span class="badge badge-success">
+                                <span class="h-2 w-2 rounded-full bg-emerald-400"></span> Active Account
                             </span>
                             {% else %}
-                            <span class="inline-flex items-center gap-1.5 rounded-full bg-rose-50 border border-rose-200 px-3 py-1 text-xs font-bold text-rose-700">
-                                <span class="h-2 w-2 rounded-full bg-rose-500"></span> Deactivated
+                            <span class="badge badge-danger">
+                                <span class="h-2 w-2 rounded-full bg-rose-400"></span> Deactivated
                             </span>
                             {% endif %}
                         </td>
 
-                        <!-- Actions (Toggle Status & View Profile) -->
-                        <td class="py-4 px-6 text-right">
+                        <!-- Actions -->
+                        <td class="text-right">
                             <div class="inline-flex items-center justify-end gap-2">
                                 {% if user.persona == 'manager' %}
-                                <a href="{{ url_for('admin_manager_profile', manager_id=user.id) }}" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 transition">View Profile</a>
+                                <a href="{{ url_for('admin_manager_profile', manager_id=user.id) }}" class="btn-saarthi-secondary text-xs py-1 px-3">View Profile</a>
                                 {% elif user.persona == 'rep' %}
-                                <a href="{{ url_for('admin_rep_profile', rep_id=user.id) }}" class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 transition">View Profile</a>
+                                <a href="{{ url_for('admin_rep_profile', rep_id=user.id) }}" class="btn-saarthi-secondary text-xs py-1 px-3">View Profile</a>
                                 {% endif %}
 
                                 {% if user.id != current_user.id %}
                                 <form method="POST" action="{{ url_for('toggle_user_active', user_id=user.id) }}" class="inline">
-                                    <button type="submit" class="rounded-lg border px-3 py-1.5 text-xs font-bold transition {{ 'border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100' if user.is_active_account else 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100' }}">
+                                    <button type="submit" class="btn-saarthi-danger text-xs py-1 px-3">
                                         {{ 'Deactivate' if user.is_active_account else 'Activate' }}
                                     </button>
                                 </form>

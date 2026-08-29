@@ -4,9 +4,9 @@
 
 {% block content %}
 <div class="space-y-6 animate-fade-in">
-    <div>
-        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Product Sales Portfolio</h1>
-        <p class="text-sm text-slate-500">Track product-level sales performance, demand signals, stock availability, and promotional activities.</p>
+    <div class="border-b border-slate-800 pb-5">
+        <h1 class="text-2xl font-extrabold text-white tracking-tight">Product Sales Portfolio</h1>
+        <p class="text-sm text-slate-400">Track product-level sales performance, demand signals, stock availability, and promotional activities.</p>
     </div>
 
     <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
@@ -18,15 +18,15 @@
             ('Bourbon', '54%', 'Steady', 'Reorder', 'Shelf visibility'),
             ('NutriChoice', '69%', 'Rising', 'In Stock', 'Health range')
         ] %}
-        <div class="ent-card ent-card-hover p-6">
+        <div class="saarthi-card saarthi-card-hover p-6">
             <!-- Product Icon Header -->
-            <div class="grid h-24 place-items-center rounded-xl bg-blue-50 border border-blue-100 text-2xl font-extrabold text-blue-700 mb-4">
+            <div class="grid h-24 place-items-center rounded-xl bg-blue-500/10 border border-blue-500/20 text-2xl font-extrabold text-blue-400 mb-4">
                 {{ product[0] }}{{ product[1] }}
             </div>
 
             <div class="flex items-start justify-between">
                 <div>
-                    <h3 class="font-bold text-slate-900">{{ product }}</h3>
+                    <h3 class="font-bold text-white text-base">{{ product }}</h3>
                     <span class="text-[11px] text-slate-400">FMCG Portfolio SKU</span>
                 </div>
                 <span class="badge {% if stock == 'In Stock' %}badge-success{% elif stock == 'Low Stock' %}badge-warning{% else %}badge-danger{% endif %}">
@@ -36,24 +36,24 @@
 
             <!-- Sales Progress Bar -->
             <div class="mt-4">
-                <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1.5">
+                <div class="flex justify-between text-xs font-semibold text-slate-300 mb-1.5">
                     <span>Sales Performance</span>
-                    <span class="text-blue-600 font-bold">{{ sales }}</span>
+                    <span class="text-blue-400 font-bold">{{ sales }}</span>
                 </div>
-                <div class="h-2 rounded-full bg-slate-100 overflow-hidden">
+                <div class="h-2 rounded-full bg-slate-800 overflow-hidden">
                     <div class="h-full rounded-full bg-blue-600" style="width: {{ sales }}; transition: width 1s ease-in-out;"></div>
                 </div>
             </div>
 
             <!-- Stats Grid -->
             <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
-                <div class="rounded-lg bg-slate-50 p-2">
+                <div class="rounded-lg bg-slate-800/60 p-2.5 border border-slate-800">
                     <span class="text-slate-400 block">Demand</span>
-                    <span class="font-bold text-slate-800 text-sm">{{ demand }}</span>
+                    <span class="font-bold text-white text-sm mt-0.5 block">{{ demand }}</span>
                 </div>
-                <div class="rounded-lg bg-slate-50 p-2">
+                <div class="rounded-lg bg-slate-800/60 p-2.5 border border-slate-800">
                     <span class="text-slate-400 block">Promotion</span>
-                    <span class="font-bold text-slate-800 text-sm">{{ promo }}</span>
+                    <span class="font-bold text-white text-sm mt-0.5 block">{{ promo }}</span>
                 </div>
             </div>
         </div>

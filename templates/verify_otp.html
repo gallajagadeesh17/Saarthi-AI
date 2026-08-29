@@ -4,15 +4,15 @@
 
 {% block form_card %}
     <div class="text-center">
-        <h2 class="text-2xl font-bold leading-9 tracking-tight text-slate-900">Verify Your Identity</h2>
-        <p class="mt-2 text-sm text-slate-500">An OTP has been sent to your email. Please enter it below.</p>
+        <h2 class="text-2xl font-bold leading-9 tracking-tight text-white">Verify Your Identity</h2>
+        <p class="mt-2 text-sm text-slate-400">An OTP has been sent to your email address. Please enter the 6-digit code below.</p>
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div class="mt-6 space-y-2">
             {% for category, message in messages %}
-                <div class="rounded-lg p-3 text-sm font-semibold {{ 'bg-red-100 text-red-800' if category == 'error' or category == 'danger' else 'bg-green-100 text-green-800' if category == 'success' else 'bg-blue-100 text-blue-800' }}">
+                <div class="rounded-xl p-3 text-sm font-semibold border {% if category == 'error' or category == 'danger' %}bg-rose-500/10 border-rose-500/20 text-rose-400{% elif category == 'success' %}bg-emerald-500/10 border-emerald-500/20 text-emerald-400{% else %}bg-blue-500/10 border-blue-500/20 text-blue-400{% endif %}">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -22,25 +22,25 @@
 
     <form method="POST" action="{{ url_for('verify_otp') }}" class="mt-8 space-y-6">
         <div>
-            <label for="otp" class="block text-sm font-medium leading-6 text-slate-900">One-Time Password (OTP)</label>
+            <label for="otp" class="block text-sm font-medium leading-6 text-slate-200 text-center">One-Time Password (OTP)</label>
             <div class="relative mt-2">
-                <input id="otp" name="otp" type="text" inputmode="numeric" pattern="\d{6}" maxlength="6" required class="w-full rounded-lg border-slate-300 bg-white py-2.5 text-center text-lg tracking-[1em] shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                <input id="otp" name="otp" type="text" inputmode="numeric" pattern="\d{6}" maxlength="6" required placeholder="000000" class="saarthi-input text-center text-xl font-mono tracking-[0.5em] text-white">
             </div>
         </div>
         <div>
-            <button type="submit" class="w-full flex justify-center rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">Verify OTP</button>
+            <button type="submit" class="btn-saarthi-primary w-full">Verify OTP</button>
         </div>
     </form>
 
     <div class="mt-6 text-center text-sm">
-        <p class="text-slate-500">Didn't receive the code? 
-            <a href="{{ url_for('resend_otp') }}" class="font-semibold text-blue-600 hover:text-blue-500">Resend OTP</a>
+        <p class="text-slate-400">Didn't receive the code? 
+            <a href="{{ url_for('resend_otp') }}" class="font-semibold text-blue-400 hover:text-blue-300">Resend OTP</a>
         </p>
     </div>
 {% endblock %}
 
 {% block bottom_link %}
-<p class="mt-8 text-center text-sm text-slate-500">
-    <a href="{{ url_for('login') }}" class="font-semibold leading-6 text-blue-600 hover:text-blue-500">← Back to Sign In</a>
+<p class="mt-8 text-center text-sm text-slate-400">
+    <a href="{{ url_for('login') }}" class="font-semibold leading-6 text-blue-400 hover:text-blue-300">← Back to Sign In</a>
 </p>
 {% endblock %}

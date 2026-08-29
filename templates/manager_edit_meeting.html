@@ -5,50 +5,41 @@
 {% block content %}
 <div class="max-w-3xl space-y-6 animate-fade-in">
 
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% for category, message in messages %}
-    <div class="rounded-xl px-4 py-3 text-sm font-semibold border {{ 'bg-emerald-50 text-emerald-800 border-emerald-200' if category == 'success' else 'bg-rose-50 text-rose-800 border-rose-200' }}">
-        {{ message }}
-    </div>
-    {% endfor %}
-    {% endwith %}
-
     <!-- Header -->
-    <div class="flex items-center justify-between gap-4">
+    <div class="flex items-center justify-between gap-4 border-b border-slate-800 pb-5">
         <div class="flex items-center gap-4">
-            <a href="{{ url_for('manager_meetings') }}" class="grid h-9 w-9 place-items-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-100 transition">
+            <a href="{{ url_for('manager_meetings') }}" class="grid h-9 w-9 place-items-center rounded-xl border border-slate-800 text-slate-400 hover:bg-slate-800 hover:text-white transition">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             </a>
             <div>
-                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Edit Meeting</h1>
-                <p class="text-sm text-slate-500">Update meeting details, assignment, status, and manager notes.</p>
+                <h1 class="text-2xl font-extrabold text-white tracking-tight">Edit Meeting</h1>
+                <p class="text-sm text-slate-400">Update meeting details, assignment, status, and manager notes.</p>
             </div>
         </div>
     </div>
 
     <form method="POST" action="{{ url_for('manager_edit_meeting', meeting_id=meeting.id) }}" class="space-y-6">
 
-        <!-- Top Right Actions inside form card header -->
+        <!-- Top Right Actions -->
         <div class="flex items-center justify-end gap-3 pb-2">
-            <a href="{{ url_for('manager_meetings') }}" class="btn-secondary py-2 text-xs">Cancel</a>
-            <button type="submit" class="btn-primary py-2 text-xs px-5">
+            <a href="{{ url_for('manager_meetings') }}" class="btn-saarthi-secondary text-xs">Cancel</a>
+            <button type="submit" class="btn-saarthi-primary text-xs px-5">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                 Save Meeting
             </button>
         </div>
 
         <!-- Manager Controls & Assignment Section -->
-        <div class="ent-card p-6">
-            <div class="border-b border-slate-100 pb-4 mb-5">
-                <h3 class="font-bold text-slate-900">Manager Controls & Assignment</h3>
+        <div class="saarthi-card p-6">
+            <div class="border-b border-slate-800 pb-4 mb-5">
+                <h3 class="font-bold text-white">Manager Controls &amp; Assignment</h3>
                 <p class="text-xs text-slate-400 mt-0.5">Assign representative, update priority, status, and source.</p>
             </div>
             <div class="grid gap-5 sm:grid-cols-2">
                 <!-- Assigned Representative -->
                 <div class="sm:col-span-2">
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Representative Assignment <span class="text-rose-500">*</span></label>
-                    <select name="assigned_rep_id" class="ent-input text-sm" required>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Representative Assignment <span class="text-rose-400">*</span></label>
+                    <select name="assigned_rep_id" class="saarthi-select" required>
                         <option value="">— Select Team Member —</option>
                         {% for rep in team_members %}
                         <option value="{{ rep.id }}" {{ 'selected' if (meeting.assigned_rep_id == rep.id or meeting.user_id == rep.id) }}>
@@ -60,8 +51,8 @@
 
                 <!-- Priority -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Meeting Priority</label>
-                    <select name="priority" class="ent-input text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Meeting Priority</label>
+                    <select name="priority" class="saarthi-select">
                         <option value="High" {{ 'selected' if meeting.priority == 'High' }}>🔴 High Priority</option>
                         <option value="Medium" {{ 'selected' if meeting.priority == 'Medium' }}>🟡 Medium Priority</option>
                         <option value="Low" {{ 'selected' if meeting.priority == 'Low' }}>🟢 Low Priority</option>
@@ -70,8 +61,8 @@
 
                 <!-- Status -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Meeting Status</label>
-                    <select name="status" class="ent-input text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Meeting Status</label>
+                    <select name="status" class="saarthi-select">
                         <option value="Upcoming" {{ 'selected' if meeting.status == 'Upcoming' }}>Upcoming</option>
                         <option value="In Progress" {{ 'selected' if meeting.status == 'In Progress' }}>In Progress</option>
                         <option value="Completed" {{ 'selected' if meeting.status == 'Completed' }}>Completed</option>
@@ -81,8 +72,8 @@
 
                 <!-- Source -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Meeting Source</label>
-                    <select name="source" class="ent-input text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Meeting Source</label>
+                    <select name="source" class="saarthi-select">
                         <option value="manual" {{ 'selected' if meeting.source != 'google' }}>Manual / Internal</option>
                         <option value="google" {{ 'selected' if meeting.source == 'google' }}>Google Calendar</option>
                     </select>
@@ -90,8 +81,8 @@
 
                 <!-- Meeting Type -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Meeting Type</label>
-                    <select name="meeting_type" class="ent-input text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Meeting Type</label>
+                    <select name="meeting_type" class="saarthi-select">
                         <option value="Manual" {{ 'selected' if meeting.meeting_type == 'Manual' }}>Manual Schedule</option>
                         <option value="Field Visit" {{ 'selected' if meeting.meeting_type == 'Field Visit' }}>Field Visit</option>
                         <option value="Demo" {{ 'selected' if meeting.meeting_type == 'Demo' }}>Product Demo</option>
@@ -103,94 +94,84 @@
         </div>
 
         <!-- Meeting Details -->
-        <div class="ent-card p-6">
-            <div class="border-b border-slate-100 pb-4 mb-5">
-                <h3 class="font-bold text-slate-900">Meeting Details</h3>
+        <div class="saarthi-card p-6">
+            <div class="border-b border-slate-800 pb-4 mb-5">
+                <h3 class="font-bold text-white">Meeting Details</h3>
                 <p class="text-xs text-slate-400 mt-0.5">Core customer and contact information.</p>
             </div>
             <div class="grid gap-5 sm:grid-cols-2">
-                <!-- Title -->
                 <div class="sm:col-span-2">
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Meeting Title <span class="text-rose-500">*</span></label>
-                    <input type="text" name="title" value="{{ meeting.title }}" class="ent-input text-sm w-full" required>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Meeting Title <span class="text-rose-400">*</span></label>
+                    <input type="text" name="title" value="{{ meeting.title }}" class="saarthi-input" required>
                 </div>
-                <!-- Company -->
                 <div class="sm:col-span-2">
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Company / Customer Name <span class="text-rose-500">*</span></label>
-                    <input type="text" name="company_name" value="{{ meeting.company_name }}" class="ent-input text-sm w-full" required>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Company / Customer Name <span class="text-rose-400">*</span></label>
+                    <input type="text" name="company_name" value="{{ meeting.company_name }}" class="saarthi-input" required>
                 </div>
-                <!-- Contact Person -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Contact Person</label>
-                    <input type="text" name="contact_person" value="{{ meeting.contact_person or '' }}" class="ent-input text-sm w-full">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Contact Person</label>
+                    <input type="text" name="contact_person" value="{{ meeting.contact_person or '' }}" class="saarthi-input">
                 </div>
-                <!-- Designation -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Designation</label>
-                    <input type="text" name="designation" value="{{ meeting.designation or '' }}" class="ent-input text-sm w-full">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Designation</label>
+                    <input type="text" name="designation" value="{{ meeting.designation or '' }}" class="saarthi-input">
                 </div>
-                <!-- Email -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Email Address</label>
-                    <input type="email" name="email" value="{{ meeting.email or '' }}" class="ent-input text-sm w-full">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Email Address</label>
+                    <input type="email" name="email" value="{{ meeting.email or '' }}" class="saarthi-input">
                 </div>
-                <!-- Phone -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Phone Number</label>
-                    <input type="tel" name="phone" value="{{ meeting.phone or '' }}" class="ent-input text-sm w-full">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Phone Number</label>
+                    <input type="tel" name="phone" value="{{ meeting.phone or '' }}" class="saarthi-input">
                 </div>
             </div>
         </div>
 
         <!-- Schedule & Location -->
-        <div class="ent-card p-6">
-            <div class="border-b border-slate-100 pb-4 mb-5">
-                <h3 class="font-bold text-slate-900">Schedule & Location</h3>
+        <div class="saarthi-card p-6">
+            <div class="border-b border-slate-800 pb-4 mb-5">
+                <h3 class="font-bold text-white">Schedule &amp; Location</h3>
                 <p class="text-xs text-slate-400 mt-0.5">Meeting date, time, and location details.</p>
             </div>
             <div class="grid gap-5 sm:grid-cols-3">
-                <!-- Date -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Meeting Date <span class="text-rose-500">*</span></label>
-                    <input type="date" name="meeting_date" value="{{ meeting.meeting_datetime.strftime('%Y-%m-%d') if meeting.meeting_datetime else '' }}" class="ent-input text-sm w-full" required>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Meeting Date <span class="text-rose-400">*</span></label>
+                    <input type="date" name="meeting_date" value="{{ meeting.meeting_datetime.strftime('%Y-%m-%d') if meeting.meeting_datetime else '' }}" class="saarthi-input" required>
                 </div>
-                <!-- Time -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Meeting Time <span class="text-rose-500">*</span></label>
-                    <input type="time" name="meeting_time" value="{{ meeting.meeting_datetime.strftime('%H:%M') if meeting.meeting_datetime else '' }}" class="ent-input text-sm w-full" required>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Meeting Time <span class="text-rose-400">*</span></label>
+                    <input type="time" name="meeting_time" value="{{ meeting.meeting_datetime.strftime('%H:%M') if meeting.meeting_datetime else '' }}" class="saarthi-input" required>
                 </div>
-                <!-- Duration -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Duration (minutes)</label>
-                    <select name="duration" class="ent-input text-sm">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Duration</label>
+                    <select name="duration" class="saarthi-select">
                         <option value="30" {{ 'selected' if meeting.duration == '30' }}>30 min</option>
                         <option value="60" {{ 'selected' if meeting.duration in ['60', None, ''] }}>1 hour</option>
                         <option value="90" {{ 'selected' if meeting.duration == '90' }}>1.5 hours</option>
                         <option value="120" {{ 'selected' if meeting.duration == '120' }}>2 hours</option>
                     </select>
                 </div>
-                <!-- Location -->
                 <div class="sm:col-span-3">
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Location / Meeting Link</label>
-                    <input type="text" name="location" value="{{ meeting.location or meeting.meeting_link or '' }}" class="ent-input text-sm w-full">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Location / Meeting Link</label>
+                    <input type="text" name="location" value="{{ meeting.location or meeting.meeting_link or '' }}" class="saarthi-input">
                 </div>
             </div>
         </div>
 
         <!-- Agenda & Manager Notes -->
-        <div class="ent-card p-6">
-            <div class="border-b border-slate-100 pb-4 mb-5">
-                <h3 class="font-bold text-slate-900">Agenda & Manager Notes</h3>
-                <p class="text-xs text-slate-400 mt-0.5">Add specific notes, instructions, or agenda points for the rep and AI Brief generator.</p>
+        <div class="saarthi-card p-6">
+            <div class="border-b border-slate-800 pb-4 mb-5">
+                <h3 class="font-bold text-white">Agenda &amp; Manager Notes</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Add specific notes, instructions, or agenda points.</p>
             </div>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Agenda</label>
-                    <textarea name="agenda" rows="3" class="ent-input text-sm w-full resize-none">{{ meeting.agenda or '' }}</textarea>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Agenda</label>
+                    <textarea name="agenda" rows="3" class="saarthi-textarea resize-none">{{ meeting.agenda or '' }}</textarea>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-2">Manager Notes</label>
-                    <textarea name="notes" rows="3" placeholder="Additional manager notes or instructions for representative..." class="ent-input text-sm w-full resize-none">{{ meeting.notes or '' }}</textarea>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Manager Notes</label>
+                    <textarea name="notes" rows="3" placeholder="Additional manager notes or instructions..." class="saarthi-textarea resize-none">{{ meeting.notes or '' }}</textarea>
                 </div>
             </div>
         </div>

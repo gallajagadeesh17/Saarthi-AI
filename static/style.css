@@ -1,21 +1,22 @@
-@import url('./enterprise.css');
+@import url('./css/enterprise.css');
 
 :root {
     --primary: #2563eb;
-    --success: #10b981;
+    --success: #22c55e;
     --warning: #f59e0b;
     --danger: #ef4444;
-    --background: #f8fafc;
+    --background: #0f172a;
 }
 
 body {
     background: var(--background);
+    color: #f8fafc;
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Base Utility Extensions */
 .shadow-soft {
-    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4), 0 2px 6px -1px rgba(0, 0, 0, 0.2);
 }
 
 .shadow-card-hover {
@@ -23,5 +24,5 @@ body {
 }
 .shadow-card-hover:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.08), 0 4px 8px -2px rgba(15, 23, 42, 0.04);
+    box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.6), 0 4px 8px -2px rgba(0, 0, 0, 0.3);
 }
