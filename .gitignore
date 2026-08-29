@@ -1,0 +1,21 @@
+# Environment variables and secrets
+.env
+.env.json
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+database.db
+*.db
+*.sqlite3
+
+# IDE & Editor files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db

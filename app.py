@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, s
 from flask import send_file
 from flask_login import LoginManager, UserMixin, current_user, login_required, login_user, logout_user
 from flask_mail import Mail, Message
+from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -31,12 +32,21 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 load_dotenv()
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 app.logger.setLevel(logging.DEBUG) # Set app logger to DEBUG for detailed output
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "a-default-fallback-secret-key-for-development")
 
-# Configure SQLite Database
-base_dir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(base_dir, 'database.db')
+# Configure Database (PostgreSQL in production if DATABASE_URL is set; SQLite for local dev)
+raw_db_url = os.getenv("DATABASE_URL")
+if raw_db_url:
+    if raw_db_url.startswith("postgres://"):
+        raw_db_url = raw_db_url.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = raw_db_url
+    app.config['PREFERRED_URL_SCHEME'] = 'https'
+else:
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(base_dir, 'database.db')
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -55,15 +65,18 @@ app.config['MAIL_DEFAULT_SENDER'] = ('Saarthi AI', os.getenv('MAIL_USERNAME'))
 mail = Mail(app)
 
 # --- GOOGLE OAUTH CONFIG ---
-# CLIENT_SECRETS_FILE = os.path.join(base_dir, 'client_secret.json') # No longer using file
 SCOPES = [
     "openid",
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
     'https://www.googleapis.com/auth/calendar.readonly'
 ]
-# Allow OAuth over HTTP for local testing
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
+# Only enable insecure OAuth transport in local development if requested
+if os.getenv('OAUTHLIB_INSECURE_TRANSPORT') == '1' or app.debug:
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+else:
+    os.environ.pop('OAUTHLIB_INSECURE_TRANSPORT', None)
 
 GOOGLE_LOGIN_SCOPES = [
     "openid",
@@ -86,11 +99,24 @@ else:
             "auth_uri": "https://accounts.google.com/o/oauth2/auth",
             "token_uri": "https://oauth2.googleapis.com/token",
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-            "redirect_uris": [
-                # This will be populated dynamically by Flask's url_for
-            ]
+            "redirect_uris": []
         }
     }
+
+def get_callback_url(endpoint_name):
+    url = url_for(endpoint_name, _external=True)
+    if app.debug and 'localhost' in url:
+        url = url.replace('localhost', '127.0.0.1')
+    elif not app.debug and url.startswith('http://'):
+        url = url.replace('http://', 'https://', 1)
+    return url
+
+def get_normalized_request_url():
+    req_url = request.url
+    if not app.debug and req_url.startswith('http://'):
+        if request.headers.get('X-Forwarded-Proto') == 'https' or os.getenv("DATABASE_URL"):
+            req_url = req_url.replace('http://', 'https://', 1)
+    return req_url
 
 # ==========================================
 # DATABASE MODELS (Relational Schema)
@@ -263,10 +289,14 @@ def credentials_from_connection(connection):
     )
 
     if credentials.expired and credentials.refresh_token:
-        credentials.refresh(Request())
-        connection.credentials_json = json.dumps(credentials_to_dict(credentials))
-        connection.updated_at = datetime.utcnow()
-        db.session.commit()
+        try:
+            credentials.refresh(Request())
+            connection.credentials_json = json.dumps(credentials_to_dict(credentials))
+            connection.updated_at = datetime.utcnow()
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            app.logger.error(f"Failed to refresh Google OAuth token: {e}")
 
     return credentials
 
@@ -353,7 +383,11 @@ def sync_google_calendar_meetings(user):
         meeting.synced_at = datetime.utcnow()
 
     connection.updated_at = datetime.utcnow()
-    db.session.commit()
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        app.logger.error(f"Error committing synced meetings for user {user.id}: {e}")
     return get_upcoming_meetings(user.id)
 
 # ==========================================
@@ -383,24 +417,30 @@ def signup():
             flash("Name, email, and password are required.", "error")
             return redirect(url_for('signup'))
 
-        print(f"Received Sign Up: Name={name}, Email={email}, Persona=rep (default)")
+        app.logger.info(f"Received Sign Up request: Email={email}, Persona=rep (default)")
         
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
-            print("Sign up failed: Email already exists.")
-            flash("Email already registered. Please log in instead.", "error")
-            return redirect(url_for('login'))
+        try:
+            existing_user = User.query.filter_by(email=email).first()
+            if existing_user:
+                flash("Email already registered. Please log in instead.", "error")
+                return redirect(url_for('login'))
+                
+            hashed_password = generate_password_hash(password)
             
-        hashed_password = generate_password_hash(password)
-        
-        # New users default to 'rep' persona. Admin/Manager roles are assigned by an admin.
-        new_user = User(name=name, email=email, password=hashed_password, persona='rep')
-        db.session.add(new_user)
-        db.session.commit()
-        
-        print("User successfully saved to database! Redirecting to login.")
-        flash("Account created successfully. Please log in.", "success")
-        return redirect(url_for('login'))
+            # New users default to 'rep' persona. Admin/Manager roles are assigned by an admin.
+            new_user = User(name=name, email=email, password=hashed_password, persona='rep')
+            db.session.add(new_user)
+            db.session.commit()
+            
+            app.logger.info("User successfully saved to database. Redirecting to login.")
+            flash("Account created successfully. Please log in.", "success")
+            return redirect(url_for('login'))
+        except Exception as e:
+            db.session.rollback()
+            app.logger.error(f"Sign up error for email {email}: {e}", exc_info=True)
+            flash("An error occurred while creating your account. Please try again.", "error")
+            return redirect(url_for('signup'))
+
     return render_template('signup.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -595,12 +635,8 @@ def google_login():
         flash("Google OAuth is not configured on the server.", "error")
         return redirect(url_for('login'))
     
-    # Explicitly define the redirect URI to ensure consistency.
-    # For local dev, force 127.0.0.1 to prevent mismatch errors with 'localhost'.
-    redirect_uri = url_for('google_callback', _external=True)
-    if app.debug:
-        redirect_uri = redirect_uri.replace('localhost', '127.0.0.1')
-    print("GOOGLE LOGIN REDIRECT URI:", redirect_uri)
+    redirect_uri = get_callback_url('google_callback')
+    app.logger.info(f"GOOGLE LOGIN REDIRECT URI: {redirect_uri}")
 
     flow = Flow.from_client_config(
         client_config=GOOGLE_CLIENT_CONFIG,
@@ -623,18 +659,16 @@ def google_callback():
         flash("Google OAuth is not configured on the server.", "error")
         return redirect(url_for('login'))
 
-    print("Callback URL:", request.url)
-    print("Request args:", request.args)
+    auth_response_url = get_normalized_request_url()
+    app.logger.info(f"Callback URL: {auth_response_url}")
+    app.logger.info(f"Request args: {request.args}")
 
     try:
         if 'state' not in session or session['state'] != request.args.get('state'):
             flash("Login failed: State mismatch. Please try again.", "error")
             return redirect(url_for('login'))
 
-        # Recreate the redirect_uri exactly as in the login step.
-        redirect_uri = url_for('google_callback', _external=True)
-        if app.debug:
-            redirect_uri = redirect_uri.replace('localhost', '127.0.0.1')
+        redirect_uri = get_callback_url('google_callback')
 
         flow = Flow.from_client_config(
             client_config=GOOGLE_CLIENT_CONFIG,
@@ -644,7 +678,7 @@ def google_callback():
         # Restore the code verifier from the session for PKCE
         flow.code_verifier = session.get("code_verifier")
 
-        flow.fetch_token(authorization_response=request.url)
+        flow.fetch_token(authorization_response=auth_response_url)
 
         credentials = flow.credentials
         id_info = google_id_token.verify_oauth2_token(
@@ -678,7 +712,8 @@ def google_callback():
         return redirect_for_role(user)
 
     except Exception as e:
-        print(f"[ERROR] Google login failed: {e}")
+        db.session.rollback()
+        app.logger.error(f"Google login failed: {e}", exc_info=True)
         flash("An error occurred during Google authentication. Please try again.", "error")
         return redirect(url_for('login'))
 
@@ -1078,8 +1113,13 @@ def edit_meeting(meeting_id):
         meeting.deal_value     = request.form.get('deal_value',     meeting.deal_value)
         meeting.status         = request.form.get('status',         meeting.status)
 
-        db.session.commit()
-        flash('Meeting updated successfully!', 'success')
+        try:
+            db.session.commit()
+            flash('Meeting updated successfully!', 'success')
+        except Exception as e:
+            db.session.rollback()
+            app.logger.error(f"Error updating meeting {meeting_id}: {e}", exc_info=True)
+            flash('Error updating meeting.', 'danger')
 
         # Redirect back to the correct dashboard based on role
         if role == 'manager':
@@ -1094,25 +1134,28 @@ def edit_meeting(meeting_id):
 @login_required
 def delete_meeting(meeting_id):
     meeting = Meeting.query.filter_by(id=meeting_id, user_id=current_user.id).first_or_404()
-    db.session.delete(meeting)
-    db.session.commit()
-    flash('Meeting deleted successfully.', 'success')
+    try:
+        db.session.delete(meeting)
+        db.session.commit()
+        flash('Meeting deleted successfully.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        app.logger.error(f"Error deleting meeting {meeting_id}: {e}", exc_info=True)
+        flash('Error deleting meeting.', 'error')
     return redirect(url_for('rep_dashboard'))
 
 @app.route('/authorize-google')
 @login_required
 def authorize_google():
-    print("Inside authorize_google")
-    print("Session data:", dict(session))
+    app.logger.info("Inside authorize_google")
+    app.logger.info(f"Session data: {dict(session)}")
         
     if not GOOGLE_CLIENT_CONFIG:
         flash("Google OAuth is not configured on the server.", "error")
         return redirect_for_role(current_user)
         
-    redirect_uri = url_for("oauth2callback", _external=True)
-    if app.debug:
-        redirect_uri = redirect_uri.replace('localhost', '127.0.0.1')
-    print("GOOGLE CALENDAR REDIRECT URI:", redirect_uri)
+    redirect_uri = get_callback_url("oauth2callback")
+    app.logger.info(f"GOOGLE CALENDAR REDIRECT URI: {redirect_uri}")
 
     flow = Flow.from_client_config(
         client_config=GOOGLE_CLIENT_CONFIG,
@@ -1138,15 +1181,14 @@ def oauth2callback():
         flash("Google OAuth is not configured on the server.", "error")
         return redirect_for_role(current_user)
     try:
-        print(">>> OAuth callback reached")
+        app.logger.info(">>> OAuth2 callback reached")
 
         if "state" not in session:
-            return "Missing OAuth state. Please reconnect.", 400
+            flash("Missing OAuth state. Please reconnect.", "error")
+            return redirect_for_role(current_user)
 
-        # Recreate the redirect_uri exactly as in the authorization step.
-        redirect_uri = url_for("oauth2callback", _external=True)
-        if app.debug:
-            redirect_uri = redirect_uri.replace('localhost', '127.0.0.1')
+        redirect_uri = get_callback_url("oauth2callback")
+        auth_response_url = get_normalized_request_url()
 
         flow = Flow.from_client_config(
             client_config=GOOGLE_CLIENT_CONFIG,
@@ -1159,10 +1201,10 @@ def oauth2callback():
         flow.redirect_uri = redirect_uri
 
         flow.fetch_token(
-            authorization_response=request.url
+            authorization_response=auth_response_url
         )
 
-        print("✅ Token fetched successfully!")
+        app.logger.info("Token fetched successfully!")
 
         credentials = flow.credentials
         credentials_payload = credentials_to_dict(credentials)
@@ -1178,6 +1220,8 @@ def oauth2callback():
             connection.credentials_json = json.dumps(credentials_payload)
             connection.updated_at = datetime.utcnow()
 
+        db.session.commit()
+
         session['google_calendar_connected'] = True
         sync_google_calendar_meetings(current_user)
         flash("Google Calendar connected and upcoming meetings synced.", "success")
@@ -1185,20 +1229,26 @@ def oauth2callback():
         return redirect_for_role(current_user)
 
     except Exception as e:
-        import traceback
-        traceback.print_exc()
-        return f"<h2>OAuth Error</h2><pre>{str(e)}</pre>", 500
+        db.session.rollback()
+        app.logger.error(f"OAuth Error: {e}", exc_info=True)
+        flash("An error occurred during Google Calendar authorization. Please try again.", "error")
+        return redirect_for_role(current_user)
 
 @app.route('/disconnect-google')
 @login_required
 def disconnect_google():
-    CalendarMeeting.query.filter_by(user_id=current_user.id).delete()
-    GoogleCalendarConnection.query.filter_by(user_id=current_user.id).delete()
-    db.session.commit()
-    session.pop('google_calendar_connected', None)
-    session.pop('google_email', None)
-    session.pop('credentials', None)
-    flash("Google Calendar disconnected.", "success")
+    try:
+        CalendarMeeting.query.filter_by(user_id=current_user.id).delete(synchronize_session=False)
+        GoogleCalendarConnection.query.filter_by(user_id=current_user.id).delete(synchronize_session=False)
+        db.session.commit()
+        session.pop('google_calendar_connected', None)
+        session.pop('google_email', None)
+        session.pop('credentials', None)
+        flash("Google Calendar disconnected.", "success")
+    except Exception as e:
+        db.session.rollback()
+        app.logger.error(f"Error disconnecting Google Calendar for user {current_user.id}: {e}", exc_info=True)
+        flash("An error occurred while disconnecting Google Calendar.", "error")
     return redirect_for_role(current_user)
 
 @app.route('/meeting-brief/<int:brief_id>')
@@ -1790,8 +1840,12 @@ def admin_reset_password(user_id):
         return redirect(url_for('admin_users'))
 
     target_user.password = generate_password_hash(new_password)
-    db.session.commit()
-    flash(f'Password reset successfully for {target_user.name}.', 'success')
+    try:
+        db.session.commit()
+        flash(f'Password reset successfully for {target_user.name}.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error resetting password: {e}', 'error')
     return redirect(url_for('admin_users'))
 
 @app.route('/admin/users/update-role/<int:user_id>', methods=['POST'])
@@ -1815,8 +1869,12 @@ def change_user_role(user_id):
         return redirect(url_for('admin_users'))
 
     user_to_change.persona = new_role
-    db.session.commit()
-    flash(f"User {user_to_change.name}'s role has been updated to {new_role}.", 'success')
+    try:
+        db.session.commit()
+        flash(f"User {user_to_change.name}'s role has been updated to {new_role}.", 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error updating role: {e}', 'error')
     return redirect(url_for('admin_users'))
 
 @app.route('/admin/users/deactivate/<int:user_id>', methods=['POST'])
@@ -1835,10 +1893,13 @@ def toggle_user_active(user_id):
         return redirect(url_for('admin_users'))
 
     user_to_toggle.is_active_account = not user_to_toggle.is_active_account
-    db.session.commit()
-
-    status = "activated" if user_to_toggle.is_active_account else "deactivated"
-    flash(f"User {user_to_toggle.name} has been {status}.", 'success')
+    try:
+        db.session.commit()
+        status = "activated" if user_to_toggle.is_active_account else "deactivated"
+        flash(f"User {user_to_toggle.name} has been {status}.", 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error changing status: {e}', 'error')
     return redirect(url_for('admin_users'))
 
 @app.route('/admin/managers', methods=['GET', 'POST'])
@@ -1923,7 +1984,12 @@ def admin_assign_manager(rep_id):
         rep.assigned_manager_id = None
         flash(f'Representative {rep.name} unassigned from manager.', 'info')
 
-    db.session.commit()
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error assigning manager: {e}', 'error')
+
     redirect_to = request.referrer or url_for('admin_representatives')
     return redirect(redirect_to)
 
@@ -2248,9 +2314,13 @@ def manager_delete_meeting(meeting_id):
     meeting = db.session.get(Meeting, meeting_id)
     if not meeting:
         abort(404)
-    db.session.delete(meeting)
-    db.session.commit()
-    flash('Meeting deleted.', 'success')
+    try:
+        db.session.delete(meeting)
+        db.session.commit()
+        flash('Meeting deleted.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error deleting meeting: {e}', 'danger')
     return redirect(url_for('manager_meetings'))
 
 # ==========================================
@@ -2301,49 +2371,56 @@ def manager_opportunities():
     ctx['stage_filter'] = stage_filter
     return render_template('manager_opportunities.html', **ctx)
 
-# Initialize Database tables before running
-with app.app_context():
-    db.create_all()
+# Safe Database table initialization and default seeding
+try:
+    with app.app_context():
+        db.create_all()
 
-    # Seed Admin User if it doesn't exist
-    admin_email = "admin@gmail.com"
-    if not User.query.filter_by(email=admin_email).first():
-        print(f"[DATABASE] Admin user not found. Creating default admin: {admin_email}")
-        hashed_password = generate_password_hash("admin@123")
-        default_admin = User(
-            name="Administrator",
-            email=admin_email,
-            password=hashed_password,
-            persona='admin',
-            is_active_account=True
-        )
-        db.session.add(default_admin)
-        db.session.commit()
-        print("[DATABASE] Default admin user created successfully.")
+        # Seed Admin User if it doesn't exist
+        admin_email = "admin@gmail.com"
+        if not User.query.filter_by(email=admin_email).first():
+            app.logger.info(f"[DATABASE] Admin user not found. Creating default admin: {admin_email}")
+            hashed_password = generate_password_hash("admin@123")
+            default_admin = User(
+                name="Administrator",
+                email=admin_email,
+                password=hashed_password,
+                persona='admin',
+                is_active_account=True
+            )
+            db.session.add(default_admin)
+            db.session.commit()
+            app.logger.info("[DATABASE] Default admin user created successfully.")
 
-    # Find a rep user to assign seed data to
-    rep_user = User.query.filter_by(persona='rep').first()
+        # Find a rep user to assign seed data to
+        rep_user = User.query.filter_by(persona='rep').first()
 
-    # 1. Seed Accounts if empty
-    if Account.query.count() == 0 and rep_user:
-        print(f"[DATABASE] Seeding accounts for rep: {rep_user.name}")
-        sample_accounts = [
-            Account(user_id=rep_user.id, name="DMart (Avenue Supermarts)", territory="Andhra Pradesh", target="Extra Tier", credit="60 Days", status="Active"),
-            Account(user_id=rep_user.id, name="Reliance Smart Bazaar", territory="Andhra Pradesh", target="Volume Cap", credit="30 Days", status="At Risk")
-        ]
-        db.session.bulk_save_objects(sample_accounts)
-        db.session.commit()
+        # 1. Seed Accounts if empty
+        if Account.query.count() == 0 and rep_user:
+            app.logger.info(f"[DATABASE] Seeding accounts for rep: {rep_user.name}")
+            sample_accounts = [
+                Account(user_id=rep_user.id, name="DMart (Avenue Supermarts)", territory="Andhra Pradesh", target="Extra Tier", credit="60 Days", status="Active"),
+                Account(user_id=rep_user.id, name="Reliance Smart Bazaar", territory="Andhra Pradesh", target="Volume Cap", credit="30 Days", status="At Risk")
+            ]
+            db.session.bulk_save_objects(sample_accounts)
+            db.session.commit()
 
-    # 2. Seed Sales Opportunities if empty
-    if SalesOpportunity.query.count() == 0 and rep_user:
-        print(f"[DATABASE] Seeding sales opportunities for rep: {rep_user.name}")
-        sample_opps = [
-            SalesOpportunity(user_id=rep_user.id, client_name="DMart Hub - Visakhapatnam", deal_value="₹4,50,000", stage="Negotiation", confidence="85%"),
-            SalesOpportunity(user_id=rep_user.id, client_name="Reliance Retail Central", deal_value="₹12,00,000", stage="Pitching", confidence="60%"),
-            SalesOpportunity(user_id=rep_user.id, client_name="Spencer's AP Network", deal_value="₹3,20,000", stage="Proposal Sent", confidence="75%")
-        ]
-        db.session.bulk_save_objects(sample_opps)
-        db.session.commit()
+        # 2. Seed Sales Opportunities if empty
+        if SalesOpportunity.query.count() == 0 and rep_user:
+            app.logger.info(f"[DATABASE] Seeding sales opportunities for rep: {rep_user.name}")
+            sample_opps = [
+                SalesOpportunity(user_id=rep_user.id, client_name="DMart Hub - Visakhapatnam", deal_value="₹4,50,000", stage="Negotiation", confidence="85%"),
+                SalesOpportunity(user_id=rep_user.id, client_name="Reliance Retail Central", deal_value="₹12,00,000", stage="Pitching", confidence="60%"),
+                SalesOpportunity(user_id=rep_user.id, client_name="Spencer's AP Network", deal_value="₹3,20,000", stage="Proposal Sent", confidence="75%")
+            ]
+            db.session.bulk_save_objects(sample_opps)
+            db.session.commit()
+except Exception as init_err:
+    app.logger.error(f"[DATABASE INIT WARNING] Table initialization encountered an error: {init_err}")
+    try:
+        db.session.rollback()
+    except Exception:
+        pass
 
 @app.cli.command("create-admin")
 def create_admin():
