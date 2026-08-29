@@ -1,4 +1,3 @@
-HEAD
 <div align="center">
 
 # 🚀 Saarthi AI
@@ -427,4 +426,3 @@ Made with ❤️ by the **Saarthi AI Team**
 </div>
 =======
 # Saarthi-AI
-a9b92b8 (Initial commit)
