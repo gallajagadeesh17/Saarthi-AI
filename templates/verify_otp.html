@@ -3,44 +3,64 @@
 {% block title %}Verify OTP | Saarthi AI{% endblock %}
 
 {% block form_card %}
-    <div class="text-center">
-        <h2 class="text-2xl font-bold leading-9 tracking-tight text-white">Verify Your Identity</h2>
-        <p class="mt-2 text-sm text-slate-400">An OTP has been sent to your email address. Please enter the 6-digit code below.</p>
+    <div>
+        <span class="block text-[10px] font-extrabold text-blue-600 uppercase tracking-widest mb-1">VERIFICATION</span>
+        <h2 class="text-2xl sm:text-[28px] font-extrabold text-slate-900 tracking-tight leading-tight">Verify your identity</h2>
+        <p class="mt-1.5 text-xs sm:text-sm text-slate-500 font-medium">An OTP has been sent to your email address. Enter the 6-digit code below.</p>
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <div class="mt-6 space-y-2">
+            <div class="mt-5 space-y-2">
             {% for category, message in messages %}
-                <div class="rounded-xl p-3 text-sm font-semibold border {% if category == 'error' or category == 'danger' %}bg-rose-500/10 border-rose-500/20 text-rose-400{% elif category == 'success' %}bg-emerald-500/10 border-emerald-500/20 text-emerald-400{% else %}bg-blue-500/10 border-blue-500/20 text-blue-400{% endif %}">
-                    {{ message }}
+                <div class="rounded-xl p-3 text-xs font-semibold border flex items-center gap-2.5 {% if category == 'error' or category == 'danger' %}bg-rose-50 border-rose-200 text-rose-700{% elif category == 'success' %}bg-emerald-50 border-emerald-200 text-emerald-700{% else %}bg-blue-50 border-blue-200 text-blue-700{% endif %}">
+                    {% if category == 'error' or category == 'danger' %}
+                    <svg class="h-4 w-4 flex-shrink-0 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {% elif category == 'success' %}
+                    <svg class="h-4 w-4 flex-shrink-0 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {% endif %}
+                    <span>{{ message }}</span>
                 </div>
             {% endfor %}
             </div>
         {% endif %}
     {% endwith %}
 
-    <form method="POST" action="{{ url_for('verify_otp') }}" class="mt-8 space-y-6">
+    <form method="POST" action="{{ url_for('verify_otp') }}" class="mt-6 space-y-5" id="otpForm">
         <div>
-            <label for="otp" class="block text-sm font-medium leading-6 text-slate-200 text-center">One-Time Password (OTP)</label>
-            <div class="relative mt-2">
-                <input id="otp" name="otp" type="text" inputmode="numeric" pattern="\d{6}" maxlength="6" required placeholder="000000" class="saarthi-input text-center text-xl font-mono tracking-[0.5em] text-white">
+            <label for="otp" class="block text-[13px] font-semibold text-slate-700 text-center mb-1.5">One-Time Password (OTP)</label>
+            <div class="relative">
+                <input id="otp" name="otp" type="text" inputmode="numeric" pattern="\d{6}" maxlength="6" required placeholder="000000" class="saarthi-input h-14 text-center text-2xl font-mono font-bold tracking-[0.4em] text-slate-900 w-full border-slate-300 focus:border-blue-600">
             </div>
         </div>
-        <div>
-            <button type="submit" class="btn-saarthi-primary w-full">Verify OTP</button>
+        <div class="pt-1">
+            <button type="submit" id="submitBtn" class="btn-saarthi-primary w-full h-12 text-xs sm:text-sm font-bold shadow-sm rounded-xl">
+                <span>Verify OTP Code</span>
+            </button>
         </div>
     </form>
 
-    <div class="mt-6 text-center text-sm">
-        <p class="text-slate-400">Didn't receive the code? 
-            <a href="{{ url_for('resend_otp') }}" class="font-semibold text-blue-400 hover:text-blue-300">Resend OTP</a>
+    <div class="mt-6 text-center text-xs">
+        <p class="text-slate-500 font-medium">Didn't receive the code? 
+            <a href="{{ url_for('resend_otp') }}" class="font-bold text-blue-600 hover:text-blue-700 hover:underline ml-1">Resend OTP</a>
         </p>
     </div>
 {% endblock %}
 
 {% block bottom_link %}
-<p class="mt-8 text-center text-sm text-slate-400">
-    <a href="{{ url_for('login') }}" class="font-semibold leading-6 text-blue-400 hover:text-blue-300">← Back to Sign In</a>
+<p class="mt-6 text-center text-xs text-slate-500 font-medium">
+    <a href="{{ url_for('login') }}" class="font-bold text-blue-600 hover:text-blue-700 hover:underline">← Back to Sign In</a>
 </p>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('otpForm')?.addEventListener('submit', function() {
+    const btn = document.getElementById('submitBtn');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Verifying...';
+    }
+});
+</script>
 {% endblock %}

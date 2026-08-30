@@ -4,22 +4,22 @@
 
 {% block content %}
 <div class="space-y-6 animate-fade-in max-w-3xl">
-    <div class="border-b border-slate-800 pb-5">
-        <h1 class="text-2xl font-extrabold text-white tracking-tight">Settings &amp; Preferences</h1>
-        <p class="text-sm text-slate-400">Manage your account, integrations, notifications, and workspace configuration.</p>
+    <div class="border-b border-slate-200 pb-5">
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Settings &amp; Preferences</h1>
+        <p class="text-xs font-semibold text-slate-500">Manage your account, integrations, notifications, and workspace configuration.</p>
     </div>
 
     <!-- Profile Card -->
     <div class="saarthi-card p-6">
-        <div class="border-b border-slate-800 pb-4 mb-6">
-            <h3 class="font-bold text-white">Manager Profile</h3>
-            <p class="text-xs text-slate-400">Update your display name and contact information</p>
+        <div class="border-b border-slate-200 pb-4 mb-6">
+            <h3 class="font-bold text-slate-900 text-sm">Manager Profile</h3>
+            <p class="text-xs text-slate-500 font-semibold">Update your display name and contact information</p>
         </div>
         <div class="flex items-center gap-6">
-            <img src="https://ui-avatars.com/api/?name={{ name|default('Manager') }}&background=2563eb&color=fff&bold=true&size=80" class="h-20 w-20 rounded-2xl border border-slate-700">
+            <img src="https://ui-avatars.com/api/?name={{ name|default('Manager') }}&background=2563eb&color=fff&bold=true&size=80" class="h-20 w-20 rounded-2xl border border-slate-200 shadow-sm">
             <div>
-                <h4 class="text-lg font-bold text-white">{{ name|default('Sales Manager') }}</h4>
-                <p class="text-xs text-slate-400">Sales Manager • Territory Lead</p>
+                <h4 class="text-lg font-extrabold text-slate-900">{{ name|default('Sales Manager') }}</h4>
+                <p class="text-xs text-slate-500 font-semibold">Sales Manager • Territory Lead</p>
             </div>
         </div>
     </div>
@@ -28,8 +28,8 @@
     <div class="saarthi-card p-6">
         <div class="flex items-start justify-between">
             <div>
-                <h3 class="font-bold text-white">Google Calendar Integration</h3>
-                <p class="text-xs text-slate-400 mt-1">Sync your Google Calendar to automatically import meeting schedules and trigger AI briefings.</p>
+                <h3 class="font-bold text-slate-900 text-sm">Google Calendar Integration</h3>
+                <p class="text-xs text-slate-500 font-semibold mt-1">Sync your Google Calendar to automatically import meeting schedules and trigger AI briefings.</p>
             </div>
             {% if calendar_connected %}
             <span class="badge badge-success">Connected</span>
@@ -39,7 +39,7 @@
         </div>
         <div class="mt-4">
             {% if calendar_connected %}
-            <p class="text-xs text-emerald-400 font-semibold mb-3">✓ Synced as: {{ google_email }}</p>
+            <p class="text-xs text-emerald-600 font-bold mb-3">✓ Synced as: {{ google_email }}</p>
             <a href="{{ url_for('disconnect_google') }}" class="btn-saarthi-danger text-xs py-2">Disconnect Google Calendar</a>
             {% else %}
             <a href="{{ url_for('authorize_google') }}" class="btn-saarthi-primary text-xs py-2">
@@ -51,18 +51,18 @@
 
     <!-- Notification Preferences -->
     <div class="saarthi-card p-6">
-        <div class="border-b border-slate-800 pb-4 mb-6">
-            <h3 class="font-bold text-white">Notification Preferences</h3>
-            <p class="text-xs text-slate-400">Control when and how you receive AI brief, meeting, and sync alerts.</p>
+        <div class="border-b border-slate-200 pb-4 mb-6">
+            <h3 class="font-bold text-slate-900 text-sm">Notification Preferences</h3>
+            <p class="text-xs text-slate-500 font-semibold">Control when and how you receive AI brief, meeting, and sync alerts.</p>
         </div>
         <div class="space-y-4">
             {% for label, desc in [('Brief Generation Alerts', 'Notify when Gemini AI creates a new executive brief'), ('Meeting Reminders', 'Remind 1 hour before scheduled field visits'), ('Google Calendar Sync Updates', 'Alert on successful calendar sync events'), ('Team Activity Digest', 'Daily digest of representative field activity')] %}
-            <div class="flex items-center justify-between py-3 border-b border-slate-800/60 last:border-b-0">
+            <div class="flex items-center justify-between py-3 border-b border-slate-100 last:border-b-0">
                 <div>
-                    <p class="text-sm font-semibold text-slate-200">{{ label }}</p>
-                    <p class="text-xs text-slate-400">{{ desc }}</p>
+                    <p class="text-xs font-bold text-slate-900">{{ label }}</p>
+                    <p class="text-xs text-slate-500 font-semibold">{{ desc }}</p>
                 </div>
-                <button class="relative h-6 w-11 rounded-full bg-blue-600 transition cursor-pointer border border-slate-700" onclick="this.classList.toggle('bg-blue-600'); this.classList.toggle('bg-slate-800'); this.querySelector('span').classList.toggle('translate-x-5');">
+                <button class="relative h-6 w-11 rounded-full bg-blue-600 transition cursor-pointer border border-slate-300" onclick="this.classList.toggle('bg-blue-600'); this.classList.toggle('bg-slate-200'); this.querySelector('span').classList.toggle('translate-x-5');">
                     <span class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform translate-x-5"></span>
                 </button>
             </div>

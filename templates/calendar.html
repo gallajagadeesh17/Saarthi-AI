@@ -5,15 +5,15 @@
 {% block content %}
 <div class="space-y-6 animate-fade-in">
     <!-- Header -->
-    <div class="flex items-center justify-between gap-4 border-b border-slate-800 pb-5">
+    <div class="flex items-center justify-between gap-4 border-b border-slate-200 pb-5">
         <div>
-            <h1 class="text-2xl font-bold text-white sm:text-3xl">Sales Calendar</h1>
-            <p class="mt-1 text-sm text-slate-400">Plan customer visits and prepare AI briefs before every conversation.</p>
+            <h1 class="text-2xl font-extrabold text-slate-900 sm:text-3xl">Sales Calendar</h1>
+            <p class="mt-1 text-xs font-semibold text-slate-500">Plan customer visits and prepare AI briefs before every conversation.</p>
         </div>
         <div class="flex items-center gap-3">
             {% if calendar_connected %}
                 <a href="/authorize-google" class="btn-saarthi-secondary text-xs">
-                    <svg class="h-3.5 w-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    <svg class="h-3.5 w-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                     Re-sync
                 </a>
                 <a href="/disconnect-google" class="btn-saarthi-danger text-xs">
@@ -30,23 +30,23 @@
     <!-- Calendar Sync Card -->
     <section class="saarthi-card p-6 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
         <div class="flex items-center gap-4">
-            <span class="grid h-12 w-12 place-items-center rounded-xl {% if calendar_connected %}bg-emerald-500/10 text-emerald-400 border border-emerald-500/20{% else %}bg-amber-500/10 text-amber-400 border border-amber-500/20{% endif %}">
+            <span class="grid h-12 w-12 place-items-center rounded-xl {% if calendar_connected %}bg-emerald-50 text-emerald-600 border border-emerald-200{% else %}bg-amber-50 text-amber-600 border border-amber-200{% endif %}">
                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3m8 4V3M5 11h14M6 5h12a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/></svg>
             </span>
             <div>
                 <div class="flex items-center gap-2.5">
-                    <h2 class="font-bold text-white text-base">Google Calendar Sync</h2>
+                    <h2 class="font-extrabold text-slate-900 text-base">Google Calendar Sync</h2>
                     <span class="badge {% if calendar_connected %}badge-success{% else %}badge-warning{% endif %}">
                         {% if calendar_connected %}
-                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Connected
+                            <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Connected
                         {% else %}
-                            <span class="h-1.5 w-1.5 rounded-full bg-amber-400"></span> Not Connected
+                            <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span> Not Connected
                         {% endif %}
                     </span>
                 </div>
-                <p class="mt-1 text-sm text-slate-400">
+                <p class="mt-1 text-xs text-slate-500 font-semibold">
                     {% if calendar_connected %}
-                        Syncing live meetings for <span class="font-semibold text-slate-200">{{ google_email }}</span>
+                        Syncing live meetings for <span class="font-bold text-slate-800">{{ google_email }}</span>
                     {% else %}
                         Connect your Google Calendar to automatically import customer visits and meetings.
                     {% endif %}
@@ -72,26 +72,26 @@
 
     <!-- Meetings Schedule List -->
     <section class="saarthi-card overflow-hidden">
-        <div class="flex items-center justify-between border-b border-slate-800 px-6 py-5">
+        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
             <div>
-                <h2 class="text-lg font-bold text-white">Upcoming Visits &amp; Meetings</h2>
-                <p class="mt-0.5 text-sm text-slate-400">Schedule imported from your connected Google Calendar.</p>
+                <h2 class="text-base font-extrabold text-slate-900">Upcoming Visits &amp; Meetings</h2>
+                <p class="mt-0.5 text-xs text-slate-500">Schedule imported from your connected Google Calendar.</p>
             </div>
             <span class="badge badge-info">{{ meetings|length }} visits</span>
         </div>
-        <div class="divide-y divide-slate-800">
+        <div class="divide-y divide-slate-100">
             {% for meeting in meetings %}
-            <article class="p-6 transition hover:bg-slate-800/40">
+            <article class="p-6 transition hover:bg-slate-50">
                 <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div class="flex min-w-0 items-start gap-4">
-                        <div class="flex w-14 shrink-0 flex-col items-center rounded-xl bg-blue-500/10 px-2 py-2 text-center border border-blue-500/20">
-                            <span class="text-[10px] font-bold uppercase tracking-wide text-blue-400">{% if meeting.start_time %}{{ meeting.start_time.strftime('%b') }}{% else %}TBD{% endif %}</span>
-                            <span class="mt-0.5 text-lg font-bold text-white">{% if meeting.start_time %}{{ meeting.start_time.strftime('%d') }}{% else %}--{% endif %}</span>
+                        <div class="flex w-14 shrink-0 flex-col items-center rounded-xl bg-blue-50 px-2 py-2 text-center border border-blue-100">
+                            <span class="text-[10px] font-bold uppercase tracking-wide text-blue-600">{% if meeting.start_time %}{{ meeting.start_time.strftime('%b') }}{% else %}TBD{% endif %}</span>
+                            <span class="mt-0.5 text-lg font-black text-slate-900">{% if meeting.start_time %}{{ meeting.start_time.strftime('%d') }}{% else %}--{% endif %}</span>
                         </div>
                         <div class="min-w-0">
-                            <h3 class="truncate font-semibold text-white text-base">{{ meeting.title }}</h3>
-                            <p class="mt-0.5 text-xs text-slate-400">Distributor / retailer meeting</p>
-                            <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs font-medium text-slate-400">
+                            <h3 class="truncate font-extrabold text-slate-900 text-base">{{ meeting.title }}</h3>
+                            <p class="mt-0.5 text-xs text-slate-500">Distributor / retailer meeting</p>
+                            <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-slate-500">
                                 <span>{% if meeting.start_time %}{{ meeting.start_time.strftime('%A, %d %b %Y') }}{% else %}Date to be confirmed{% endif %}</span>
                                 <span>•</span>
                                 <span>{% if meeting.start_time %}{{ meeting.start_time.strftime('%I:%M %p') }}{% else %}Time to be confirmed{% endif %}</span>
@@ -103,11 +103,11 @@
             </article>
             {% else %}
             <div class="px-6 py-16 text-center">
-                <span class="mx-auto grid h-12 w-12 place-items-center rounded-xl bg-slate-800 text-slate-400">
+                <span class="mx-auto grid h-12 w-12 place-items-center rounded-xl bg-slate-100 text-slate-400">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3m8 4V3M5 11h14M6 5h12a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/></svg>
                 </span>
-                <h3 class="mt-4 font-semibold text-white">No upcoming customer visits</h3>
-                <p class="mx-auto mt-1 max-w-sm text-sm text-slate-400">{% if calendar_connected %}Your synced calendar does not have any upcoming meetings yet.{% else %}Connect Google Calendar to see upcoming distributor and retailer visits here.{% endif %}</p>
+                <h3 class="mt-4 font-bold text-slate-900">No upcoming customer visits</h3>
+                <p class="mx-auto mt-1 max-w-sm text-xs text-slate-500 font-semibold">{% if calendar_connected %}Your synced calendar does not have any upcoming meetings yet.{% else %}Connect Google Calendar to see upcoming distributor and retailer visits here.{% endif %}</p>
                 {% if not calendar_connected %}
                 <a href="/authorize-google" class="mt-5 btn-saarthi-primary text-xs">Connect Google Calendar</a>
                 {% endif %}
@@ -119,12 +119,12 @@
 {% endblock %}
 
 {% block scripts %}
-<div id="loadingOverlay" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-950/80 p-5 backdrop-blur-sm">
-    <div class="w-full max-w-md rounded-2xl bg-slate-900 border border-slate-800 p-7 text-center shadow-2xl">
-        <div class="mx-auto grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-sm font-bold text-white shadow-lg">AI</div>
-        <h2 class="mt-4 text-lg font-bold text-white">Generating AI Brief</h2>
-        <p class="mt-2 text-sm text-slate-400">Saarthi AI is preparing pre-visit intelligence.</p>
-        <div class="mt-5 h-2 overflow-hidden rounded-full bg-slate-800">
+<div id="loadingOverlay" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/40 p-5 backdrop-blur-sm">
+    <div class="w-full max-w-md rounded-2xl bg-white border border-slate-200 p-7 text-center shadow-2xl">
+        <div class="mx-auto grid h-12 w-12 place-items-center rounded-xl bg-blue-600 text-sm font-bold text-white shadow-md">AI</div>
+        <h2 class="mt-4 text-lg font-extrabold text-slate-900">Generating AI Brief</h2>
+        <p class="mt-2 text-xs text-slate-500">Saarthi AI is preparing pre-visit intelligence.</p>
+        <div class="mt-5 h-2 overflow-hidden rounded-full bg-slate-100">
             <div id="progressBar" class="h-full w-1/2 animate-pulse rounded-full bg-blue-600"></div>
         </div>
     </div>

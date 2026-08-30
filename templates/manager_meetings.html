@@ -6,10 +6,10 @@
 <div class="space-y-6 animate-fade-in">
 
     <!-- Page Header -->
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-800 pb-5">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200 pb-5">
         <div>
-            <h1 class="text-2xl font-extrabold text-white tracking-tight">Meetings Management</h1>
-            <p class="text-sm text-slate-400">
+            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Meetings Management</h1>
+            <p class="text-xs font-semibold text-slate-500">
                 {% if view_mode == 'active' %}Showing today's and upcoming meetings — nearest visit first.
                 {% elif view_mode == 'completed' %}Showing completed and past meetings.
                 {% else %}Showing all meetings across all dates and statuses.
@@ -30,56 +30,56 @@
         <div class="saarthi-card saarthi-card-hover p-5">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Today's Meetings</span>
-                <span class="grid h-9 w-9 place-items-center rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                 </span>
             </div>
-            <p class="mt-3 text-3xl font-extrabold text-white">{{ kpi_today }}</p>
-            <p class="mt-1 text-xs text-slate-400">Active visits scheduled today</p>
+            <p class="mt-3 text-3xl font-extrabold text-slate-900">{{ kpi_today }}</p>
+            <p class="mt-1 text-xs font-semibold text-slate-500">Active visits scheduled today</p>
         </div>
 
         <!-- Upcoming Meetings -->
         <div class="saarthi-card saarthi-card-hover p-5">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Upcoming</span>
-                <span class="grid h-9 w-9 place-items-center rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-indigo-50 text-indigo-600 border border-indigo-100">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </span>
             </div>
-            <p class="mt-3 text-3xl font-extrabold text-indigo-400">{{ kpi_upcoming }}</p>
-            <p class="mt-1 text-xs text-slate-400">Future meetings after today</p>
+            <p class="mt-3 text-3xl font-extrabold text-indigo-600">{{ kpi_upcoming }}</p>
+            <p class="mt-1 text-xs font-semibold text-slate-500">Future meetings after today</p>
         </div>
 
         <!-- Pending AI Briefs -->
         <div class="saarthi-card saarthi-card-hover p-5">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Pending AI Briefs</span>
-                <span class="grid h-9 w-9 place-items-center rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-amber-50 text-amber-600 border border-amber-100">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
                     </svg>
                 </span>
             </div>
-            <p class="mt-3 text-3xl font-extrabold text-amber-400">{{ kpi_pending_briefs }}</p>
-            <p class="mt-1 text-xs text-slate-400">Active meetings without an AI brief</p>
+            <p class="mt-3 text-3xl font-extrabold text-amber-600">{{ kpi_pending_briefs }}</p>
+            <p class="mt-1 text-xs font-semibold text-slate-500">Active meetings without an AI brief</p>
         </div>
 
         <!-- Manager Created -->
         <div class="saarthi-card saarthi-card-hover p-5">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Manager Created</span>
-                <span class="grid h-9 w-9 place-items-center rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-purple-50 text-purple-600 border border-purple-100">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
                 </span>
             </div>
-            <p class="mt-3 text-3xl font-extrabold text-purple-400">{{ kpi_mgr_created }}</p>
-            <p class="mt-1 text-xs text-slate-400">Active meetings assigned by you</p>
+            <p class="mt-3 text-3xl font-extrabold text-purple-600">{{ kpi_mgr_created }}</p>
+            <p class="mt-1 text-xs font-semibold text-slate-500">Active meetings assigned by you</p>
         </div>
     </div>
 
@@ -87,7 +87,7 @@
     <div class="saarthi-card p-5 space-y-4">
 
         <!-- View Mode Tabs -->
-        <div class="flex flex-wrap items-center gap-2 border-b border-slate-800 pb-4">
+        <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4">
             <span class="mr-2 text-xs font-bold text-slate-400 uppercase tracking-wider">View:</span>
             {% for label, mode, icon_path in [
                 ('Active Meetings',    'active',    'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'),
@@ -96,13 +96,13 @@
             ] %}
             <a href="{{ url_for('manager_meetings', view=mode, q=q, rep=rep_filter, date_from=date_from, date_to=date_to) }}"
                class="inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold transition
-                      {% if view_mode == mode %}bg-blue-600 text-white shadow-sm{% else %}text-slate-400 hover:bg-slate-800 hover:text-white{% endif %}">
+                      {% if view_mode == mode %}bg-blue-600 text-white shadow-sm{% else %}text-slate-600 hover:bg-slate-100{% endif %}">
                 <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ icon_path }}"/>
                 </svg>
                 {{ label }}
                 {% if mode == 'active' %}
-                <span class="ml-0.5 rounded-full {{ 'bg-white/20 text-white' if view_mode == mode else 'bg-blue-500/20 text-blue-400' }} px-1.5 py-0 text-[10px] font-extrabold">
+                <span class="ml-0.5 rounded-full {{ 'bg-white/20 text-white' if view_mode == mode else 'bg-blue-50 text-blue-600' }} px-1.5 py-0 text-[10px] font-extrabold">
                     {{ kpi_today + kpi_upcoming }}
                 </span>
                 {% endif %}
@@ -116,16 +116,16 @@
 
             <!-- Search -->
             <div class="relative flex-1 min-w-[200px]">
-                <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
-                <input name="q" value="{{ q }}" type="text" placeholder="Search title or company..." class="saarthi-input pl-10 text-xs py-2 w-full">
+                <input name="q" value="{{ q }}" type="text" placeholder="Search title or company..." class="saarthi-input pl-10 text-xs py-1.5 w-full">
             </div>
 
             <!-- Representative -->
             <div>
                 <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Representative</label>
-                <select name="rep" class="saarthi-select text-xs py-2">
+                <select name="rep" class="saarthi-select text-xs py-1.5">
                     <option value="">All Reps</option>
                     {% for rep in team_members %}
                     <option value="{{ rep.id }}" {{ 'selected' if rep_filter == rep.id|string }}>{{ rep.name }}</option>
@@ -136,28 +136,28 @@
             <!-- Date From -->
             <div>
                 <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">From</label>
-                <input name="date_from" value="{{ date_from }}" type="date" class="saarthi-input text-xs py-2">
+                <input name="date_from" value="{{ date_from }}" type="date" class="saarthi-input text-xs py-1.5">
             </div>
 
             <!-- Date To -->
             <div>
                 <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">To</label>
-                <input name="date_to" value="{{ date_to }}" type="date" class="saarthi-input text-xs py-2">
+                <input name="date_to" value="{{ date_to }}" type="date" class="saarthi-input text-xs py-1.5">
             </div>
 
-            <button type="submit" class="btn-saarthi-primary text-xs py-2">Apply Filters</button>
-            <a href="{{ url_for('manager_meetings', view=view_mode) }}" class="btn-saarthi-secondary text-xs py-2">Reset</a>
+            <button type="submit" class="btn-saarthi-primary text-xs py-1.5">Apply Filters</button>
+            <a href="{{ url_for('manager_meetings', view=view_mode) }}" class="btn-saarthi-secondary text-xs py-1.5">Reset</a>
         </form>
     </div>
 
     <!-- Meetings Table -->
     <div class="saarthi-card overflow-hidden">
 
-        <div class="flex items-center justify-between border-b border-slate-800 px-6 py-4">
+        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
             <div class="flex items-center gap-3">
                 {% if view_mode == 'active' %}
                 <span class="badge badge-success">
-                    <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     Active &amp; Upcoming
                 </span>
                 {% elif view_mode == 'completed' %}
@@ -165,7 +165,7 @@
                 {% else %}
                 <span class="badge badge-info">All Meetings</span>
                 {% endif %}
-                <span class="text-xs font-semibold text-slate-400">{{ filtered_meetings|length }} record{{ 's' if filtered_meetings|length != 1 }}</span>
+                <span class="text-xs font-semibold text-slate-500">{{ filtered_meetings|length }} record{{ 's' if filtered_meetings|length != 1 }}</span>
             </div>
             {% if view_mode == 'active' %}
             <span class="text-[11px] font-semibold text-slate-400">Sorted nearest first ↑</span>
@@ -192,49 +192,49 @@
                     {% set creator_role = meeting.created_by_role or 'rep' %}
                     {% set is_today = meeting.meeting_datetime and
                                       meeting.meeting_datetime.date() == now.date() if now is defined else false %}
-                    <tr class="{{ 'bg-blue-950/20' if is_today }}">
+                    <tr class="{{ 'bg-blue-50/40' if is_today }}">
 
                         <!-- Title -->
                         <td>
                             <div class="flex items-center gap-3">
                                 <div class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-xl
-                                            {{ 'bg-blue-600 text-white' if is_today else 'bg-slate-800 text-blue-400 border border-slate-700' }}
+                                            {{ 'bg-blue-600 text-white' if is_today else 'bg-slate-100 text-blue-600 border border-slate-200' }}
                                             font-extrabold text-sm">
                                     {{ meeting.title[0]|upper if meeting.title else 'M' }}
                                 </div>
                                 <div>
-                                    <p class="font-bold text-white max-w-[180px] truncate">{{ meeting.title }}</p>
-                                    <span class="text-[11px] text-slate-400">
+                                    <p class="font-bold text-slate-900 text-xs max-w-[180px] truncate">{{ meeting.title }}</p>
+                                    <span class="text-[11px] text-slate-500 font-semibold">
                                         {{ meeting.meeting_type or 'Manual' }}
-                                        {% if is_today %}<span class="ml-1 text-blue-400 font-bold">• Today</span>{% endif %}
+                                        {% if is_today %}<span class="ml-1 text-blue-600 font-bold">• Today</span>{% endif %}
                                     </span>
                                 </div>
                             </div>
                         </td>
 
                         <!-- Company -->
-                        <td class="font-semibold text-slate-200">{{ meeting.company_name }}</td>
+                        <td class="font-semibold text-slate-800 text-xs">{{ meeting.company_name }}</td>
 
                         <!-- Representative -->
                         <td>
                             {% if owner %}
                             <div class="flex items-center gap-2">
                                 <img src="https://ui-avatars.com/api/?name={{ owner.name }}&background=2563eb&color=fff&size=28&bold=true"
-                                     class="h-6 w-6 rounded-lg flex-shrink-0 border border-slate-700">
-                                <span class="text-xs font-semibold text-slate-300">{{ owner.name }}</span>
+                                     class="h-6 w-6 rounded-lg flex-shrink-0 border border-slate-200">
+                                <span class="text-xs font-semibold text-slate-700">{{ owner.name }}</span>
                             </div>
                             {% else %}
-                            <span class="text-xs text-slate-500">Unassigned</span>
+                            <span class="text-xs text-slate-400">Unassigned</span>
                             {% endif %}
                         </td>
 
                         <!-- Date & Time -->
                         <td>
                             {% if meeting.meeting_datetime %}
-                            <p class="text-xs font-bold text-white">{{ meeting.meeting_datetime.strftime('%a, %d %b %Y') }}</p>
-                            <p class="text-[11px] font-semibold text-blue-400">{{ meeting.meeting_datetime.strftime('%I:%M %p') }}</p>
+                            <p class="text-xs font-bold text-slate-900">{{ meeting.meeting_datetime.strftime('%a, %d %b %Y') }}</p>
+                            <p class="text-[11px] font-semibold text-blue-600">{{ meeting.meeting_datetime.strftime('%I:%M %p') }}</p>
                             {% else %}
-                            <span class="text-xs text-slate-500">TBD</span>
+                            <span class="text-xs text-slate-400">TBD</span>
                             {% endif %}
                         </td>
 
@@ -266,7 +266,7 @@
                             <span class="badge badge-danger">Cancelled</span>
                             {% elif meeting.status == 'In Progress' %}
                             <span class="badge badge-success">
-                                <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                                 In Progress
                             </span>
                             {% else %}
@@ -279,7 +279,7 @@
                             <div class="inline-flex items-center gap-1">
                                 <a href="{{ url_for('manager_edit_meeting', meeting_id=meeting.id) }}"
                                    title="Edit"
-                                   class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-amber-400 transition">
+                                   class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-amber-600 transition">
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                     </svg>
@@ -289,7 +289,7 @@
                                       onsubmit="return confirm('Delete this meeting permanently?');"
                                       class="inline">
                                     <button type="submit" title="Delete"
-                                            class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-rose-400 transition">
+                                            class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-rose-600 transition">
                                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                         </svg>
@@ -303,20 +303,20 @@
                     <tr>
                         <td colspan="8" class="py-16 text-center">
                             {% if view_mode == 'active' %}
-                            <svg class="mx-auto h-12 w-12 text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="mx-auto h-12 w-12 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            <p class="text-base font-bold text-white">All clear — no active meetings</p>
-                            <p class="mt-1 text-sm text-slate-400">No upcoming visits scheduled for you or your team.</p>
+                            <p class="text-base font-bold text-slate-900">All clear — no active meetings</p>
+                            <p class="mt-1 text-xs text-slate-500 font-semibold">No upcoming visits scheduled for you or your team.</p>
                             <a href="{{ url_for('manager_new_meeting') }}" class="mt-4 inline-flex btn-saarthi-primary text-xs py-2">
                                 + Schedule a Meeting
                             </a>
                             {% else %}
-                            <svg class="mx-auto h-12 w-12 text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="mx-auto h-12 w-12 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
-                            <p class="text-base font-bold text-white">No meetings found</p>
-                            <p class="mt-1 text-sm text-slate-400">Try adjusting your filters, or create a new meeting.</p>
+                            <p class="text-base font-bold text-slate-900">No meetings found</p>
+                            <p class="mt-1 text-xs text-slate-500 font-semibold">Try adjusting your filters, or create a new meeting.</p>
                             {% endif %}
                         </td>
                     </tr>

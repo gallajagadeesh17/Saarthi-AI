@@ -1,26 +1,26 @@
 {% extends "rep_base.html" %}
 
-{% block title %}Settings & Preferences | Saarthi AI{% endblock %}
+{% block title %}Settings &amp; Preferences | Saarthi AI{% endblock %}
 
 {% block content %}
 <div class="space-y-6 animate-fade-in max-w-3xl">
-    <div class="border-b border-slate-800 pb-5">
-        <h1 class="text-2xl font-extrabold text-white tracking-tight">Settings &amp; Preferences</h1>
-        <p class="text-sm text-slate-400">Manage your profile, integrations, notification alerts, and security settings.</p>
+    <div class="border-b border-slate-200 pb-5">
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Settings &amp; Preferences</h1>
+        <p class="text-xs font-semibold text-slate-500">Manage your profile, integrations, notification alerts, and security settings.</p>
     </div>
 
     <!-- Profile -->
     <div class="saarthi-card p-6">
-        <div class="border-b border-slate-800 pb-4 mb-6">
-            <h3 class="font-bold text-white">Account Profile</h3>
-            <p class="text-xs text-slate-400">Your sales workspace identity and personal details.</p>
+        <div class="border-b border-slate-200 pb-4 mb-6">
+            <h3 class="font-bold text-slate-900 text-sm">Account Profile</h3>
+            <p class="text-xs text-slate-500 font-semibold">Your sales workspace identity and personal details.</p>
         </div>
         <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex items-center gap-4">
-                <img src="https://ui-avatars.com/api/?name={{ name }}&background=2563eb&color=fff&bold=true&size=80" class="h-16 w-16 rounded-2xl border border-slate-700">
+                <img src="https://ui-avatars.com/api/?name={{ name }}&background=2563eb&color=fff&bold=true&size=80" class="h-16 w-16 rounded-2xl border border-slate-200 shadow-sm">
                 <div>
-                    <p class="text-lg font-bold text-white">{{ name }}</p>
-                    <p class="text-xs text-slate-400">Sales Representative</p>
+                    <p class="text-lg font-extrabold text-slate-900">{{ name }}</p>
+                    <p class="text-xs text-slate-500 font-semibold">Sales Representative</p>
                     <span class="mt-1 badge badge-success inline-flex">Active Account</span>
                 </div>
             </div>
@@ -29,22 +29,22 @@
 
     <!-- Google Calendar Integration -->
     <div class="saarthi-card p-6">
-        <div class="border-b border-slate-800 pb-4 mb-6">
-            <h3 class="font-bold text-white">Google Calendar Integration</h3>
-            <p class="text-xs text-slate-400">Sync your Google Calendar to automatically import meeting schedules and trigger AI research and briefing generation.</p>
+        <div class="border-b border-slate-200 pb-4 mb-6">
+            <h3 class="font-bold text-slate-900 text-sm">Google Calendar Integration</h3>
+            <p class="text-xs text-slate-500 font-semibold">Sync your Google Calendar to automatically import meeting schedules and trigger AI research and briefing generation.</p>
         </div>
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex items-center gap-4">
-                <span class="grid h-12 w-12 place-items-center rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                <span class="grid h-12 w-12 place-items-center rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </span>
                 <div>
                     {% if calendar_connected %}
-                    <p class="font-bold text-white text-sm">Google Calendar Connected</p>
-                    <p class="text-xs text-emerald-400 font-semibold">Syncing as: {{ google_email }}</p>
+                    <p class="font-extrabold text-slate-900 text-sm">Google Calendar Connected</p>
+                    <p class="text-xs text-emerald-600 font-bold">Syncing as: {{ google_email }}</p>
                     {% else %}
-                    <p class="font-bold text-white text-sm">Google Calendar Not Connected</p>
-                    <p class="text-xs text-slate-400">Connect to auto-sync visits and trigger AI briefings.</p>
+                    <p class="font-extrabold text-slate-900 text-sm">Google Calendar Not Connected</p>
+                    <p class="text-xs text-slate-500 font-semibold">Connect to auto-sync visits and trigger AI briefings.</p>
                     {% endif %}
                 </div>
             </div>
@@ -62,9 +62,9 @@
 
     <!-- Notification Preferences -->
     <div class="saarthi-card p-6">
-        <div class="border-b border-slate-800 pb-4 mb-6">
-            <h3 class="font-bold text-white">Notification Preferences</h3>
-            <p class="text-xs text-slate-400">Configure which alerts appear in your workspace and notification drawer.</p>
+        <div class="border-b border-slate-200 pb-4 mb-6">
+            <h3 class="font-bold text-slate-900 text-sm">Notification Preferences</h3>
+            <p class="text-xs text-slate-500 font-semibold">Configure which alerts appear in your workspace and notification drawer.</p>
         </div>
         <div class="space-y-1">
             {% for label, desc, on in [
@@ -75,13 +75,13 @@
                 ('PDF Export Ready', 'Alert when premium PDF report is generated and ready to download', false),
                 ('Password & Security Events', 'Notify on account security and credential changes', true)
             ] %}
-            <div class="flex items-center justify-between py-3.5 border-b border-slate-800/60 last:border-b-0">
+            <div class="flex items-center justify-between py-3.5 border-b border-slate-100 last:border-b-0">
                 <div>
-                    <p class="text-sm font-semibold text-slate-200">{{ label }}</p>
-                    <p class="text-xs text-slate-400 mt-0.5">{{ desc }}</p>
+                    <p class="text-xs font-bold text-slate-900">{{ label }}</p>
+                    <p class="text-xs text-slate-500 font-semibold mt-0.5">{{ desc }}</p>
                 </div>
-                <button class="relative h-6 w-11 rounded-full transition {{ 'bg-blue-600' if on else 'bg-slate-800' }} cursor-pointer flex-shrink-0 border border-slate-700"
-                    onclick="this.classList.toggle('bg-blue-600'); this.classList.toggle('bg-slate-800'); this.querySelector('span').classList.toggle('translate-x-5');">
+                <button class="relative h-6 w-11 rounded-full transition {{ 'bg-blue-600' if on else 'bg-slate-200' }} cursor-pointer flex-shrink-0 border border-slate-300"
+                    onclick="this.classList.toggle('bg-blue-600'); this.classList.toggle('bg-slate-200'); this.querySelector('span').classList.toggle('translate-x-5');">
                     <span class="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform {{ 'translate-x-5' if on else '' }}"></span>
                 </button>
             </div>
@@ -91,14 +91,14 @@
 
     <!-- Security -->
     <div class="saarthi-card p-6">
-        <div class="border-b border-slate-800 pb-4 mb-6">
-            <h3 class="font-bold text-white">Security &amp; Access</h3>
-            <p class="text-xs text-slate-400">Manage your password and active session security.</p>
+        <div class="border-b border-slate-200 pb-4 mb-6">
+            <h3 class="font-bold text-slate-900 text-sm">Security &amp; Access</h3>
+            <p class="text-xs text-slate-500 font-semibold">Manage your password and active session security.</p>
         </div>
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-sm font-semibold text-slate-200">Account Password</p>
-                <p class="text-xs text-slate-400 mt-0.5">Last changed: Recently</p>
+                <p class="text-xs font-bold text-slate-900">Account Password</p>
+                <p class="text-xs text-slate-500 font-semibold mt-0.5">Last changed: Recently</p>
             </div>
             <a href="{{ url_for('forgot_password') }}" class="btn-saarthi-secondary text-xs">Change Password</a>
         </div>

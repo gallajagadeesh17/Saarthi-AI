@@ -4,31 +4,22 @@
 
 {% block head_extra %}
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-<style>
-    .brief-card-hover-glow::before {
-        content: ""; position: absolute; inset: 0; border-radius: 20px; padding: 1px;
-        background: linear-gradient(140deg, rgba(37,99,235,0.45), rgba(79,70,229,0.35) 45%, rgba(6,182,212,0.45));
-        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
-        opacity: 0; transition: opacity .4s ease; z-index: 1; pointer-events: none;
-    }
-    .brief-card-hover-glow:hover::before { opacity: 1; }
-</style>
 {% endblock %}
 
 {% block content %}
 <div class="space-y-6 animate-fade-in">
     <!-- Header -->
-    <div class="flex items-center justify-between gap-4 border-b border-slate-800 pb-5">
+    <div class="flex items-center justify-between gap-4 border-b border-slate-200 pb-5">
         <div>
             <nav class="text-xs font-semibold text-slate-400 mb-1" aria-label="Breadcrumb">
                 <ol class="flex items-center gap-2">
-                    <li><a href="{{ url_for('rep_dashboard') }}" class="hover:text-blue-400">Dashboard</a></li>
+                    <li><a href="{{ url_for('rep_dashboard') }}" class="hover:text-blue-600">Dashboard</a></li>
                     <li>•</li>
-                    <li class="text-slate-200">My Briefs</li>
+                    <li class="text-slate-700">My Briefs</li>
                 </ol>
             </nav>
-            <h1 class="text-2xl font-bold text-white sm:text-3xl">My AI Briefs</h1>
-            <p class="mt-1 text-sm text-slate-400">Executive sales intelligence generated for your meetings.</p>
+            <h1 class="text-2xl font-extrabold text-slate-900 sm:text-3xl">My AI Briefs</h1>
+            <p class="mt-1 text-xs text-slate-500 font-semibold">Executive sales intelligence generated for your meetings.</p>
         </div>
         <div>
             <a href="{{ url_for('rep_dashboard') }}" class="btn-saarthi-primary text-xs">
@@ -43,11 +34,10 @@
     <!-- Search & Filters -->
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div class="relative flex-1">
-            <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
-            <input id="search-input" type="search" placeholder="Search briefs by company or title..." class="saarthi-input pl-10 w-full text-xs">
+            <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
+            <input id="search-input" type="search" placeholder="Search briefs by company or title..." class="saarthi-input pl-10 w-full text-xs py-2">
         </div>
         <div class="flex items-center gap-3">
-            <!-- Filter Select -->
             <div class="relative">
                 <select id="filter-select" class="saarthi-select text-xs py-2">
                     <option value="all">Filter: All</option>
@@ -56,7 +46,6 @@
                     <option value="month">Filter: This Month</option>
                 </select>
             </div>
-            <!-- Sort Select -->
             <div class="relative">
                 <select id="sort-select" class="saarthi-select text-xs py-2">
                     <option value="newest">Sort by: Newest</option>
@@ -70,7 +59,7 @@
 
     <div id="brief-list" class="grid grid-cols-1 gap-6 md:grid-cols-2">
         {% for brief in briefs %}
-        <div class="brief-card saarthi-card relative flex flex-col p-6 brief-card-hover-glow hover:border-slate-700"
+        <div class="brief-card saarthi-card relative flex flex-col p-6 hover:border-blue-400"
              data-brief-id="{{ brief.id }}"
              data-title="{{ (brief.meeting_title or '')|e }}"
              data-company="{{ (brief.customer_name or '')|e }}"
@@ -84,15 +73,15 @@
 
             <div class="flex-grow">
                 <div class="flex items-center gap-3.5 mb-4">
-                    <img src="https://ui-avatars.com/api/?name={{ brief.customer_name | default('AI') }}&background=2563eb&color=fff&size=44" alt="{{ brief.customer_name }}" class="h-11 w-11 rounded-xl shadow-md border border-slate-700">
+                    <img src="https://ui-avatars.com/api/?name={{ brief.customer_name | default('AI') }}&background=2563eb&color=fff&size=44" alt="{{ brief.customer_name }}" class="h-11 w-11 rounded-xl shadow-sm border border-slate-200">
                     <div>
-                        <h3 class="text-lg font-bold text-white tracking-tight">{{ brief.customer_name | default('Unknown Company') }}</h3>
-                        <p class="text-xs text-slate-400">{{ brief.meeting_title }}</p>
+                        <h3 class="text-base font-extrabold text-slate-900 tracking-tight">{{ brief.customer_name | default('Unknown Company') }}</h3>
+                        <p class="text-xs text-slate-500 font-semibold">{{ brief.meeting_title }}</p>
                     </div>
                 </div>
-                <div class="mt-4 space-y-2 text-xs text-slate-300">
-                    <p class="flex items-center gap-2.5"><i data-lucide="calendar-days" class="h-4 w-4 text-blue-400"></i> <span class="font-semibold text-slate-400">Meeting Date:</span> {{ brief.meeting_time | default('N/A') }}</p>
-                    <p class="flex items-center gap-2.5"><i data-lucide="clock" class="h-4 w-4 text-indigo-400"></i> <span class="font-semibold text-slate-400">Generated:</span> {{ brief.created_at.strftime('%d %b %Y, %I:%M %p') }}</p>
+                <div class="mt-4 space-y-2 text-xs text-slate-600">
+                    <p class="flex items-center gap-2.5"><i data-lucide="calendar-days" class="h-4 w-4 text-blue-600"></i> <span class="font-bold text-slate-700">Meeting Date:</span> {{ brief.meeting_time | default('N/A') }}</p>
+                    <p class="flex items-center gap-2.5"><i data-lucide="clock" class="h-4 w-4 text-indigo-600"></i> <span class="font-bold text-slate-700">Generated:</span> {{ brief.created_at.strftime('%d %b %Y, %I:%M %p') }}</p>
                 </div>
                 <div class="mt-5 flex flex-wrap gap-2">
                     <span class="badge badge-success" title="Brief Status">
@@ -104,23 +93,23 @@
                 </div>
             </div>
             <!-- Actions -->
-            <div class="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-slate-800 pt-4">
-                <button onclick="openPreviewModal({{ brief.id }}, '{{ brief.meeting_title|escape }}', '{{ brief.customer_name|escape }}')" class="btn-saarthi-primary text-xs py-2 px-3.5" title="View Brief">
+            <div class="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-4">
+                <button onclick="openPreviewModal({{ brief.id }}, '{{ brief.meeting_title|escape }}', '{{ brief.customer_name|escape }}')" class="btn-saarthi-primary text-xs py-1.5 px-3.5" title="View Brief">
                     <i data-lucide="eye" class="h-4 w-4"></i> View Brief
                 </button>
-                <a href="{{ url_for('download_brief', brief_id=brief.id) }}" class="btn-saarthi-secondary text-xs py-2 px-3.5" title="Download PDF">
+                <a href="{{ url_for('download_brief', brief_id=brief.id) }}" class="btn-saarthi-secondary text-xs py-1.5 px-3.5" title="Download PDF">
                     <i data-lucide="download" class="h-4 w-4"></i> PDF Report
                 </a>
-                <button onclick="deleteBrief({{ brief.id }}, this)" class="btn-saarthi-danger text-xs py-2 px-3.5" title="Delete Brief">
+                <button onclick="deleteBrief({{ brief.id }}, this)" class="btn-saarthi-danger text-xs py-1.5 px-3.5" title="Delete Brief">
                     <i data-lucide="trash-2" class="h-4 w-4"></i> Delete
                 </button>
             </div>
         </div>
         {% else %}
-        <div id="original-empty-state" class="col-span-full flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-800 bg-slate-900/50 p-12 text-center">
-            <div class="mb-4 text-5xl">✨</div>
-            <h3 class="text-xl font-bold text-white">No AI Briefs Yet</h3>
-            <p class="mt-2 text-sm text-slate-400">Generate your first executive sales briefing to see it here.</p>
+        <div id="original-empty-state" class="col-span-full flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white p-12 text-center">
+            <div class="mb-4 text-4xl">✨</div>
+            <h3 class="text-lg font-bold text-slate-900">No AI Briefs Yet</h3>
+            <p class="mt-1 text-xs text-slate-500 font-semibold">Generate your first executive sales briefing to see it here.</p>
             <a href="{{ url_for('rep_dashboard') }}" class="mt-6 btn-saarthi-primary text-xs">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -130,41 +119,40 @@
         </div>
         {% endfor %}
     </div>
-    <div id="no-results-message" class="hidden col-span-full flex-col items-center justify-center rounded-2xl border border-dashed border-slate-800 bg-slate-900/50 p-12 text-center">
-        <h3 class="text-xl font-bold text-white">No matching briefs found.</h3>
-        <p class="mt-2 text-sm text-slate-400">Try adjusting your search terms or filter selection.</p>
+    <div id="no-results-message" class="hidden col-span-full flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white p-12 text-center">
+        <h3 class="text-lg font-bold text-slate-900">No matching briefs found.</h3>
+        <p class="mt-1 text-xs text-slate-500 font-semibold">Try adjusting your search terms or filter selection.</p>
     </div>
 </div>
 
 <!-- Brief Preview Modal -->
-<div id="briefPreviewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/80 p-6 backdrop-blur-sm">
-    <div class="relative w-full max-w-lg rounded-2xl border border-slate-800 bg-slate-900 p-7 shadow-2xl">
-        <button onclick="closeBriefPreview()" class="absolute right-6 top-6 text-slate-400 hover:text-white">
+<div id="briefPreviewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/40 p-6 backdrop-blur-sm">
+    <div class="relative w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-7 shadow-2xl">
+        <button onclick="closeBriefPreview()" class="absolute right-6 top-6 text-slate-400 hover:text-slate-700">
             <i data-lucide="x" class="h-5 w-5"></i>
         </button>
-        <h3 class="text-xl font-bold text-white">Brief Preview</h3>
-        <p class="mt-1 text-xs text-slate-400" id="preview-company-title"></p>
+        <h3 class="text-lg font-extrabold text-slate-900">Brief Preview</h3>
+        <p class="mt-1 text-xs text-slate-500 font-semibold" id="preview-company-title"></p>
         <div class="mt-5 space-y-4">
             <div>
-                <h4 class="font-bold text-slate-200 text-xs uppercase tracking-wider">Executive Summary</h4>
-                <p class="mt-1.5 text-xs text-slate-300 leading-relaxed" id="preview-summary">Loading...</p>
+                <h4 class="font-bold text-slate-700 text-xs uppercase tracking-wider">Executive Summary</h4>
+                <p class="mt-1 text-xs text-slate-600 leading-relaxed font-normal" id="preview-summary">Loading...</p>
             </div>
             <div>
-                <h4 class="font-bold text-emerald-400 text-xs uppercase tracking-wider">Key Opportunities</h4>
-                <ul class="mt-1.5 list-disc list-inside space-y-1 text-xs text-slate-300" id="preview-opportunities"></ul>
+                <h4 class="font-bold text-emerald-700 text-xs uppercase tracking-wider">Key Opportunities</h4>
+                <ul class="mt-1 list-disc list-inside space-y-1 text-xs text-slate-600" id="preview-opportunities"></ul>
             </div>
             <div>
-                <h4 class="font-bold text-rose-400 text-xs uppercase tracking-wider">Key Risks</h4>
-                <ul class="mt-1.5 list-disc list-inside space-y-1 text-xs text-slate-300" id="preview-risks"></ul>
+                <h4 class="font-bold text-rose-700 text-xs uppercase tracking-wider">Key Risks</h4>
+                <ul class="mt-1 list-disc list-inside space-y-1 text-xs text-slate-600" id="preview-risks"></ul>
             </div>
-            <div class="flex justify-between text-xs font-bold pt-2 border-t border-slate-800">
-                <span class="text-blue-400">Meeting Score: <span id="preview-score">N/A</span></span>
+            <div class="flex justify-between text-xs font-bold pt-3 border-t border-slate-100">
+                <span class="text-blue-600">Meeting Score: <span id="preview-score">N/A</span></span>
             </div>
         </div>
-        <a href="#" id="preview-view-full-brief" class="mt-6 block w-full btn-saarthi-primary text-xs py-2.5 text-center">View Full Brief Page</a>
+        <a href="#" id="preview-view-full-brief" class="mt-6 block w-full btn-saarthi-primary text-xs py-2 text-center">View Full Brief Page</a>
     </div>
 </div>
-
 {% endblock %}
 
 {% block scripts %}
@@ -181,7 +169,7 @@ function showToast(message, type = 'success') {
     const toast = document.createElement('div');
     const isSuccess = type === 'success';
     
-    toast.className = `flex items-center gap-3 rounded-xl px-5 py-3 text-xs font-semibold text-white shadow-lg transition-all duration-300 transform translate-y-4 opacity-0 ${isSuccess ? 'bg-emerald-600' : 'bg-rose-600'}`;
+    toast.className = `flex items-center gap-3 rounded-xl px-5 py-3 text-xs font-bold text-white shadow-lg transition-all duration-300 transform translate-y-4 opacity-0 ${isSuccess ? 'bg-emerald-600' : 'bg-rose-600'}`;
     toast.innerHTML = `<span>${isSuccess ? '✓' : '✗'}</span><span>${message}</span>`;
     container.appendChild(toast);
 
@@ -265,53 +253,6 @@ function showBriefPreview(briefId, briefTitle, customerName, aiResponseJson) {
         }
         let score = aiData.meeting_readiness_score || aiData.opportunity_score;
 
-        const briefHtml = aiData.brief_html || aiData.html || (typeof aiData.output === 'string' ? aiData.output : null);
-
-        if (briefHtml) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = briefHtml;
-
-            if (!summary) {
-                const summaryHeadings = Array.from(tempDiv.querySelectorAll('h2, h3, h4')).filter(h => 
-                    h.textContent.toLowerCase().includes('summary') || h.textContent.toLowerCase().includes('takeaway')
-                );
-                if (summaryHeadings.length > 0) {
-                    summary = summaryHeadings[0].nextElementSibling?.textContent;
-                }
-                if (!summary) {
-                    const firstParagraph = tempDiv.querySelector('p');
-                    summary = firstParagraph ? firstParagraph.textContent : null;
-                }
-            }
-
-            if (opportunities.length === 0) {
-                const opportunityHeadings = Array.from(tempDiv.querySelectorAll('h2, h3, h4')).filter(h => 
-                    h.textContent.toLowerCase().includes('opportunit') || 
-                    h.textContent.toLowerCase().includes('buying signal')
-                );
-                if (opportunityHeadings.length > 0) {
-                    const list = opportunityHeadings[0].nextElementSibling;
-                    if (list && (list.tagName === 'UL' || list.tagName === 'OL')) {
-                        opportunities = Array.from(list.querySelectorAll('li')).map(li => li.textContent.trim());
-                    }
-                }
-            }
-
-            if (risks.length === 0) {
-                const riskHeadings = Array.from(tempDiv.querySelectorAll('h2, h3, h4')).filter(h => 
-                    h.textContent.toLowerCase().includes('risk')
-                );
-                if (riskHeadings.length > 0) {
-                    const list = riskHeadings[0].nextElementSibling;
-                    if (list && (list.tagName === 'UL' || list.tagName === 'OL')) {
-                        risks = Array.from(list.querySelectorAll('li')).map(li => li.textContent.trim());
-                    } else if (list) {
-                        risks = [list.textContent.trim()];
-                    }
-                }
-            }
-        }
-
         previewSummary.textContent = summary ? (summary.substring(0, 250) + (summary.length > 250 ? '...' : '')) : 'No executive summary available.';
         previewOpportunities.innerHTML = opportunities.length > 0 ? opportunities.slice(0, 3).map(opp => `<li>${(typeof opp === 'object' && opp.client_name) ? opp.client_name : opp}</li>`).join('') : '<li>No key opportunities identified.</li>';
         previewRisks.innerHTML = risks.length > 0 ? risks.slice(0, 2).map(risk => `<li>${risk}</li>`).join('') : '<li>No key risks identified.</li>';
@@ -349,29 +290,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const allBriefCards = Array.from(briefListContainer.querySelectorAll('.brief-card'));
 
-    function isSameDay(d1, d2) {
-        return d1.getFullYear() === d2.getFullYear() &&
-               d1.getMonth() === d2.getMonth() &&
-               d1.getDate() === d2.getDate();
-    }
-
-    function isSameWeek(d1, d2) {
-        const diffTime = Math.abs(d2 - d1);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays <= 7 && d1.getFullYear() === d2.getFullYear();
-    }
-
-    function isSameMonth(d1, d2) {
-        return d1.getFullYear() === d2.getFullYear() &&
-               d1.getMonth() === d2.getMonth();
-    }
-
     function updateBriefsView() {
         const searchTerm = (searchInput ? searchInput.value : '').trim().toLowerCase();
-        const filterValue = filterSelect ? filterSelect.value : 'all';
-        const sortValue = sortSelect ? sortSelect.value : 'newest';
-        const now = new Date();
-
         let visibleCount = 0;
 
         allBriefCards.forEach(card => {
@@ -379,24 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const title = (card.dataset.title || '').toLowerCase();
             const searchMatch = !searchTerm || company.includes(searchTerm) || title.includes(searchTerm);
 
-            let dateMatch = false;
-            const createdStr = card.dataset.created;
-            const cardDate = createdStr ? new Date(createdStr) : null;
-
-            if (filterValue === 'all') {
-                dateMatch = true;
-            } else if (filterValue === 'today') {
-                dateMatch = cardDate && isSameDay(cardDate, now);
-            } else if (filterValue === 'week') {
-                dateMatch = cardDate && isSameWeek(cardDate, now);
-            } else if (filterValue === 'month') {
-                dateMatch = cardDate && isSameMonth(cardDate, now);
-            } else {
-                dateMatch = true;
-            }
-
-            const shouldShow = searchMatch && dateMatch;
-            if (shouldShow) {
+            if (searchMatch) {
                 card.classList.remove('hidden');
                 card.style.display = 'flex';
                 visibleCount++;
@@ -404,29 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.classList.add('hidden');
                 card.style.display = 'none';
             }
-        });
-
-        const sortedCards = [...allBriefCards].sort((a, b) => {
-            const timeA = parseInt(a.dataset.timestamp || '0', 10);
-            const timeB = parseInt(b.dataset.timestamp || '0', 10);
-            const companyA = (a.dataset.company || '').toLowerCase();
-            const companyB = (b.dataset.company || '').toLowerCase();
-
-            switch (sortValue) {
-                case 'oldest':
-                    return timeA - timeB;
-                case 'company':
-                    return companyA.localeCompare(companyB);
-                case 'meeting_date':
-                    return timeB - timeA;
-                case 'newest':
-                default:
-                    return timeB - timeA;
-            }
-        });
-
-        sortedCards.forEach(card => {
-            briefListContainer.appendChild(card);
         });
 
         if (noResultsMessage) {
@@ -442,31 +322,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (searchInput) {
         searchInput.addEventListener('input', updateBriefsView);
-        searchInput.addEventListener('keyup', updateBriefsView);
-    }
-    if (filterSelect) {
-        filterSelect.addEventListener('change', updateBriefsView);
-    }
-    if (sortSelect) {
-        sortSelect.addEventListener('change', updateBriefsView);
-    }
-
-    if (briefPreviewModal) {
-        briefPreviewModal.addEventListener('click', (e) => {
-            if (e.target === briefPreviewModal) {
-                closeBriefPreview();
-            }
-        });
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && briefPreviewModal && !briefPreviewModal.classList.contains('hidden')) {
-            closeBriefPreview();
-        }
-    });
-
-    if (allBriefCards.length > 0) {
-        updateBriefsView();
     }
 });
 </script>

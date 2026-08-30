@@ -6,28 +6,20 @@
 <div class="space-y-8 animate-fade-in">
 
     <!-- ── Welcome Banner ── -->
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-gradient-to-r from-blue-950 via-slate-900 to-indigo-950 p-6 text-white border border-slate-800 shadow-2xl">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-white p-6 text-slate-900 border border-slate-200 shadow-sm">
         <div>
-            <span id="calendarPill" class="inline-flex items-center gap-2 rounded-full bg-blue-500/20 px-3 py-1 text-xs font-bold text-blue-300 border border-blue-400/30">
-                <span class="h-2 w-2 rounded-full {{ 'bg-emerald-400 animate-pulse' if calendar_connected else 'bg-amber-400' }}"></span>
+            <span id="calendarPill" class="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700 border border-blue-200">
+                <span class="h-2 w-2 rounded-full {{ 'bg-emerald-500 animate-pulse' if calendar_connected else 'bg-amber-500' }}"></span>
                 {% if calendar_connected %}Google Calendar Active{% else %}Connect Calendar for Auto-Sync{% endif %}
             </span>
-            <h1 class="mt-3 text-2xl font-extrabold tracking-tight sm:text-3xl">Welcome back, {{ name }} 👋</h1>
-            <p class="mt-1 text-sm text-slate-400">Your AI-powered sales intelligence dashboard. Every meeting, fully prepared.</p>
+            <h1 class="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">Welcome back, {{ name }} 👋</h1>
+            <p class="mt-1 text-xs text-slate-500 font-semibold">Your AI-powered sales intelligence dashboard. Every meeting, fully prepared.</p>
         </div>
         <!-- ── SINGLE PRIMARY CTA ── -->
         <a href="{{ url_for('create_meeting') }}"
            id="newMeetingBtn"
-           class="btn-saarthi-primary inline-flex items-center gap-3 font-bold text-white cursor-pointer flex-shrink-0"
-           style="
-               height: 52px;
-               min-width: 210px;
-               padding: 0 24px;
-               font-size: 15px;
-               font-weight: 700;
-               border-radius: 12px;
-           ">
-            <span class="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-white/20">
+           class="btn-saarthi-primary inline-flex items-center gap-2 font-bold text-white cursor-pointer flex-shrink-0 text-xs py-3 px-5">
+            <span class="inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-lg bg-white/20">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -41,49 +33,49 @@
         <div class="saarthi-card saarthi-card-hover p-5">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Today's Meetings</span>
-                <span class="grid h-9 w-9 place-items-center rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-blue-50 text-blue-600 border border-blue-100">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </span>
             </div>
-            <p class="mt-3 text-3xl font-extrabold text-white">{{ meetings_today|default(0) }}</p>
-            <p class="mt-1 text-xs text-slate-400">{{ high_priority_count|default(0) }} high-priority in 24h</p>
+            <p class="mt-3 text-3xl font-extrabold text-slate-900">{{ meetings_today|default(0) }}</p>
+            <p class="mt-1 text-xs font-semibold text-slate-500">{{ high_priority_count|default(0) }} high-priority in 24h</p>
         </div>
         <div class="saarthi-card saarthi-card-hover p-5">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Pending Briefs</span>
-                <span class="grid h-9 w-9 place-items-center rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-amber-50 text-amber-600 border border-amber-100">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                 </span>
             </div>
             {% set pending_count = meetings|length - total_briefs if (meetings|length - total_briefs) > 0 else 0 %}
-            <p class="mt-3 text-3xl font-extrabold text-amber-400">{{ pending_count }}</p>
-            <p class="mt-1 text-xs text-slate-400">{{ briefs_today|default(0) }} generated today</p>
+            <p class="mt-3 text-3xl font-extrabold text-amber-600">{{ pending_count }}</p>
+            <p class="mt-1 text-xs font-semibold text-slate-500">{{ briefs_today|default(0) }} generated today</p>
         </div>
         <div class="saarthi-card saarthi-card-hover p-5">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400">AI Readiness</span>
-                <span class="grid h-9 w-9 place-items-center rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-purple-50 text-purple-600 border border-purple-100">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 </span>
             </div>
-            <p class="mt-3 text-3xl font-extrabold text-purple-400">{{ ai_readiness|default(75) }}%</p>
-            <div class="mt-2 h-1.5 rounded-full bg-slate-800 overflow-hidden">
-                <div class="h-full rounded-full bg-purple-500" style="width:{{ ai_readiness|default(75) }}%"></div>
+            <p class="mt-3 text-3xl font-extrabold text-purple-600">{{ ai_readiness|default(75) }}%</p>
+            <div class="mt-2 h-1.5 rounded-full bg-slate-100 overflow-hidden">
+                <div class="h-full rounded-full bg-purple-600" style="width:{{ ai_readiness|default(75) }}%"></div>
             </div>
         </div>
-        <div class="saarthi-card saarthi-card-hover p-5 {% if next_meeting %}border-blue-500/30 bg-blue-950/20{% endif %}">
+        <div class="saarthi-card saarthi-card-hover p-5 {% if next_meeting %}border-blue-200 bg-blue-50/30{% endif %}">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Next Meeting</span>
-                <span class="grid h-9 w-9 place-items-center rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span class="grid h-9 w-9 place-items-center rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </span>
             </div>
             {% if next_meeting %}
-            <p class="mt-3 text-base font-extrabold text-white truncate">{{ next_meeting.company_name }}</p>
-            <p class="mt-1 text-xs font-semibold text-blue-400">{{ next_meeting_time }}</p>
+            <p class="mt-3 text-base font-extrabold text-slate-900 truncate">{{ next_meeting.company_name }}</p>
+            <p class="mt-1 text-xs font-bold text-blue-600">{{ next_meeting_time }}</p>
             {% else %}
-            <p class="mt-3 text-sm font-bold text-slate-500">No upcoming meetings</p>
-            <a href="{{ url_for('create_meeting') }}" class="mt-1 text-xs text-blue-400 font-semibold hover:underline">Schedule one now →</a>
+            <p class="mt-3 text-sm font-bold text-slate-400">No upcoming meetings</p>
+            <a href="{{ url_for('create_meeting') }}" class="mt-1 text-xs text-blue-600 font-bold hover:underline">Schedule one now →</a>
             {% endif %}
         </div>
     </div>
@@ -93,10 +85,10 @@
 
         <!-- ── Today's Customer Visits (3/5) ── -->
         <div class="saarthi-card overflow-hidden lg:col-span-3">
-            <div class="flex items-center justify-between border-b border-slate-800 px-6 py-4">
+            <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
                 <div>
-                    <h3 class="font-bold text-white">Today's Customer Visits</h3>
-                    <p class="text-xs text-slate-400">Click <strong class="text-blue-400">Generate AI Brief</strong> to prepare for each visit</p>
+                    <h3 class="font-bold text-slate-900">Today's Customer Visits</h3>
+                    <p class="text-xs text-slate-500">Click <strong class="text-blue-600">Generate AI Brief</strong> to prepare for each visit</p>
                 </div>
                 <a href="{{ url_for('briefs') }}" class="btn-saarthi-secondary py-1.5 text-xs">All Briefs →</a>
             </div>
@@ -104,7 +96,6 @@
             <div id="meetingsList" class="p-6 space-y-4">
                 {% if meetings %}
                 {% for meeting in meetings[:6] %}
-                {# ── Determine meeting key & brief lookup key ── #}
                 {% if meeting.source == 'google' %}
                     {% set meeting_key = meeting.id %}
                     {% set brief_key   = meeting.id %}
@@ -115,10 +106,9 @@
                 {% set has_brief    = meeting_status.get(meeting.id, false) %}
                 {% set brief_obj    = briefs_by_meeting_key.get(brief_key) %}
 
-                {# ── Date badge logic ── #}
                 {% set is_today = meeting.start_time and meeting.start_time.date() == today %}
 
-                <div class="meeting-card group relative p-6 bg-slate-900/90 rounded-2xl border border-slate-800 hover:border-blue-500/50 shadow-lg transition-all duration-300 min-h-[200px] flex flex-col justify-between"
+                <div class="meeting-card group relative p-5 bg-white rounded-2xl border border-slate-200 hover:border-blue-400 shadow-sm transition-all duration-300 min-h-[190px] flex flex-col justify-between"
                      id="meeting-card-{{ meeting.id }}"
                      data-meeting-id="{{ meeting.id }}"
                      data-source="{{ meeting.source }}"
@@ -127,36 +117,30 @@
                      data-brief-id="{{ brief_obj.id if brief_obj else '' }}"
                      data-brief-url="{{ url_for('meeting_brief', brief_id=brief_obj.id) if brief_obj else '' }}">
 
-                    <!-- ── STANDARD CARD CONTENT (Hidden during AI generation animation) ── -->
+                    <!-- Standard Card Content -->
                     <div id="card-content-{{ meeting.id }}" class="flex flex-col justify-between h-full space-y-4">
-                        
-                        <!-- Top Header Row: Company Logo/Avatar + Main Header + Priority + Dropdown -->
-                        <div class="flex items-start gap-5">
-                            <!-- Company Logo / Avatar -->
+                        <div class="flex items-start gap-4">
                             <div class="relative flex-shrink-0">
-                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 text-white font-black text-xl flex items-center justify-center shadow-lg shadow-blue-500/20 border border-slate-700">
+                                <div class="w-12 h-12 rounded-xl bg-blue-600 text-white font-extrabold text-lg flex items-center justify-center shadow-sm">
                                     {{ meeting.company_name[0]|upper if meeting.company_name else 'M' }}
                                 </div>
                                 {% if is_today %}
-                                <span class="absolute -top-1 -right-1 flex h-4 w-4">
+                                <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
                                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 border-2 border-slate-900"></span>
+                                    <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white"></span>
                                 </span>
                                 {% endif %}
                             </div>
 
-                            <!-- Content Header -->
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between gap-3">
-                                    <div class="flex items-center gap-2.5 min-w-0 flex-wrap">
-                                        <!-- 1. Company Name -->
-                                        <h4 class="text-lg font-bold text-white truncate tracking-tight">{{ meeting.company_name }}</h4>
+                                    <div class="flex items-center gap-2 min-w-0 flex-wrap">
+                                        <h4 class="text-base font-extrabold text-slate-900 truncate tracking-tight">{{ meeting.company_name }}</h4>
 
-                                        <!-- 5. Priority Badge -->
                                         {% set prio = meeting.priority|default('Medium') %}
                                         {% if prio == 'High' %}
                                         <span class="badge badge-danger">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse"></span> High Priority
+                                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span> High Priority
                                         </span>
                                         {% elif prio == 'Low' %}
                                         <span class="badge badge-slate">
@@ -164,38 +148,38 @@
                                         </span>
                                         {% else %}
                                         <span class="badge badge-warning">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Medium Priority
+                                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Medium Priority
                                         </span>
                                         {% endif %}
                                     </div>
 
-                                    <!-- Dropdown Menu Trigger -->
+                                    <!-- Dropdown Trigger -->
                                     <div class="relative flex-shrink-0">
-                                        <button class="dropdown-btn grid h-8 w-8 place-items-center rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition" data-id="{{ meeting.id }}">
+                                        <button class="dropdown-btn grid h-8 w-8 place-items-center rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition" data-id="{{ meeting.id }}">
                                             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 13a1 1 0 100-2 1 1 0 000 2zm-7 0a1 1 0 100-2 1 1 0 000 2zm14 0a1 1 0 100-2 1 1 0 000 2z"/></svg>
                                         </button>
-                                        <div class="dropdown-menu hidden absolute right-0 top-9 z-50 w-52 rounded-2xl border border-slate-700 bg-slate-900 shadow-2xl py-1.5" id="dropdown-{{ meeting.id }}">
+                                        <div class="dropdown-menu hidden absolute right-0 top-9 z-50 w-52 rounded-2xl border border-slate-200 bg-white shadow-xl py-1.5" id="dropdown-{{ meeting.id }}">
                                             {% if meeting.source == 'manual' %}
-                                            <a href="{{ url_for('edit_meeting', meeting_id=meeting.id) }}" class="flex w-full items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-slate-300 hover:bg-slate-800 hover:text-white">
-                                                <svg class="h-4 w-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                            <a href="{{ url_for('edit_meeting', meeting_id=meeting.id) }}" class="flex w-full items-center gap-2.5 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50">
+                                                <svg class="h-4 w-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                                 Edit Meeting
                                             </a>
                                             {% endif %}
                                             {% if not has_brief %}
-                                            <button class="dropdown-generate flex w-full items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-blue-400 hover:bg-slate-800" data-meeting-id="{{ meeting.id }}" data-source="{{ meeting.source }}" data-company="{{ meeting.company_name }}">
-                                                <svg class="h-4 w-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                            <button class="dropdown-generate flex w-full items-center gap-2.5 px-4 py-2 text-xs font-bold text-blue-600 hover:bg-slate-50" data-meeting-id="{{ meeting.id }}" data-source="{{ meeting.source }}" data-company="{{ meeting.company_name }}">
+                                                <svg class="h-4 w-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                                                 Generate AI Brief
                                             </button>
                                             {% else %}
-                                            <a href="{{ url_for('meeting_brief', brief_id=brief_obj.id) if brief_obj else '#' }}" class="flex w-full items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-emerald-400 hover:bg-slate-800">
+                                            <a href="{{ url_for('meeting_brief', brief_id=brief_obj.id) if brief_obj else '#' }}" class="flex w-full items-center gap-2.5 px-4 py-2 text-xs font-bold text-emerald-600 hover:bg-slate-50">
                                                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                                                 View Brief
                                             </a>
                                             {% endif %}
                                             {% if meeting.source == 'manual' %}
-                                            <div class="my-1 border-t border-slate-800"></div>
+                                            <div class="my-1 border-t border-slate-100"></div>
                                             <form method="POST" action="{{ url_for('delete_meeting', meeting_id=meeting.id) }}" onsubmit="return confirm('Delete this meeting?');">
-                                                <button type="submit" class="flex w-full items-center gap-2.5 px-4 py-2.5 text-xs font-semibold text-rose-400 hover:bg-slate-800">
+                                                <button type="submit" class="flex w-full items-center gap-2.5 px-4 py-2 text-xs font-bold text-rose-600 hover:bg-slate-50">
                                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                                     Delete Meeting
                                                 </button>
@@ -204,99 +188,64 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="text-xs font-semibold text-slate-400 mt-1 truncate">{{ meeting.title }}</p>
+                                <p class="text-xs font-semibold text-slate-500 mt-0.5 truncate">{{ meeting.title }}</p>
                             </div>
                         </div>
 
                         <!-- Details Grid -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs text-slate-300">
-                            <div class="flex items-center gap-2 bg-slate-800/70 px-3 py-2 rounded-xl border border-slate-700/60 font-medium">
-                                <svg class="w-4 h-4 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-slate-600">
+                            <div class="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 font-medium">
+                                <svg class="w-3.5 h-3.5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                 <span class="truncate">
                                     {% if meeting.start_time %}
-                                        {% if is_today %}<span class="font-bold text-blue-400">Today</span>{% else %}{{ meeting.start_time.strftime('%a, %d %b') }}{% endif %} • {{ meeting.start_time.strftime('%I:%M %p') }}
+                                        {% if is_today %}<span class="font-bold text-blue-600">Today</span>{% else %}{{ meeting.start_time.strftime('%a, %d %b') }}{% endif %} • {{ meeting.start_time.strftime('%I:%M %p') }}
                                     {% endif %}
                                 </span>
                             </div>
 
-                            <div class="flex items-center gap-2 bg-slate-800/70 px-3 py-2 rounded-xl border border-slate-700/60 font-medium">
-                                <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            <div class="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 font-medium">
+                                <svg class="w-3.5 h-3.5 text-indigo-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                                 <span class="truncate">{{ meeting.contact_person|default('Key Decision Maker') }}</span>
                             </div>
 
-                            <div class="flex items-center gap-2 bg-slate-800/70 px-3 py-2 rounded-xl border border-slate-700/60 font-medium">
-                                <svg class="w-4 h-4 text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                                <span class="truncate">{{ meeting.meeting_type|default('In-Person Visit') }}</span>
-                            </div>
-                        </div>
+                            <div class="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 font-medium">
+                                <svg class="w-3.5 h-3.5 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                                 <span class="truncate">{{ meeting.meeting_type|default('In-Person Visit') }}</span>
                             </div>
                         </div>
 
-                        <!-- Footer: 6. Calendar Source + 7. AI Confidence + Action Buttons -->
+                        <!-- Footer Actions -->
                         <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
                             <div class="flex flex-wrap items-center gap-2">
-                                <!-- 6. Calendar Source -->
                                 {% if meeting.source == 'google' %}
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/80">
-                                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24">
-                                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#34A853"/>
-                                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#34A853"/>
-                                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#34A853"/>
-                                    </svg>
+                                <span class="badge badge-success">
                                     Google Calendar
                                 </span>
                                 {% else %}
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/80">
-                                    <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <span class="badge badge-info">
                                     Manual Schedule
                                 </span>
                                 {% endif %}
 
-                                <!-- 7. AI Confidence -->
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200/80">
-                                    <svg class="w-3.5 h-3.5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                <span class="badge badge-neutral">
                                     98% AI Confidence
                                 </span>
-
-                                <!-- Brief Status Badge -->
-                                {% if has_brief %}
-                                <span class="brief-ready-badge-{{ meeting.id }} inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-emerald-500 text-white shadow-sm">
-                                    <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                                    Brief Ready
-                                </span>
-                                {% else %}
-                                <span class="brief-ready-badge-{{ meeting.id }} hidden inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-emerald-500 text-white shadow-sm">
-                                    <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                                    Brief Ready
-                                </span>
-                                {% endif %}
                             </div>
 
-                            <!-- Buttons Container -->
                             <div id="action-{{ meeting.id }}" class="flex items-center gap-2">
                                 {% if has_brief and brief_obj %}
-                                <a href="{{ url_for('meeting_brief', brief_id=brief_obj.id) }}" class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold text-white transition shadow-sm hover:opacity-90" style="background:linear-gradient(135deg,#059669,#0d9488);">
-                                    <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                <a href="{{ url_for('meeting_brief', brief_id=brief_obj.id) }}" class="btn-saarthi-primary text-xs py-1.5 px-3">
                                     View Executive Brief
                                 </a>
-                                <a href="{{ url_for('download_brief', brief_id=brief_obj.id) }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 transition shadow-sm">
-                                    <svg class="h-3.5 w-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                <a href="{{ url_for('download_brief', brief_id=brief_obj.id) }}" class="btn-saarthi-secondary text-xs py-1.5 px-3">
                                     Download PDF
                                 </a>
-                                <button title="Share Brief" onclick="shareBrief('{{ brief_obj.id }}')" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 transition shadow-sm">
-                                    <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-                                    Share
-                                </button>
                                 {% else %}
-                                <button class="generate-brief-btn inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-extrabold text-white transition-all duration-150 active:scale-95 cursor-pointer shadow-md shadow-blue-600/30"
-                                        style="background:linear-gradient(135deg,#2563EB 0%,#4F46E5 100%);"
+                                <button class="generate-brief-btn btn-saarthi-primary text-xs py-1.5 px-3 cursor-pointer"
                                         data-meeting-id="{{ meeting.id }}"
                                         data-source="{{ meeting.source }}"
                                         data-company="{{ meeting.company_name }}">
-                                    <svg class="h-4 w-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                                    Generate AI Brief
+                                    ⚡ Generate AI Brief
                                 </button>
                                 {% endif %}
                             </div>
@@ -304,77 +253,45 @@
                         <p id="error-{{ meeting.id }}" class="hidden text-xs font-semibold text-rose-600 mt-1"></p>
                     </div>
 
-                    <!-- ── AI GENERATION LOADING PANEL (Glassmorphism Dark AI Glow Card) ── -->
-                    <div id="ai-panel-{{ meeting.id }}" class="hidden relative overflow-hidden rounded-2xl bg-slate-900/95 backdrop-blur-xl border border-indigo-500/40 p-6 text-white shadow-[0_0_50px_rgba(79,70,229,0.35)] transition-all duration-500">
-                        <!-- Ambient AI Glow Background -->
-                        <div class="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br from-blue-600/25 to-purple-600/25 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
-                        <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-gradient-to-tr from-indigo-600/20 to-pink-600/20 rounded-full blur-3xl pointer-events-none"></div>
-
-                        <!-- Header: Pulsing Brain Icon + Title + Live Subtitle + Time -->
+                    <!-- AI Generation Loading Panel -->
+                    <div id="ai-panel-{{ meeting.id }}" class="hidden relative overflow-hidden rounded-2xl bg-white border border-blue-200 p-5 text-slate-900 shadow-sm transition-all duration-500">
                         <div class="flex items-start justify-between gap-4 relative z-10">
-                            <div class="flex items-center gap-3.5">
-                                <!-- Pulsing AI Brain Icon -->
-                                <div class="relative grid h-12 w-12 flex-shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg shadow-indigo-500/50 border border-indigo-400/40 animate-ai-brain">
-                                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="flex items-center gap-3">
+                                <div class="relative grid h-10 w-10 flex-shrink-0 place-items-center rounded-xl bg-blue-600 text-white shadow-sm">
+                                    <svg class="h-5 w-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
                                     </svg>
                                 </div>
                                 <div>
                                     <div class="flex items-center gap-2">
-                                        <h4 id="ai-panel-title-{{ meeting.id }}" class="text-base font-extrabold text-white tracking-tight">AI is collecting live business intelligence</h4>
-                                        <span id="ai-panel-dots-{{ meeting.id }}" class="inline-flex text-blue-400 font-bold animate-pulse text-sm">...</span>
+                                        <h4 id="ai-panel-title-{{ meeting.id }}" class="text-sm font-extrabold text-slate-900">AI is collecting live business intelligence</h4>
+                                        <span id="ai-panel-dots-{{ meeting.id }}" class="inline-flex text-blue-600 font-bold animate-pulse text-xs">...</span>
                                     </div>
-                                    <p class="text-xs text-blue-200/90 mt-0.5 flex items-center gap-2">
-                                        <span>Target: <strong class="text-white font-bold">{{ meeting.company_name }}</strong></span>
-                                        <span class="text-slate-500">•</span>
-                                        <span class="text-indigo-300 font-semibold">Usually takes 15-30 seconds</span>
-                                    </p>
+                                    <p class="text-xs text-slate-500 mt-0.5">Target: <strong class="text-slate-800">{{ meeting.company_name }}</strong></p>
                                 </div>
                             </div>
 
-                            <!-- Percentage Counter -->
                             <div class="flex flex-col items-end">
-                                <span id="ai-panel-percent-{{ meeting.id }}" class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-300">0%</span>
-                                <span class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">Progress</span>
+                                <span id="ai-panel-percent-{{ meeting.id }}" class="text-lg font-black text-blue-600">0%</span>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Progress</span>
                             </div>
                         </div>
 
-                        <!-- Small Animated Live Intelligence Chips -->
-                        <div class="mt-4 flex flex-wrap items-center gap-2 relative z-10">
-                            <span class="ai-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-500/15 border border-blue-400/30 text-blue-200 shadow-sm"><span class="animate-pulse">🌐</span> Company Website</span>
-                            <span class="ai-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-indigo-500/15 border border-indigo-400/30 text-indigo-200 shadow-sm"><span class="animate-pulse">📰</span> News</span>
-                            <span class="ai-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-sky-500/15 border border-sky-400/30 text-sky-200 shadow-sm"><span class="animate-pulse">💼</span> LinkedIn</span>
-                            <span class="ai-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/15 border border-emerald-400/30 text-emerald-200 shadow-sm"><span class="animate-pulse">📊</span> Financial Reports</span>
-                            <span class="ai-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/15 border border-amber-400/30 text-amber-200 shadow-sm"><span class="animate-pulse">⭐</span> Customer Reviews</span>
-                            <span class="ai-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-500/15 border border-rose-400/30 text-rose-200 shadow-sm"><span class="animate-pulse">🏢</span> Competitors</span>
-                            <span class="ai-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-purple-500/15 border border-purple-400/30 text-purple-200 shadow-sm"><span class="animate-pulse">📈</span> Market Trends</span>
-                            <span class="ai-chip inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-purple-400/40 text-purple-100 shadow-sm"><span class="animate-pulse">🧠</span> Gemini AI Analysis</span>
+                        <!-- Progress Bar -->
+                        <div class="mt-3 relative h-2 w-full rounded-full bg-slate-100 overflow-hidden border border-slate-200 z-10">
+                            <div id="ai-panel-bar-{{ meeting.id }}" class="h-full rounded-full bg-blue-600 transition-all duration-300 ease-out" style="width: 0%;"></div>
                         </div>
 
-                        <!-- Smooth Animated Progress Bar -->
-                        <div class="mt-4 relative h-2 w-full rounded-full bg-slate-800/80 overflow-hidden border border-slate-700/50 z-10">
-                            <div id="ai-panel-bar-{{ meeting.id }}" class="h-full rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 transition-all duration-300 ease-out shadow-[0_0_15px_rgba(99,102,241,0.8)]" style="width: 0%;"></div>
-                        </div>
+                        <!-- Step Log -->
+                        <div class="mt-3 max-h-40 overflow-y-auto pr-1 space-y-1.5 text-xs font-mono z-10" id="ai-panel-steps-{{ meeting.id }}"></div>
 
-                        <!-- Live Step-by-Step Animated Log -->
-                        <div class="mt-4 max-h-48 overflow-y-auto pr-1 space-y-2 text-xs font-mono scrollbar-thin scrollbar-thumb-indigo-500/30 z-10" id="ai-panel-steps-{{ meeting.id }}">
-                            <!-- Real-time AI research steps dynamically injected & animated here -->
-                        </div>
-
-                        <!-- Completion Buttons Container (Hidden until success) -->
-                        <div id="ai-panel-actions-{{ meeting.id }}" class="hidden mt-5 pt-4 border-t border-slate-800 flex items-center gap-3 flex-wrap relative z-10 animate-fade-in">
-                            <a id="ai-btn-view-{{ meeting.id }}" href="#" class="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-extrabold text-white transition shadow-lg shadow-emerald-600/30 hover:scale-105" style="background:linear-gradient(135deg,#059669,#0d9488);">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        <div id="ai-panel-actions-{{ meeting.id }}" class="hidden mt-4 pt-3 border-t border-slate-100 flex items-center gap-3 flex-wrap relative z-10">
+                            <a id="ai-btn-view-{{ meeting.id }}" href="#" class="btn-saarthi-primary text-xs py-1.5 px-3">
                                 View Executive Brief
                             </a>
-                            <a id="ai-btn-pdf-{{ meeting.id }}" href="#" class="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-4 py-2.5 text-xs font-extrabold text-white hover:bg-slate-700 transition shadow-sm hover:scale-105">
-                                <svg class="h-4 w-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            <a id="ai-btn-pdf-{{ meeting.id }}" href="#" class="btn-saarthi-secondary text-xs py-1.5 px-3">
                                 Download PDF
                             </a>
-                            <button id="ai-btn-share-{{ meeting.id }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-4 py-2.5 text-xs font-extrabold text-slate-200 hover:bg-slate-700 transition shadow-sm hover:scale-105">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-                                Share Brief
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -383,19 +300,19 @@
                 <div class="flex flex-col items-center justify-center py-12 text-center px-6">
                     <svg class="h-10 w-10 text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     <p class="text-sm font-semibold text-slate-600">No meetings scheduled</p>
-                    <a href="{{ url_for('create_meeting') }}" class="mt-2 text-xs text-blue-600 font-semibold hover:underline">+ Schedule a meeting</a>
+                    <a href="{{ url_for('create_meeting') }}" class="mt-2 text-xs text-blue-600 font-bold hover:underline">+ Schedule a meeting</a>
                 </div>
                 {% endif %}
             </div>
         </div>
 
         <!-- ── AI Workflow Timeline (2/5) ── -->
-        <div class="ent-card p-6 lg:col-span-2" id="workflowPanel">
+        <div class="saarthi-card p-6 lg:col-span-2" id="workflowPanel">
             <div class="flex items-center justify-between mb-1">
                 <h3 class="font-bold text-slate-900">AI Briefing Pipeline</h3>
-                <span id="workflowStatus" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">Idle</span>
+                <span id="workflowStatus" class="badge badge-slate text-[10px]">Idle</span>
             </div>
-            <p class="text-xs text-slate-400 mb-6">Live status for the next AI brief generation</p>
+            <p class="text-xs text-slate-500 mb-6">Live status for the next AI brief generation</p>
 
             <div class="relative">
                 <div class="absolute left-[18px] top-0 h-full w-0.5 bg-slate-100"></div>
@@ -416,14 +333,14 @@
                     <div class="workflow-step flex items-start gap-4 relative" id="{{ step_id }}"
                          data-step="{{ loop.index }}">
                         <div class="step-icon relative z-10 grid h-9 w-9 flex-shrink-0 place-items-center rounded-xl border-2 transition-all duration-500
-                                    {{ 'bg-emerald-500 border-emerald-400 text-white' if is_done else 'bg-white border-slate-200 text-slate-300' }}">
+                                    {{ 'bg-emerald-500 border-emerald-500 text-white' if is_done else 'bg-white border-slate-200 text-slate-300' }}">
                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="{{ step_icon }}"/>
                             </svg>
                         </div>
                         <div class="flex-1 pt-1.5 min-w-0">
                             <p class="step-label text-xs font-bold {{ 'text-slate-900' if is_done else 'text-slate-400' }}">{{ step_label }}</p>
-                            <p class="step-desc text-[11px] {{ 'text-slate-500' if is_done else 'text-slate-300' }}">{{ step_desc }}</p>
+                            <p class="step-desc text-[11px] {{ 'text-slate-500' if is_done else 'text-slate-400' }}">{{ step_desc }}</p>
                         </div>
                         {% if is_done %}
                         <svg class="step-check h-4 w-4 flex-shrink-0 text-emerald-500 mt-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -444,19 +361,19 @@
 
     <!-- ── Recent AI Briefs ── -->
     {% if briefs %}
-    <div class="ent-card overflow-hidden">
-        <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
+    <div class="saarthi-card overflow-hidden">
+        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
             <div>
                 <h3 class="font-bold text-slate-900">Recent AI Executive Briefs</h3>
-                <p class="text-xs text-slate-400">Gemini AI–generated briefings for your customer visits</p>
+                <p class="text-xs text-slate-500">Gemini AI–generated briefings for your customer visits</p>
             </div>
-            <a href="{{ url_for('briefs') }}" class="btn-primary py-1.5 text-xs">View All {{ total_briefs }} →</a>
+            <a href="{{ url_for('briefs') }}" class="btn-saarthi-secondary py-1.5 text-xs">View All {{ total_briefs }} →</a>
         </div>
-        <div class="divide-y divide-slate-50">
+        <div class="divide-y divide-slate-100">
             {% for brief in briefs[:4] %}
             <div class="flex items-center gap-4 px-6 py-4 hover:bg-slate-50 transition">
-                <div class="grid h-10 w-10 flex-shrink-0 place-items-center rounded-xl bg-purple-100 text-purple-700">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                <div class="grid h-9 w-9 flex-shrink-0 place-items-center rounded-xl bg-purple-50 text-purple-600 border border-purple-100">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                 </div>
                 <div class="min-w-0 flex-1">
                     <p class="truncate text-sm font-bold text-slate-900">{{ brief.meeting_title }}</p>
@@ -464,8 +381,8 @@
                 </div>
                 <div class="flex items-center gap-2 flex-shrink-0">
                     <span class="badge badge-success">Ready</span>
-                    <a href="{{ url_for('meeting_brief', brief_id=brief.id) }}" class="btn-secondary py-1 px-3 text-xs">View</a>
-                    <a href="{{ url_for('download_brief', brief_id=brief.id) }}" class="btn-primary py-1 px-3 text-xs">PDF</a>
+                    <a href="{{ url_for('meeting_brief', brief_id=brief.id) }}" class="btn-saarthi-secondary py-1 px-3 text-xs">View</a>
+                    <a href="{{ url_for('download_brief', brief_id=brief.id) }}" class="btn-saarthi-primary py-1 px-3 text-xs">PDF</a>
                 </div>
             </div>
             {% endfor %}
@@ -476,38 +393,7 @@
 {% endblock %}
 
 {% block scripts %}
-<style>
-@keyframes ai-brain-pulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
-    50% { transform: scale(1.08); box-shadow: 0 0 35px rgba(168, 85, 247, 0.7); }
-}
-.animate-ai-brain {
-    animation: ai-brain-pulse 2s infinite ease-in-out;
-}
-@keyframes chip-float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-2px); }
-}
-.ai-chip {
-    animation: chip-float 3s infinite ease-in-out;
-}
-.ai-chip:nth-child(even) {
-    animation-delay: 1.5s;
-}
-@keyframes check-bounce {
-    0% { transform: scale(0.5); opacity: 0; }
-    70% { transform: scale(1.25); }
-    100% { transform: scale(1); opacity: 1; }
-}
-.animate-check-pop {
-    animation: check-bounce 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-</style>
-
 <script>
-// ──────────────────────────────────────────────
-//  DROPDOWN MENUS HANDLER
-// ──────────────────────────────────────────────
 document.addEventListener('click', function(e) {
     const btn = e.target.closest('.dropdown-btn');
     if (btn) {
@@ -523,7 +409,6 @@ document.addEventListener('click', function(e) {
     document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
 });
 
-// Dropdown "Generate AI Brief" action
 document.querySelectorAll('.dropdown-generate').forEach(btn => {
     btn.addEventListener('click', function() {
         document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
@@ -531,14 +416,11 @@ document.querySelectorAll('.dropdown-generate').forEach(btn => {
     });
 });
 
-// ──────────────────────────────────────────────
-//  AI WORKFLOW PIPELINE UTILITIES
-// ──────────────────────────────────────────────
 function setWorkflowStatus(text, color) {
     const el = document.getElementById('workflowStatus');
     if (!el) return;
     el.textContent = text;
-    el.className = `text-[10px] font-bold px-2 py-0.5 rounded-full ${color}`;
+    el.className = `badge ${color} text-[10px]`;
 }
 
 function activateStep(stepId) {
@@ -548,9 +430,9 @@ function activateStep(stepId) {
     const label = el.querySelector('.step-label');
     const desc  = el.querySelector('.step-desc');
     const check = el.querySelector('.step-check');
-    if (icon)  { icon.classList.remove('bg-white','border-slate-200','text-slate-300'); icon.classList.add('bg-emerald-500','border-emerald-400','text-white'); }
-    if (label) { label.classList.remove('text-slate-400'); label.classList.add('text-slate-900'); }
-    if (desc)  { desc.classList.remove('text-slate-300'); desc.classList.add('text-slate-500'); }
+    if (icon)  { icon.className = "step-icon relative z-10 grid h-9 w-9 flex-shrink-0 place-items-center rounded-xl border-2 transition-all duration-500 bg-emerald-500 border-emerald-500 text-white"; }
+    if (label) { label.className = "step-label text-xs font-bold text-slate-900"; }
+    if (desc)  { desc.className = "step-desc text-[11px] text-slate-500"; }
     if (check) { check.classList.remove('hidden'); }
 }
 
@@ -559,32 +441,10 @@ function setStepSpinning(stepId) {
     if (!el) return;
     const icon = el.querySelector('.step-icon');
     if (!icon) return;
-    icon.classList.remove('bg-white','border-slate-200','text-slate-300','bg-emerald-500','border-emerald-400','text-white');
-    icon.classList.add('bg-blue-50','border-blue-400','text-blue-600');
-    icon.innerHTML = `<svg class="h-4 w-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-    </svg>`;
+    icon.className = "step-icon relative z-10 grid h-9 w-9 flex-shrink-0 place-items-center rounded-xl border-2 transition-all duration-500 bg-blue-50 border-blue-400 text-blue-600";
+    icon.innerHTML = `<svg class="h-4 w-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>`;
 }
 
-// ──────────────────────────────────────────────
-//  SHARE BRIEF HELPER
-// ──────────────────────────────────────────────
-function shareBrief(briefId) {
-    const shareUrl = window.location.origin + "/meeting-brief/" + briefId;
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(shareUrl).then(() => {
-            alert("✓ Brief URL copied to clipboard!\n" + shareUrl);
-        }).catch(() => {
-            alert("Brief URL:\n" + shareUrl);
-        });
-    } else {
-        alert("Brief URL:\n" + shareUrl);
-    }
-}
-
-// ──────────────────────────────────────────────
-//  REAL-TIME AI BRIEF GENERATION ANIMATION HANDLER
-// ──────────────────────────────────────────────
 const RESEARCH_STEPS = [
     "Connecting to Google Calendar...",
     "Meeting verified",
@@ -593,20 +453,12 @@ const RESEARCH_STEPS = [
     "Searching LinkedIn company profile...",
     "Finding competitors...",
     "Collecting funding information...",
-    "Searching leadership team...",
-    "Reading annual reports...",
-    "Collecting product portfolio...",
-    "Analyzing customer reviews...",
-    "Looking for recent press releases...",
-    "Searching financial insights...",
     "Building executive summary...",
     "Generating meeting talking points...",
-    "Creating sales recommendations...",
     "Exporting PDF...",
     "AI Brief Ready"
 ];
 
-// Main button click handler
 document.querySelectorAll('.generate-brief-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         startAIGeneration(this.dataset.meetingId, this.dataset.source, this.dataset.company);
@@ -625,11 +477,9 @@ async function startAIGeneration(meetingId, source, company) {
 
     if (!aiPanel) return;
 
-    // Switch view to AI Loading Panel
     if (cardContent) cardContent.classList.add('hidden');
     aiPanel.classList.remove('hidden');
 
-    // Reset UI state
     titleEl.textContent = "AI is collecting live business intelligence";
     if (dotsEl) dotsEl.classList.remove('hidden');
     if (actionsDiv) actionsDiv.classList.add('hidden');
@@ -637,13 +487,12 @@ async function startAIGeneration(meetingId, source, company) {
     if (percentEl) percentEl.textContent = "0%";
     if (barEl) barEl.style.width = "0%";
 
-    setWorkflowStatus('Generating…', 'bg-blue-50 text-blue-700');
+    setWorkflowStatus('Generating…', 'badge-info');
 
     let currentStepIndex = 0;
     let isBackendFinished = false;
     let backendResult = null;
 
-    // Start Backend AJAX Request concurrently
     const apiPromise = fetch('/api/generate-brief', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
@@ -656,65 +505,21 @@ async function startAIGeneration(meetingId, source, company) {
         isBackendFinished = true;
     });
 
-    // Step Animation Loop (17 steps before completion)
     while (currentStepIndex < RESEARCH_STEPS.length - 1) {
         const stepText = RESEARCH_STEPS[currentStepIndex];
 
-        // Mark previous steps as completed checkmarks (✓)
-        const prevItems = stepsDiv.querySelectorAll('.step-item');
-        if (prevItems.length > 0) {
-            const lastPrev = prevItems[prevItems.length - 1];
-            const iconSpan = lastPrev.querySelector('.step-icon-status');
-            if (iconSpan) {
-                iconSpan.className = "step-icon-status text-emerald-400 font-black animate-check-pop flex-shrink-0";
-                iconSpan.innerHTML = "✓";
-            }
-            const textSpan = lastPrev.querySelector('.step-text-status');
-            if (textSpan) {
-                textSpan.className = "step-text-status text-slate-300 font-medium";
-            }
-        }
-
-        // Create new active step element with spinner & typing reveal
         const stepEl = document.createElement('div');
-        stepEl.className = "step-item flex items-center gap-2.5 transition-all duration-300 opacity-0 transform translate-y-1";
-        stepEl.innerHTML = `
-            <span class="step-icon-status text-blue-400 flex-shrink-0">
-                <svg class="w-3.5 h-3.5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                </svg>
-            </span>
-            <span class="step-text-status text-white font-bold tracking-wide">${stepText}</span>
-        `;
+        stepEl.className = "step-item flex items-center gap-2 text-slate-700 font-semibold";
+        stepEl.innerHTML = `<span class="text-blue-600 font-bold">✓</span> <span>${stepText}</span>`;
         stepsDiv.appendChild(stepEl);
         stepsDiv.scrollTop = stepsDiv.scrollHeight;
 
-        requestAnimationFrame(() => {
-            stepEl.classList.remove('opacity-0', 'translate-y-1');
-        });
-
-        // Update progress bar & percent counter
         const pct = Math.round(((currentStepIndex + 1) / RESEARCH_STEPS.length) * 100);
         if (percentEl) percentEl.textContent = pct + "%";
         if (barEl) barEl.style.width = pct + "%";
 
-        // Sync right workflow pipeline panel
-        if (currentStepIndex === 0) activateStep('step-created');
-        if (currentStepIndex === 1) activateStep('step-calendar');
-        if (currentStepIndex === 2) setStepSpinning('step-research');
-        if (currentStepIndex === 8) activateStep('step-research');
-        if (currentStepIndex === 9) setStepSpinning('step-brief');
-        if (currentStepIndex === 14) activateStep('step-brief');
-        if (currentStepIndex === 15) setStepSpinning('step-pdf');
-
-        // Timing delay between steps
-        let delayMs = 950;
-        if (isBackendFinished) {
-            delayMs = 350; // Speed up remaining steps if backend finished early
-        }
-
-        // Hold on step 16 ("Creating sales recommendations...") if backend API is still running
-        if (currentStepIndex === 16 && !isBackendFinished) {
+        let delayMs = isBackendFinished ? 250 : 700;
+        if (currentStepIndex === 9 && !isBackendFinished) {
             await apiPromise;
         }
 
@@ -722,95 +527,34 @@ async function startAIGeneration(meetingId, source, company) {
         currentStepIndex++;
     }
 
-    // Ensure backend promise is completely resolved
     if (!isBackendFinished) {
         await apiPromise;
     }
 
     if (backendResult && backendResult.success) {
-        // Mark step 17 as completed checkmark
-        const prevItems = stepsDiv.querySelectorAll('.step-item');
-        if (prevItems.length > 0) {
-            const lastPrev = prevItems[prevItems.length - 1];
-            const iconSpan = lastPrev.querySelector('.step-icon-status');
-            if (iconSpan) {
-                iconSpan.className = "step-icon-status text-emerald-400 font-black animate-check-pop flex-shrink-0";
-                iconSpan.innerHTML = "✓";
-            }
-        }
-
-        // Add Final Step 18 ("✓ AI Brief Ready")
-        const finalStepEl = document.createElement('div');
-        finalStepEl.className = "step-item flex items-center gap-2.5 transition-all duration-300 text-emerald-400 font-bold";
-        finalStepEl.innerHTML = `
-            <span class="step-icon-status text-emerald-400 font-extrabold animate-check-pop flex-shrink-0 text-sm">✓</span>
-            <span class="step-text-status text-emerald-300 font-extrabold tracking-wide">AI Brief Ready</span>
-        `;
-        stepsDiv.appendChild(finalStepEl);
-        stepsDiv.scrollTop = stepsDiv.scrollHeight;
-
         if (percentEl) percentEl.textContent = "100%";
         if (barEl) barEl.style.width = "100%";
 
-        // Replace Title Header with ✔ AI Brief Ready
         if (titleEl) {
-            titleEl.innerHTML = `<span class="text-emerald-400 font-black flex items-center gap-2 text-lg"><svg class="w-5 h-5 animate-check-pop" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg> AI Brief Ready</span>`;
+            titleEl.innerHTML = `<span class="text-emerald-600 font-extrabold flex items-center gap-2 text-sm">✓ AI Brief Ready</span>`;
         }
         if (dotsEl) dotsEl.classList.add('hidden');
 
-        // Populate and reveal completion buttons
         const viewBtn  = document.getElementById('ai-btn-view-' + meetingId);
         const pdfBtn   = document.getElementById('ai-btn-pdf-' + meetingId);
-        const shareBtn = document.getElementById('ai-btn-share-' + meetingId);
 
         if (viewBtn)  viewBtn.href  = backendResult.brief_url;
         if (pdfBtn)   pdfBtn.href   = `/download-brief/${backendResult.brief_id}`;
-        if (shareBtn) shareBtn.onclick = () => shareBrief(backendResult.brief_id);
 
         if (actionsDiv) actionsDiv.classList.remove('hidden');
 
-        // Update right workflow timeline panel
         activateStep('step-pdf');
         activateStep('step-email');
-        setWorkflowStatus('Complete', 'bg-emerald-50 text-emerald-700');
-
-        // Update standard card state when collapsed back
-        const readyBadge = document.querySelector('.brief-ready-badge-' + meetingId);
-        if (readyBadge) readyBadge.classList.remove('hidden');
-
-        const cardActionDiv = document.getElementById('action-' + meetingId);
-        if (cardActionDiv) {
-            cardActionDiv.innerHTML = `
-                <a href="${backendResult.brief_url}" class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold text-white shadow-sm hover:opacity-90 transition" style="background:linear-gradient(135deg,#059669,#0d9488);">
-                    <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                    View Executive Brief
-                </a>
-                <a href="/download-brief/${backendResult.brief_id}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 transition shadow-sm">
-                    <svg class="h-3.5 w-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                    Download PDF
-                </a>
-                <button title="Share Brief" onclick="shareBrief('${backendResult.brief_id}')" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50 transition shadow-sm">
-                    <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-                    Share
-                </button>`;
-        }
+        setWorkflowStatus('Complete', 'badge-success');
     } else {
-        setWorkflowStatus('Failed', 'bg-rose-50 text-rose-700');
-        if (titleEl) titleEl.innerHTML = `<span class="text-rose-400 font-bold">⚠ Generation Failed</span>`;
+        setWorkflowStatus('Failed', 'badge-danger');
+        if (titleEl) titleEl.innerHTML = `<span class="text-rose-600 font-bold">⚠ Generation Failed</span>`;
         if (dotsEl) dotsEl.classList.add('hidden');
-        const errText = backendResult ? (backendResult.error || "Generation failed. Please try again.") : "Network error.";
-        if (stepsDiv) stepsDiv.innerHTML += `<div class="text-rose-400 font-semibold mt-2">⚠ ${errText}</div>`;
-        if (actionsDiv) {
-            actionsDiv.innerHTML = `
-                <button onclick="startAIGeneration('${meetingId}','${source}','${company}')" class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-xs font-bold text-white hover:bg-blue-700 transition shadow-sm">
-                    <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                    Retry AI Brief
-                </button>
-                <button onclick="document.getElementById('ai-panel-${meetingId}').classList.add('hidden');document.getElementById('card-content-${meetingId}').classList.remove('hidden');" class="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-4 py-2 text-xs font-bold text-slate-300 hover:bg-slate-700 transition">
-                    Close
-                </button>`;
-            actionsDiv.classList.remove('hidden');
-        }
     }
 }
 </script>

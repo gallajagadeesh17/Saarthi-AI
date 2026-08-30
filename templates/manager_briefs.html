@@ -6,10 +6,10 @@
 <div class="space-y-6 animate-fade-in">
 
     <!-- Header -->
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-800 pb-5">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200 pb-5">
         <div>
-            <h1 class="text-2xl font-extrabold text-white tracking-tight">AI Executive Briefs</h1>
-            <p class="text-sm text-slate-400">Gemini AI-generated briefings from your team's customer visits. Preview, download, and share.</p>
+            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">AI Executive Briefs</h1>
+            <p class="text-xs font-semibold text-slate-500">Gemini AI-generated briefings from your team's customer visits. Preview, download, and share.</p>
         </div>
         <div class="flex items-center gap-3">
             <span class="badge badge-info">Gemini 2.5 Pro</span>
@@ -21,40 +21,40 @@
     <div class="saarthi-card p-4">
         <form method="GET" action="{{ url_for('manager_briefs') }}" class="flex flex-wrap items-end gap-3">
             <div class="relative flex-1 min-w-[200px]">
-                <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                <input name="q" value="{{ q }}" type="text" placeholder="Search by title or customer..." class="saarthi-input pl-10 text-xs py-2 w-full">
+                <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input name="q" value="{{ q }}" type="text" placeholder="Search by title or customer..." class="saarthi-input pl-10 text-xs py-1.5 w-full">
             </div>
             <div>
                 <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Representative</label>
-                <select name="rep" class="saarthi-select text-xs py-2">
+                <select name="rep" class="saarthi-select text-xs py-1.5">
                     <option value="">All Reps</option>
                     {% for rep in team_members %}
                     <option value="{{ rep.id }}" {{ 'selected' if rep_filter == rep.id|string }}>{{ rep.name }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <button type="submit" class="btn-saarthi-primary text-xs py-2">Filter</button>
-            <a href="{{ url_for('manager_briefs') }}" class="btn-saarthi-secondary text-xs py-2">Reset</a>
+            <button type="submit" class="btn-saarthi-primary text-xs py-1.5">Filter</button>
+            <a href="{{ url_for('manager_briefs') }}" class="btn-saarthi-secondary text-xs py-1.5">Reset</a>
         </form>
     </div>
 
     <!-- Stats Strip -->
     <div class="grid gap-4 sm:grid-cols-4">
         <div class="saarthi-card p-4 text-center">
-            <span class="text-2xl font-extrabold text-white block">{{ filtered_briefs|length }}</span>
-            <span class="text-xs text-slate-400 font-semibold">Total Briefs</span>
+            <span class="text-2xl font-extrabold text-slate-900 block">{{ filtered_briefs|length }}</span>
+            <span class="text-xs text-slate-500 font-semibold">Total Briefs</span>
         </div>
         <div class="saarthi-card p-4 text-center">
-            <span class="text-2xl font-extrabold text-blue-400 block">{{ briefs_today }}</span>
-            <span class="text-xs text-slate-400 font-semibold">Generated Today</span>
+            <span class="text-2xl font-extrabold text-blue-600 block">{{ briefs_today }}</span>
+            <span class="text-xs text-slate-500 font-semibold">Generated Today</span>
         </div>
         <div class="saarthi-card p-4 text-center">
-            <span class="text-2xl font-extrabold text-emerald-400 block">98.4%</span>
-            <span class="text-xs text-slate-400 font-semibold">AI Success Rate</span>
+            <span class="text-2xl font-extrabold text-emerald-600 block">98.4%</span>
+            <span class="text-xs text-slate-500 font-semibold">AI Success Rate</span>
         </div>
         <div class="saarthi-card p-4 text-center">
-            <span class="text-2xl font-extrabold text-purple-400 block">42s</span>
-            <span class="text-xs text-slate-400 font-semibold">Avg Generation Time</span>
+            <span class="text-2xl font-extrabold text-purple-600 block">42s</span>
+            <span class="text-xs text-slate-500 font-semibold">Avg Generation Time</span>
         </div>
     </div>
 
@@ -67,12 +67,12 @@
             <!-- Card Header -->
             <div class="flex items-start justify-between gap-3">
                 <div class="flex items-center gap-3">
-                    <div class="grid h-11 w-11 flex-shrink-0 place-items-center rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                    <div class="grid h-10 w-10 flex-shrink-0 place-items-center rounded-xl bg-purple-50 text-purple-600 border border-purple-100 font-bold">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                     </div>
                     <div class="min-w-0">
-                        <p class="font-bold text-white text-sm leading-tight line-clamp-2">{{ brief.meeting_title }}</p>
-                        <p class="text-xs text-slate-400 mt-0.5">{{ brief.customer_name or 'Customer Meeting' }}</p>
+                        <p class="font-extrabold text-slate-900 text-sm leading-tight line-clamp-2">{{ brief.meeting_title }}</p>
+                        <p class="text-xs text-slate-500 font-semibold mt-0.5">{{ brief.customer_name or 'Customer Meeting' }}</p>
                     </div>
                 </div>
                 <span class="badge badge-success flex-shrink-0">Ready</span>
@@ -81,33 +81,33 @@
             <!-- Meta Info -->
             <div class="space-y-2 text-xs">
                 <div class="flex items-center justify-between">
-                    <span class="text-slate-400 font-semibold">Representative</span>
-                    <span class="font-bold text-white">{{ brief_owner.name if brief_owner else 'Unknown' }}</span>
+                    <span class="text-slate-500 font-semibold">Representative</span>
+                    <span class="font-bold text-slate-900">{{ brief_owner.name if brief_owner else 'Unknown' }}</span>
                 </div>
                 <div class="flex items-center justify-between">
-                    <span class="text-slate-400 font-semibold">Generated</span>
-                    <span class="font-bold text-slate-200">{{ brief.created_at.strftime('%d %b, %I:%M %p') }}</span>
+                    <span class="text-slate-500 font-semibold">Generated</span>
+                    <span class="font-semibold text-slate-700">{{ brief.created_at.strftime('%d %b, %I:%M %p') }}</span>
                 </div>
                 <div class="flex items-center justify-between">
-                    <span class="text-slate-400 font-semibold">AI Engine</span>
-                    <span class="font-bold text-purple-400">Gemini 2.5 Pro</span>
+                    <span class="text-slate-500 font-semibold">AI Engine</span>
+                    <span class="font-bold text-purple-600">Gemini 2.5 Pro</span>
                 </div>
                 <div class="flex items-center justify-between">
-                    <span class="text-slate-400 font-semibold">Confidence Score</span>
-                    <span class="font-bold text-emerald-400">High</span>
+                    <span class="text-slate-500 font-semibold">Confidence Score</span>
+                    <span class="font-bold text-emerald-600">High</span>
                 </div>
             </div>
 
             <!-- Confidence Progress -->
             <div>
-                <div class="h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                <div class="h-1.5 rounded-full bg-slate-100 overflow-hidden">
                     <div class="h-full rounded-full bg-emerald-500" style="width: 92%"></div>
                 </div>
                 <span class="text-[11px] text-slate-400 font-semibold mt-1 block">92% AI confidence score</span>
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex items-center gap-2 pt-3 border-t border-slate-800">
+            <div class="flex items-center gap-2 pt-3 border-t border-slate-100">
                 <a href="{{ url_for('meeting_brief', brief_id=brief.id) }}" class="btn-saarthi-secondary py-1.5 text-xs flex-1 text-center">
                     Preview
                 </a>
@@ -121,11 +121,11 @@
     {% else %}
     <!-- Empty State -->
     <div class="saarthi-card p-14 text-center">
-        <div class="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
+        <div class="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-purple-50 text-purple-600 border border-purple-100">
             <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
         </div>
-        <h3 class="text-base font-bold text-white">No AI Briefs Generated Yet</h3>
-        <p class="mt-1 text-sm text-slate-400">AI Briefs are generated by representatives after their meetings are triggered through the n8n automation pipeline.</p>
+        <h3 class="text-base font-extrabold text-slate-900">No AI Briefs Generated Yet</h3>
+        <p class="mt-1 text-xs text-slate-500 font-semibold">AI Briefs are generated by representatives after their meetings are triggered through the n8n automation pipeline.</p>
         <a href="{{ url_for('manager_new_meeting') }}" class="mt-4 inline-flex btn-saarthi-primary text-xs py-2">Create a Meeting to Get Started</a>
     </div>
     {% endif %}

@@ -1,55 +1,45 @@
 /* ==========================================================================
-   SAARTHI AI - ENTERPRISE SALES INTELLIGENCE DESIGN SYSTEM
+   SAARTHI AI - ENTERPRISE SALES INTELLIGENCE LIGHT SaaS DESIGN SYSTEM
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-    /* Brand Design Tokens */
-    --saarthi-navy: #0F172A;
-    --saarthi-navy-dark: #090D16;
-    --saarthi-card: #111827;
-    --saarthi-card-hover: #1F2937;
-    --saarthi-input: #1E293B;
-    --saarthi-border: #334155;
+    /* Light Brand Design Tokens */
+    --saarthi-bg: #F8FAFC;
+    --saarthi-card: #FFFFFF;
+    --saarthi-sidebar: #FFFFFF;
+    --saarthi-header: #FFFFFF;
+    --saarthi-input: #FFFFFF;
+    --saarthi-border: #E2E8F0;
+    --saarthi-border-hover: #CBD5E1;
     
     --saarthi-blue: #2563EB;
     --saarthi-blue-hover: #1D4ED8;
+    --saarthi-blue-light: #EFF6FF;
     --saarthi-indigo: #4F46E5;
     --saarthi-indigo-hover: #4338CA;
 
-    --saarthi-text-primary: #F8FAFC;
-    --saarthi-text-secondary: #94A3B8;
-    --saarthi-text-muted: #64748B;
+    --saarthi-text-primary: #0F172A;
+    --saarthi-text-secondary: #64748B;
+    --saarthi-text-muted: #94A3B8;
 
-    --saarthi-success: #22C55E;
+    --saarthi-success: #10B981;
     --saarthi-warning: #F59E0B;
     --saarthi-danger: #EF4444;
-    --saarthi-info: #3B82F6;
+    --saarthi-info: #2563EB;
 
-    /* Legacy mapping fallback */
     --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --primary: var(--saarthi-blue);
     --primary-hover: var(--saarthi-blue-hover);
-    --primary-ring: rgba(37, 99, 235, 0.35);
-    
-    --slate-50: #0f172a;
-    --slate-100: #1e293b;
-    --slate-200: #334155;
-    --slate-300: #475569;
-    --slate-400: #94a3b8;
-    --slate-500: #cbd5e1;
-    --slate-600: #e2e8f0;
-    --slate-700: #f1f5f9;
-    --slate-800: #f8fafc;
-    --slate-900: #ffffff;
+    --primary-ring: rgba(37, 99, 235, 0.2);
 }
 
 html, body {
-    color-scheme: dark;
+    color-scheme: light;
     font-family: var(--font-sans);
-    background-color: var(--saarthi-navy);
-    color: var(--saarthi-text-primary);
+    background-color: var(--saarthi-bg) !important;
+    color: var(--saarthi-text-primary) !important;
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -62,17 +52,17 @@ html, body {
     height: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: #090D16;
+    background: #F1F5F9;
 }
 ::-webkit-scrollbar-thumb {
-    background: #334155;
+    background: #CBD5E1;
     border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #475569;
+    background: #94A3B8;
 }
 
-/* Base Form Control Overrides */
+/* Base Form Controls Override - Clean Light Inputs */
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -80,25 +70,28 @@ input[type="number"],
 input[type="tel"],
 input[type="date"],
 input[type="time"],
+input[type="search"],
 select,
 textarea,
 .ent-input,
 .saarthi-input {
-    background-color: var(--saarthi-input) !important;
-    border: 1px solid var(--saarthi-border) !important;
-    color: var(--saarthi-text-primary) !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #CBD5E1 !important;
+    color: #0F172A !important;
     border-radius: 0.75rem;
     padding: 0.65rem 1rem;
     font-size: 0.875rem;
     font-family: inherit;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
 }
 
 input::placeholder,
-textarea::placeholder {
-    color: var(--saarthi-text-muted) !important;
-    opacity: 0.8;
+textarea::placeholder,
+.ent-input::placeholder,
+.saarthi-input::placeholder {
+    color: #94A3B8 !important;
+    opacity: 1;
 }
 
 input:focus,
@@ -107,52 +100,132 @@ textarea:focus,
 .ent-input:focus,
 .saarthi-input:focus {
     outline: none !important;
-    border-color: var(--saarthi-blue) !important;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.35) !important;
+    border-color: #2563EB !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+    background-color: #FFFFFF !important;
 }
 
-/* Custom Select Dropdown Arrow */
+/* Input Group with Icon Positioning */
+.saarthi-input-group {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.saarthi-input-icon-left {
+    position: absolute;
+    top: 50%;
+    left: 0.875rem;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    color: #94A3B8;
+    z-index: 10;
+}
+
+.saarthi-input-icon-left svg {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    flex-shrink: 0 !important;
+}
+
+.saarthi-input-icon-right {
+    position: absolute;
+    top: 50%;
+    right: 0.875rem;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94A3B8;
+    z-index: 10;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+.saarthi-input-icon-right:hover {
+    color: #475569;
+}
+
+.saarthi-input-icon-right svg {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Input Padding Overrides for Icons */
+.saarthi-input.has-left-icon,
+input.has-left-icon {
+    padding-left: 2.75rem !important; /* 44px left padding */
+}
+
+.saarthi-input.has-right-icon,
+input.has-right-icon {
+    padding-right: 2.75rem !important; /* 44px right padding */
+}
+
+.saarthi-input.has-both-icons,
+input.has-both-icons {
+    padding-left: 2.75rem !important;
+    padding-right: 2.75rem !important;
+}
+
+/* Select Dropdown Arrow */
 select,
 .saarthi-select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E") !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E") !important;
     background-repeat: no-repeat !important;
     background-position: right 0.75rem center !important;
     background-size: 1.1rem !important;
     padding-right: 2.5rem !important;
 }
 
-/* Date and Time Picker Indicators */
+/* Date and Time Pickers */
 input[type="date"]::-webkit-calendar-picker-indicator,
 input[type="time"]::-webkit-calendar-picker-indicator {
-    filter: invert(0.8) sepia(1) saturate(3) hue-rotate(185deg);
+    filter: none;
     cursor: pointer;
+    opacity: 0.6;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
 }
 
-/* Cards System */
+/* Cards System - White Cards with Subtle Border and Light Shadow */
 .saarthi-card,
 .ent-card {
-    background-color: var(--saarthi-card) !important;
-    border: 1px solid var(--saarthi-border) !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
     border-radius: 1rem;
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
 }
 
 .saarthi-card-hover:hover,
 .ent-card-hover:hover {
-    border-color: #475569 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.6);
+    border-color: #CBD5E1 !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
 }
 
 /* Buttons System */
 .btn-saarthi-primary,
 .btn-primary {
-    background: linear-gradient(135deg, var(--saarthi-blue), var(--saarthi-indigo)) !important;
-    color: #ffffff !important;
+    background: #2563EB !important;
+    color: #FFFFFF !important;
     font-weight: 600;
     padding: 0.625rem 1.25rem;
     border-radius: 0.75rem;
@@ -160,23 +233,22 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid transparent !important;
     transition: all 0.2s ease-in-out;
-    box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.35);
+    box-shadow: 0 1px 3px 0 rgba(37, 99, 235, 0.3);
     cursor: pointer;
 }
 .btn-saarthi-primary:hover,
 .btn-primary:hover {
-    background: linear-gradient(135deg, var(--saarthi-blue-hover), var(--saarthi-indigo-hover)) !important;
-    box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.5);
-    transform: translateY(-1px);
+    background: #1D4ED8 !important;
+    box-shadow: 0 4px 12px 0 rgba(37, 99, 235, 0.35);
 }
 
 .btn-saarthi-secondary,
 .btn-secondary {
-    background-color: var(--saarthi-input) !important;
-    color: var(--saarthi-text-primary) !important;
-    border: 1px solid var(--saarthi-border) !important;
+    background-color: #FFFFFF !important;
+    color: #334155 !important;
+    border: 1px solid #E2E8F0 !important;
     font-weight: 600;
     padding: 0.625rem 1.25rem;
     border-radius: 0.75rem;
@@ -186,16 +258,91 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     gap: 0.5rem;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 .btn-saarthi-secondary:hover,
 .btn-secondary:hover {
-    background-color: var(--saarthi-border) !important;
-    color: #ffffff !important;
+    background-color: #F8FAFC !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+}
+
+/* Google OAuth Button System */
+.google-oauth-btn {
+    width: 100% !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 0.75rem !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    transition: all 0.2s ease-in-out !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+    box-sizing: border-box !important;
+}
+.google-oauth-btn:hover {
+    background-color: #F8FAFC !important;
+    border-color: #94A3B8 !important;
+    color: #0F172A !important;
+}
+.google-oauth-btn:active {
+    background-color: #F1F5F9 !important;
+}
+
+/* Scoped Google Logo Icon Sizing - NEVER EXCEED 18px */
+.google-oauth-btn svg,
+.google-oauth-btn img,
+.google-icon {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    max-width: 18px !important;
+    max-height: 18px !important;
+    flex: 0 0 18px !important;
+    flex-shrink: 0 !important;
+    display: block !important;
+    margin: 0 !important;
+}
+
+/* Icon Sizing Helper Classes */
+.icon-sm {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    flex-shrink: 0 !important;
+}
+.icon-md {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    flex-shrink: 0 !important;
+}
+.icon-lg {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    flex-shrink: 0 !important;
 }
 
 .btn-saarthi-danger {
-    background-color: var(--saarthi-danger) !important;
-    color: #ffffff !important;
+    background-color: #FEF2F2 !important;
+    color: #DC2626 !important;
+    border: 1px solid #FECACA !important;
     font-weight: 600;
     padding: 0.625rem 1.25rem;
     border-radius: 0.75rem;
@@ -203,18 +350,18 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border: none;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
 }
 .btn-saarthi-danger:hover {
-    background-color: #dc2626 !important;
-    box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.4);
+    background-color: #FEE2E2 !important;
+    color: #B91C1C !important;
+    border-color: #FCA5A5 !important;
 }
 
 .btn-saarthi-ghost {
     background: transparent !important;
-    color: var(--saarthi-text-secondary) !important;
+    color: #64748B !important;
     font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: 0.75rem;
@@ -226,11 +373,11 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
 }
 .btn-saarthi-ghost:hover {
-    background-color: rgba(255, 255, 255, 0.06) !important;
-    color: var(--saarthi-text-primary) !important;
+    background-color: #F1F5F9 !important;
+    color: #0F172A !important;
 }
 
-/* Badges System */
+/* Light Badges System */
 .badge,
 .saarthi-badge {
     display: inline-flex;
@@ -244,78 +391,79 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .badge-success, .saarthi-badge-success {
-    background-color: rgba(34, 197, 94, 0.15) !important;
-    color: #4ade80 !important;
-    border-color: rgba(34, 197, 94, 0.3) !important;
+    background-color: #ECFDF5 !important;
+    color: #047857 !important;
+    border-color: #A7F3D0 !important;
 }
 .badge-warning, .saarthi-badge-warning {
-    background-color: rgba(245, 158, 11, 0.15) !important;
-    color: #fbbf24 !important;
-    border-color: rgba(245, 158, 11, 0.3) !important;
+    background-color: #FFFBEB !important;
+    color: #B45309 !important;
+    border-color: #FDE68A !important;
 }
 .badge-danger, .saarthi-badge-danger {
-    background-color: rgba(239, 68, 68, 0.15) !important;
-    color: #f87171 !important;
-    border-color: rgba(239, 68, 68, 0.3) !important;
+    background-color: #FEF2F2 !important;
+    color: #B91C1C !important;
+    border-color: #FECACA !important;
 }
 .badge-info, .saarthi-badge-info {
-    background-color: rgba(37, 99, 235, 0.15) !important;
-    color: #60a5fa !important;
-    border-color: rgba(37, 99, 235, 0.3) !important;
+    background-color: #EFF6FF !important;
+    color: #1D4ED8 !important;
+    border-color: #BFDBFE !important;
 }
 .badge-slate, .saarthi-badge-neutral {
-    background-color: rgba(51, 65, 85, 0.5) !important;
-    color: #cbd5e1 !important;
-    border-color: rgba(71, 85, 105, 0.5) !important;
+    background-color: #F1F5F9 !important;
+    color: #334155 !important;
+    border-color: #E2E8F0 !important;
 }
 
-/* Table Styling */
+/* Light Table System */
 .saarthi-table,
 .ent-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
+    background-color: #FFFFFF !important;
 }
 
 .saarthi-table th,
 .ent-table th {
-    background-color: var(--saarthi-navy) !important;
-    color: var(--saarthi-text-secondary) !important;
+    background-color: #F8FAFC !important;
+    color: #64748B !important;
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     padding: 0.875rem 1.25rem;
-    border-bottom: 1px solid var(--saarthi-border) !important;
+    border-bottom: 1px solid #E2E8F0 !important;
     text-align: left;
 }
 
 .saarthi-table td,
 .ent-table td {
     padding: 1rem 1.25rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-bottom: 1px solid #F1F5F9 !important;
     font-size: 0.875rem;
-    color: var(--saarthi-text-primary) !important;
+    color: #0F172A !important;
     vertical-align: middle;
 }
 
 .saarthi-table tr:hover td,
 .ent-table tr:hover td {
-    background-color: var(--saarthi-input) !important;
+    background-color: #F8FAFC !important;
 }
 
 /* Animations */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
 }
 .animate-fade-in {
-    animation: fadeIn 0.3s ease-out forwards;
+    animation: fadeIn 0.25s ease-out forwards;
 }
 
 /* Skeleton Loading */
 .skeleton {
-    background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+    background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s infinite;
     border-radius: 0.5rem;

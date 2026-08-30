@@ -3,100 +3,163 @@
 {% block title %}Sign Up | Saarthi AI{% endblock %}
 
 {% block form_card %}
-    <div class="text-center">
-        <h2 class="text-2xl font-bold leading-9 tracking-tight text-white">Create your account</h2>
-        <p class="mt-2 text-sm text-slate-400">Start using AI-powered sales intelligence.</p>
+    <div>
+        <span class="block text-[10px] font-extrabold text-blue-600 uppercase tracking-widest mb-1">CREATE ACCOUNT</span>
+        <h2 class="text-2xl sm:text-[28px] font-extrabold text-slate-900 tracking-tight leading-tight">Get started with Saarthi AI</h2>
+        <p class="mt-1.5 text-xs sm:text-sm text-slate-500 font-medium">Start using AI-powered sales intelligence in under 60 seconds.</p>
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <div class="mt-6 space-y-2">
+            <div class="mt-5 space-y-2">
             {% for category, message in messages %}
-                <div class="rounded-xl p-3 text-sm font-semibold border {% if category == 'error' or category == 'danger' %}bg-rose-500/10 border-rose-500/20 text-rose-400{% elif category == 'success' %}bg-emerald-500/10 border-emerald-500/20 text-emerald-400{% else %}bg-blue-500/10 border-blue-500/20 text-blue-400{% endif %}">
-                    {{ message }}
+                <div class="rounded-xl p-3 text-xs font-semibold border flex items-center gap-2.5 {% if category == 'error' or category == 'danger' %}bg-rose-50 border-rose-200 text-rose-700{% elif category == 'success' %}bg-emerald-50 border-emerald-200 text-emerald-700{% else %}bg-blue-50 border-blue-200 text-blue-700{% endif %}">
+                    {% if category == 'error' or category == 'danger' %}
+                    <svg class="h-4 w-4 flex-shrink-0 text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {% elif category == 'success' %}
+                    <svg class="h-4 w-4 flex-shrink-0 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    {% endif %}
+                    <span>{{ message }}</span>
                 </div>
             {% endfor %}
             </div>
         {% endif %}
     {% endwith %}
 
-    <form id="signupForm" method="POST" action="{{ url_for('signup') }}" class="mt-8 space-y-5">
+    <form id="signupForm" method="POST" action="{{ url_for('signup') }}" class="mt-6 space-y-4">
         <div>
-            <label for="name" class="block text-sm font-medium leading-6 text-slate-200">Full Name</label>
-            <div class="relative mt-2">
-                <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <svg class="h-5 w-5 text-slate-500" viewBox="0 0 20 20" fill="currentColor"><path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.095a1.23 1.23 0 00.41-1.412A9.99 9.99 0 0010 12a9.99 9.99 0 00-6.535 2.493z" /></svg>
-                </span>
-                <input id="name" name="name" type="text" autocomplete="name" required placeholder="Alex Morgan" class="saarthi-input pl-10">
+            <label for="name" class="block text-[13px] font-semibold text-slate-700 mb-1">Full Name</label>
+            <div class="saarthi-input-group">
+                <div class="saarthi-input-icon-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <input id="name" name="name" type="text" autocomplete="name" required placeholder="Alex Morgan" class="saarthi-input has-left-icon h-12 text-xs sm:text-sm w-full border-slate-300 focus:border-blue-600">
             </div>
         </div>
+
         <div>
-            <label for="email" class="block text-sm font-medium leading-6 text-slate-200">Corporate Email</label>
-            <div class="relative mt-2">
-                <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <svg class="h-5 w-5 text-slate-500" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
-                </span>
-                <input id="email" name="email" type="email" autocomplete="email" required placeholder="alex@company.com" class="saarthi-input pl-10">
+            <label for="email" class="block text-[13px] font-semibold text-slate-700 mb-1">Corporate Email Address</label>
+            <div class="saarthi-input-group">
+                <div class="saarthi-input-icon-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <input id="email" name="email" type="email" autocomplete="email" required placeholder="alex@company.com" class="saarthi-input has-left-icon h-12 text-xs sm:text-sm w-full border-slate-300 focus:border-blue-600">
             </div>
         </div>
+
         <div>
-            <label for="password" class="block text-sm font-medium leading-6 text-slate-200">Create Password</label>
-            <div class="relative mt-2">
-                <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <svg class="h-5 w-5 text-slate-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" /></svg>
-                </span>
-                <input id="password" name="password" type="password" autocomplete="new-password" required placeholder="••••••••" class="saarthi-input pl-10">
+            <label for="password" class="block text-[13px] font-semibold text-slate-700 mb-1">Password</label>
+            <div class="saarthi-input-group">
+                <div class="saarthi-input-icon-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <input id="password" name="password" type="password" autocomplete="new-password" required placeholder="At least 8 characters" class="saarthi-input has-both-icons h-12 text-xs sm:text-sm w-full border-slate-300 focus:border-blue-600" oninput="updatePasswordStrength(this.value)">
+                <button type="button" onclick="togglePasswordVisibility('password', this)" class="saarthi-input-icon-right" aria-label="Toggle password visibility">
+                    <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <svg class="eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                </button>
+            </div>
+            <!-- Password Strength Indicator -->
+            <div class="mt-1.5 flex items-center gap-1.5">
+                <div class="h-1 flex-1 rounded-full bg-slate-200 overflow-hidden"><div id="strengthBar" class="h-full w-0 bg-rose-500 transition-all"></div></div>
+                <span id="strengthLabel" class="text-[10px] font-bold text-slate-400">Weak</span>
             </div>
         </div>
+
         <div>
-            <label for="confirm_password" class="block text-sm font-medium leading-6 text-slate-200">Confirm Password</label>
-            <div class="relative mt-2">
-                <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <svg class="h-5 w-5 text-slate-500" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" /></svg>
-                </span>
-                <input id="confirm_password" name="confirm_password" type="password" autocomplete="new-password" required placeholder="••••••••" class="saarthi-input pl-10">
+            <label for="confirm_password" class="block text-[13px] font-semibold text-slate-700 mb-1">Confirm Password</label>
+            <div class="saarthi-input-group">
+                <div class="saarthi-input-icon-left">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <input id="confirm_password" name="confirm_password" type="password" autocomplete="new-password" required placeholder="••••••••" class="saarthi-input has-left-icon h-12 text-xs sm:text-sm w-full border-slate-300 focus:border-blue-600">
             </div>
         </div>
-        <div>
-            <button type="submit" class="btn-saarthi-primary w-full">Create Account</button>
+
+        <div class="pt-2">
+            <button type="submit" id="submitBtn" class="btn-saarthi-primary w-full h-12 text-xs sm:text-sm font-bold shadow-sm rounded-xl">
+                <span>Create Workspace Account</span>
+            </button>
         </div>
     </form>
 
-    <div class="relative mt-8">
-        <div class="absolute inset-0 flex items-center" aria-hidden="true"><div class="w-full border-t border-slate-800"></div></div>
-        <div class="relative flex justify-center text-xs uppercase tracking-wider"><span class="bg-slate-900 px-3 text-slate-500 font-semibold">Or continue with</span></div>
+    <div class="relative my-6">
+        <div class="absolute inset-0 flex items-center" aria-hidden="true"><div class="w-full border-t border-slate-200"></div></div>
+        <div class="relative flex justify-center text-[10px] uppercase tracking-widest"><span class="bg-white px-3 text-slate-400 font-extrabold">OR CONTINUE WITH</span></div>
     </div>
 
-    <div class="mt-6">
-        <a href="{{ url_for('google_login') }}" class="btn-saarthi-secondary w-full">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" width="18" height="18">
-            <span>Continue with Google</span>
+    <div>
+        <a href="{{ url_for('google_login') }}" class="google-oauth-btn">
+            <svg style="width:18px;height:18px;min-width:18px;min-height:18px;max-width:18px;max-height:18px;flex:0 0 18px;flex-shrink:0;display:block;" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            <span style="white-space: nowrap; font-size: 14px; font-weight: 600;">Continue with Google</span>
         </a>
     </div>
 {% endblock %}
 
 {% block bottom_link %}
-<p class="mt-8 text-center text-sm text-slate-400">
+<p class="mt-6 text-center text-xs sm:text-sm text-slate-500 font-medium">
     Already have an account?
-    <a href="{{ url_for('login') }}" class="font-semibold leading-6 text-blue-400 hover:text-blue-300">Log In</a>
+    <a href="{{ url_for('login') }}" class="font-bold text-blue-600 hover:text-blue-700 hover:underline ml-1">Log In</a>
 </p>
 {% endblock %}
 
 {% block scripts %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('signupForm');
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                const password = document.getElementById('password');
-                const confirmPassword = document.getElementById('confirm_password');
-                if (password.value !== confirmPassword.value) {
-                    e.preventDefault();
-                    alert('Passwords do not match. Please try again.');
-                    confirmPassword.focus();
-                }
-            });
-        }
-    });
+function togglePasswordVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    const eyeOpen = btn.querySelector('.eye-open');
+    const eyeClosed = btn.querySelector('.eye-closed');
+    if (input.type === 'password') {
+        input.type = 'text';
+        eyeOpen.classList.add('hidden');
+        eyeClosed.classList.remove('hidden');
+    } else {
+        input.type = 'password';
+        eyeOpen.classList.remove('hidden');
+        eyeClosed.classList.add('hidden');
+    }
+}
+
+function updatePasswordStrength(val) {
+    const bar = document.getElementById('strengthBar');
+    const label = document.getElementById('strengthLabel');
+    if (!bar || !label) return;
+    if (val.length === 0) {
+        bar.style.width = '0%';
+        label.innerText = 'Weak';
+        label.className = 'text-[10px] font-bold text-slate-400';
+    } else if (val.length < 6) {
+        bar.style.width = '33%';
+        bar.className = 'h-full bg-rose-500 transition-all';
+        label.innerText = 'Weak';
+        label.className = 'text-[10px] font-bold text-rose-600';
+    } else if (val.length < 10) {
+        bar.style.width = '66%';
+        bar.className = 'h-full bg-amber-500 transition-all';
+        label.innerText = 'Medium';
+        label.className = 'text-[10px] font-bold text-amber-600';
+    } else {
+        bar.style.width = '100%';
+        bar.className = 'h-full bg-emerald-500 transition-all';
+        label.innerText = 'Strong';
+        label.className = 'text-[10px] font-bold text-emerald-600';
+    }
+}
+
+document.getElementById('signupForm')?.addEventListener('submit', function(e) {
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm_password');
+    if (password.value !== confirmPassword.value) {
+        e.preventDefault();
+        alert('Passwords do not match. Please check your password confirmation.');
+        confirmPassword.focus();
+        return;
+    }
+    const btn = document.getElementById('submitBtn');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Creating account...';
+    }
+});
 </script>
 {% endblock %}

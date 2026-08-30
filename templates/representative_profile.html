@@ -5,14 +5,14 @@
 {% block content %}
 <div class="space-y-6 animate-fade-in">
     <!-- Breadcrumb & Header -->
-    <div class="flex items-center justify-between border-b border-slate-800 pb-5">
+    <div class="flex items-center justify-between border-b border-slate-200 pb-5">
         <div>
-            <a href="{{ url_for('sales_team') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-400 hover:underline">
+            <a href="{{ url_for('sales_team') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:underline">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 Back to Sales Team Directory
             </a>
-            <h1 class="mt-2 text-2xl font-extrabold text-white tracking-tight">{{ representative.name }}</h1>
-            <p class="text-sm text-slate-400">{{ representative.email }} • Territory Representative</p>
+            <h1 class="mt-2 text-2xl font-extrabold text-slate-900 tracking-tight">{{ representative.name }}</h1>
+            <p class="text-xs font-semibold text-slate-500">{{ representative.email }} • Territory Representative</p>
         </div>
         <span class="badge badge-success px-3 py-1 text-xs">Active Field Rep</span>
     </div>
@@ -21,33 +21,33 @@
     <div class="saarthi-card p-6">
         <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div class="flex items-center gap-4">
-                <img src="https://ui-avatars.com/api/?name={{ representative.name }}&background=2563eb&color=fff&bold=true" class="h-16 w-16 rounded-2xl border border-slate-700 shadow-sm">
+                <img src="https://ui-avatars.com/api/?name={{ representative.name }}&background=2563eb&color=fff&bold=true" class="h-16 w-16 rounded-2xl border border-slate-200 shadow-sm">
                 <div>
-                    <h2 class="text-xl font-bold text-white">{{ representative.name }}</h2>
-                    <p class="text-xs text-slate-400">{{ representative.email }}</p>
+                    <h2 class="text-xl font-extrabold text-slate-900">{{ representative.name }}</h2>
+                    <p class="text-xs text-slate-500 font-semibold">{{ representative.email }}</p>
                     <div class="mt-2 flex items-center gap-2">
                         <span class="badge badge-info">Google Calendar Synced</span>
-                        <span class="badge badge-neutral">n8n Automation Active</span>
+                        <span class="badge badge-slate">n8n Automation Active</span>
                     </div>
                 </div>
             </div>
             
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full md:w-auto">
-                <div class="rounded-xl bg-slate-800/60 p-4 text-center border border-slate-800">
+                <div class="rounded-xl bg-slate-50 p-4 text-center border border-slate-200">
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Performance</span>
-                    <span class="text-2xl font-extrabold text-emerald-400 mt-1 block">84%</span>
+                    <span class="text-2xl font-extrabold text-emerald-600 mt-1 block">84%</span>
                 </div>
-                <div class="rounded-xl bg-slate-800/60 p-4 text-center border border-slate-800">
+                <div class="rounded-xl bg-slate-50 p-4 text-center border border-slate-200">
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Meetings</span>
-                    <span class="text-2xl font-extrabold text-white mt-1 block">{{ meetings|length }}</span>
+                    <span class="text-2xl font-extrabold text-slate-900 mt-1 block">{{ meetings|length }}</span>
                 </div>
-                <div class="rounded-xl bg-slate-800/60 p-4 text-center border border-slate-800">
+                <div class="rounded-xl bg-slate-50 p-4 text-center border border-slate-200">
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Accounts</span>
-                    <span class="text-2xl font-extrabold text-blue-400 mt-1 block">{{ accounts|length }}</span>
+                    <span class="text-2xl font-extrabold text-blue-600 mt-1 block">{{ accounts|length }}</span>
                 </div>
-                <div class="rounded-xl bg-slate-800/60 p-4 text-center border border-slate-800">
+                <div class="rounded-xl bg-slate-50 p-4 text-center border border-slate-200">
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">AI Briefs</span>
-                    <span class="text-2xl font-extrabold text-purple-400 mt-1 block">{{ briefs|length }}</span>
+                    <span class="text-2xl font-extrabold text-purple-600 mt-1 block">{{ briefs|length }}</span>
                 </div>
             </div>
         </div>
@@ -55,10 +55,10 @@
 
     <!-- Monthly Performance Chart -->
     <div class="saarthi-card p-6">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-4">
             <div>
-                <h3 class="font-bold text-white">Monthly Sales Target &amp; Visit Volume</h3>
-                <p class="text-xs text-slate-400">Track monthly customer meetings vs briefing generation</p>
+                <h3 class="font-bold text-slate-900 text-sm">Monthly Sales Target &amp; Visit Volume</h3>
+                <p class="text-xs text-slate-500 font-semibold">Track monthly customer meetings vs briefing generation</p>
             </div>
             <span class="badge badge-success">Target Exceeded</span>
         </div>
@@ -72,8 +72,8 @@
 {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    Chart.defaults.color = '#94a3b8';
-    Chart.defaults.borderColor = '#334155';
+    Chart.defaults.color = '#64748b';
+    Chart.defaults.borderColor = '#e2e8f0';
 
     new Chart(document.getElementById('performanceChart'), {
         type: 'line',
@@ -83,14 +83,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 label: 'Meetings Conducted',
                 data: [12, 16, 14, 21, 19, 24, 28],
                 borderColor: '#2563eb',
-                backgroundColor: 'rgba(37, 99, 235, 0.15)',
+                backgroundColor: 'rgba(37, 99, 235, 0.1)',
                 borderWidth: 2.5,
                 fill: true,
                 tension: 0.3
             }, {
                 label: 'AI Briefs Generated',
                 data: [10, 15, 13, 20, 18, 23, 27],
-                borderColor: '#22c55e',
+                borderColor: '#10b981',
                 borderDash: [5, 5],
                 borderWidth: 2,
                 tension: 0.3
@@ -99,8 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8' } } },
-            scales: { y: { beginAtZero: true, ticks: { color: '#94a3b8' }, grid: { color: '#334155' } }, x: { ticks: { color: '#94a3b8' }, grid: { display: false } } }
+            plugins: { legend: { position: 'bottom', labels: { color: '#64748b' } } },
+            scales: { y: { beginAtZero: true, ticks: { color: '#64748b' }, grid: { color: '#f1f5f9' } }, x: { ticks: { color: '#64748b' }, grid: { display: false } } }
         }
     });
 });

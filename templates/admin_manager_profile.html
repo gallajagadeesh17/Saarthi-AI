@@ -6,16 +6,16 @@
 <div class="space-y-6 animate-fade-in max-w-5xl">
 
     <!-- Top Breadcrumb & Actions -->
-    <div class="flex items-center justify-between gap-4 border-b border-slate-800 pb-5">
+    <div class="flex items-center justify-between gap-4 border-b border-slate-200 pb-5">
         <div class="flex items-center gap-3">
-            <a href="{{ url_for('admin_managers') }}" class="grid h-9 w-9 place-items-center rounded-xl border border-slate-800 text-slate-400 hover:bg-slate-800 hover:text-white transition">
+            <a href="{{ url_for('admin_managers') }}" class="grid h-9 w-9 place-items-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition">
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             </a>
             <div>
                 <nav class="text-xs font-semibold text-slate-400">
-                    <a href="{{ url_for('admin_managers') }}" class="hover:text-blue-400">Managers</a> / <span class="text-slate-200">Manager Profile</span>
+                    <a href="{{ url_for('admin_managers') }}" class="hover:text-blue-600">Managers</a> / <span class="text-slate-700">Manager Profile</span>
                 </nav>
-                <h1 class="text-2xl font-extrabold text-white tracking-tight mt-0.5">Manager Profile &amp; Governance</h1>
+                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight mt-0.5">Manager Profile &amp; Governance</h1>
             </div>
         </div>
         <a href="{{ url_for('admin_users') }}" class="btn-saarthi-secondary text-xs">
@@ -25,20 +25,20 @@
 
     <!-- Manager Header Card -->
     <div class="saarthi-card p-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-slate-800 pb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-slate-200 pb-6">
             <div class="flex items-center gap-5">
-                <img src="https://ui-avatars.com/api/?name={{ manager.name }}&background=2563eb&color=fff&size=72&bold=true" class="h-16 w-16 rounded-2xl border-2 border-blue-500/20 flex-shrink-0 shadow-md">
+                <img src="https://ui-avatars.com/api/?name={{ manager.name }}&background=2563eb&color=fff&size=72&bold=true" class="h-16 w-16 rounded-2xl border-2 border-blue-100 flex-shrink-0 shadow-sm">
                 <div>
                     <div class="flex items-center gap-3">
-                        <h2 class="text-2xl font-extrabold text-white">{{ manager.name }}</h2>
+                        <h2 class="text-2xl font-extrabold text-slate-900">{{ manager.name }}</h2>
                         {% if manager.is_active_account %}
                         <span class="badge badge-success">Active Account</span>
                         {% else %}
                         <span class="badge badge-danger">Deactivated</span>
                         {% endif %}
                     </div>
-                    <p class="text-xs font-semibold text-purple-400 mt-1">Sales Manager &bull; Department of Enterprise Sales</p>
-                    <p class="text-xs text-slate-400 mt-0.5">Employee ID: <strong class="text-slate-200">MGR-100{{ manager.id }}</strong> &bull; User ID: #{{ manager.id }}</p>
+                    <p class="text-xs font-bold text-purple-600 mt-1">Sales Manager &bull; Department of Enterprise Sales</p>
+                    <p class="text-xs text-slate-500 font-semibold mt-0.5">Employee ID: <strong class="text-slate-800">MGR-100{{ manager.id }}</strong> &bull; User ID: #{{ manager.id }}</p>
                 </div>
             </div>
         </div>
@@ -47,19 +47,19 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 text-xs">
             <div>
                 <span class="block font-bold text-slate-400 uppercase tracking-wider text-[10px]">Email Address</span>
-                <span class="mt-1 block font-bold text-white text-sm truncate">{{ manager.email }}</span>
+                <span class="mt-1 block font-bold text-slate-900 text-sm truncate">{{ manager.email }}</span>
             </div>
             <div>
                 <span class="block font-bold text-slate-400 uppercase tracking-wider text-[10px]">Phone Number</span>
-                <span class="mt-1 block font-bold text-white text-sm">+91 98765 43210</span>
+                <span class="mt-1 block font-bold text-slate-900 text-sm">+91 98765 43210</span>
             </div>
             <div>
                 <span class="block font-bold text-slate-400 uppercase tracking-wider text-[10px]">Created Date</span>
-                <span class="mt-1 block font-bold text-white text-sm">System Account</span>
+                <span class="mt-1 block font-bold text-slate-900 text-sm">System Account</span>
             </div>
             <div>
                 <span class="block font-bold text-slate-400 uppercase tracking-wider text-[10px]">Last Session</span>
-                <span class="mt-1 block font-bold text-emerald-400 text-sm">● Active Session</span>
+                <span class="mt-1 block font-bold text-emerald-600 text-sm">● Active Session</span>
             </div>
         </div>
     </div>
@@ -69,10 +69,10 @@
 
         <!-- Column 1: Assigned Representatives -->
         <div class="saarthi-card p-6 space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
                 <div>
-                    <h3 class="font-bold text-white text-base">Assigned Representatives</h3>
-                    <p class="text-xs text-slate-400">Reps managed directly by {{ manager.name }}</p>
+                    <h3 class="font-bold text-slate-900 text-sm">Assigned Representatives</h3>
+                    <p class="text-xs text-slate-500 font-semibold">Reps managed directly by {{ manager.name }}</p>
                 </div>
                 <span class="badge badge-info">
                     {{ assigned_reps|length }}
@@ -80,30 +80,30 @@
             </div>
 
             {% if assigned_reps %}
-            <div class="divide-y divide-slate-800">
+            <div class="divide-y divide-slate-100">
                 {% for rep in assigned_reps %}
                 <div class="flex items-center justify-between py-3">
                     <div class="flex items-center gap-3">
-                        <img src="https://ui-avatars.com/api/?name={{ rep.name }}&background=2563eb&color=fff&size=28&bold=true" class="h-8 w-8 rounded-lg border border-slate-700">
+                        <img src="https://ui-avatars.com/api/?name={{ rep.name }}&background=2563eb&color=fff&size=28&bold=true" class="h-8 w-8 rounded-lg border border-slate-200">
                         <div>
-                            <a href="{{ url_for('admin_rep_profile', rep_id=rep.id) }}" class="font-bold text-white hover:text-blue-400 text-xs">{{ rep.name }}</a>
-                            <p class="text-[11px] text-slate-400">{{ rep.email }}</p>
+                            <a href="{{ url_for('admin_rep_profile', rep_id=rep.id) }}" class="font-bold text-slate-900 hover:text-blue-600 text-xs">{{ rep.name }}</a>
+                            <p class="text-[11px] text-slate-500 font-semibold">{{ rep.email }}</p>
                         </div>
                     </div>
                     <form method="POST" action="{{ url_for('admin_assign_manager', rep_id=rep.id) }}">
                         <input type="hidden" name="manager_id" value="none">
-                        <button type="submit" class="text-[11px] font-semibold text-rose-400 hover:underline">Unassign</button>
+                        <button type="submit" class="text-[11px] font-bold text-rose-600 hover:underline">Unassign</button>
                     </form>
                 </div>
                 {% endfor %}
             </div>
             {% else %}
-            <p class="text-xs text-slate-400 py-4 text-center">No representatives assigned to this manager yet.</p>
+            <p class="text-xs text-slate-500 font-semibold py-4 text-center">No representatives assigned to this manager yet.</p>
             {% endif %}
 
             <!-- Assign Rep Form -->
             {% if unassigned_reps %}
-            <div class="border-t border-slate-800 pt-4">
+            <div class="border-t border-slate-100 pt-4">
                 <form method="POST" action="{{ url_for('admin_assign_manager', rep_id=unassigned_reps[0].id) }}" class="flex items-center gap-2" id="assignRepForm">
                     <select name="manager_id" class="hidden"><option value="{{ manager.id }}" selected></option></select>
                     <select onchange="document.getElementById('assignRepForm').action = '{{ url_for('admin_representatives') }}'.replace('/representatives', '/assign-manager/') + this.value; document.getElementById('assignRepForm').submit();" class="saarthi-select text-xs w-full">
@@ -119,39 +119,39 @@
 
         <!-- Column 2: System Permissions & RBAC Capabilities -->
         <div class="saarthi-card p-6 space-y-4">
-            <div class="border-b border-slate-800 pb-3">
-                <h3 class="font-bold text-white text-base">RBAC Permissions &amp; Capabilities</h3>
-                <p class="text-xs text-slate-400">Granted system privileges for Manager role tier</p>
+            <div class="border-b border-slate-200 pb-3">
+                <h3 class="font-bold text-slate-900 text-sm">RBAC Permissions &amp; Capabilities</h3>
+                <p class="text-xs text-slate-500 font-semibold">Granted system privileges for Manager role tier</p>
             </div>
 
             <div class="space-y-3 text-xs">
-                <div class="flex items-center justify-between p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 font-bold">
+                <div class="flex items-center justify-between p-3 rounded-xl bg-purple-50 border border-purple-100 text-purple-700 font-extrabold">
                     <span>Role Level</span>
                     <span>Manager (RBAC Tier 2)</span>
                 </div>
 
-                <ul class="space-y-2.5 text-slate-300">
+                <ul class="space-y-2.5 text-slate-700 font-medium">
                     <li class="flex items-center gap-2">
-                        <span class="text-emerald-400 font-bold">✓</span>
+                        <span class="text-emerald-600 font-bold">✓</span>
                         <span>Team Oversight &amp; Representative Assignment</span>
                     </li>
                     <li class="flex items-center gap-2">
-                        <span class="text-emerald-400 font-bold">✓</span>
+                        <span class="text-emerald-600 font-bold">✓</span>
                         <span>Manager Meeting Creation &amp; Assignment</span>
                     </li>
                     <li class="flex items-center gap-2">
-                        <span class="text-emerald-400 font-bold">✓</span>
+                        <span class="text-emerald-600 font-bold">✓</span>
                         <span>Executive AI Brief Access &amp; PDF Download</span>
                     </li>
                     <li class="flex items-center gap-2">
-                        <span class="text-emerald-400 font-bold">✓</span>
+                        <span class="text-emerald-600 font-bold">✓</span>
                         <span>Retail Partner &amp; Sales Opportunity Tracking</span>
                     </li>
-                    <li class="flex items-center gap-2 text-slate-500">
+                    <li class="flex items-center gap-2 text-slate-400">
                         <span class="text-rose-500 font-bold">✕</span>
                         <span>Platform User Provisioning (Admin Only)</span>
                     </li>
-                    <li class="flex items-center gap-2 text-slate-500">
+                    <li class="flex items-center gap-2 text-slate-400">
                         <span class="text-rose-500 font-bold">✕</span>
                         <span>System Role Mutation &amp; Security Controls</span>
                     </li>

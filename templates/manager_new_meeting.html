@@ -6,13 +6,13 @@
 <div class="max-w-3xl space-y-6 animate-fade-in">
 
     <!-- Header -->
-    <div class="flex items-center gap-4 border-b border-slate-800 pb-5">
-        <a href="{{ url_for('manager_meetings') }}" class="grid h-9 w-9 place-items-center rounded-xl border border-slate-800 text-slate-400 hover:bg-slate-800 hover:text-white transition">
+    <div class="flex items-center gap-4 border-b border-slate-200 pb-5">
+        <a href="{{ url_for('manager_meetings') }}" class="grid h-9 w-9 place-items-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition">
             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         </a>
         <div>
-            <h1 class="text-2xl font-extrabold text-white tracking-tight">Create &amp; Assign Meeting</h1>
-            <p class="text-sm text-slate-400">Assign a customer visit to a representative. The meeting will appear in their dashboard.</p>
+            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Create &amp; Assign Meeting</h1>
+            <p class="text-xs font-semibold text-slate-500">Assign a customer visit to a representative. The meeting will appear in their dashboard.</p>
         </div>
     </div>
 
@@ -20,28 +20,28 @@
 
         <!-- Assignment Section -->
         <div class="saarthi-card p-6">
-            <div class="border-b border-slate-800 pb-4 mb-5">
-                <h3 class="font-bold text-white">Representative Assignment</h3>
-                <p class="text-xs text-slate-400 mt-0.5">Assign this meeting to a sales representative on your team.</p>
+            <div class="border-b border-slate-200 pb-3 mb-4">
+                <h3 class="font-bold text-slate-900 text-sm">Representative Assignment</h3>
+                <p class="text-xs text-slate-500 mt-0.5 font-semibold">Assign this meeting to a sales representative on your team.</p>
             </div>
-            <div class="grid gap-5 sm:grid-cols-2">
+            <div class="grid gap-4 sm:grid-cols-2">
                 <!-- Assigned Representative -->
                 <div class="sm:col-span-2">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Assign to Representative <span class="text-rose-400">*</span></label>
-                    <select name="assigned_rep_id" class="saarthi-select" required>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Assign to Representative <span class="text-rose-600">*</span></label>
+                    <select name="assigned_rep_id" class="saarthi-select text-xs w-full" required>
                         <option value="">— Select Team Member —</option>
                         {% for rep in team_members %}
                         <option value="{{ rep.id }}">{{ rep.name }} ({{ rep.email }})</option>
                         {% endfor %}
                     </select>
                     {% if not team_members %}
-                    <p class="mt-2 text-xs text-amber-400 font-semibold">⚠ No representatives found. Ask Admin to create rep accounts.</p>
+                    <p class="mt-2 text-xs text-amber-600 font-bold">⚠ No representatives found. Ask Admin to create rep accounts.</p>
                     {% endif %}
                 </div>
                 <!-- Meeting Type -->
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Meeting Type</label>
-                    <select name="meeting_type" class="saarthi-select">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Meeting Type</label>
+                    <select name="meeting_type" class="saarthi-select text-xs w-full">
                         <option value="Manual">Manual Schedule</option>
                         <option value="Field Visit">Field Visit</option>
                         <option value="Demo">Product Demo</option>
@@ -51,8 +51,8 @@
                 </div>
                 <!-- Priority -->
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Priority</label>
-                    <select name="priority" class="saarthi-select">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Priority</label>
+                    <select name="priority" class="saarthi-select text-xs w-full">
                         <option value="High">🔴 High Priority</option>
                         <option value="Medium" selected>🟡 Medium Priority</option>
                         <option value="Low">🟢 Low Priority</option>
@@ -63,48 +63,48 @@
 
         <!-- Meeting Details -->
         <div class="saarthi-card p-6">
-            <div class="border-b border-slate-800 pb-4 mb-5">
-                <h3 class="font-bold text-white">Meeting Details</h3>
-                <p class="text-xs text-slate-400 mt-0.5">Core information about the customer visit.</p>
+            <div class="border-b border-slate-200 pb-3 mb-4">
+                <h3 class="font-bold text-slate-900 text-sm">Meeting Details</h3>
+                <p class="text-xs text-slate-500 mt-0.5 font-semibold">Core information about the customer visit.</p>
             </div>
-            <div class="grid gap-5 sm:grid-cols-2">
+            <div class="grid gap-4 sm:grid-cols-2">
                 <div class="sm:col-span-2">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Meeting Title <span class="text-rose-400">*</span></label>
-                    <input type="text" name="title" placeholder="e.g., Q4 Business Review with DMart" class="saarthi-input" required>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Meeting Title <span class="text-rose-600">*</span></label>
+                    <input type="text" name="title" placeholder="e.g., Q4 Business Review with DMart" class="saarthi-input text-xs w-full" required>
                 </div>
                 <div class="sm:col-span-2">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Company / Customer Name <span class="text-rose-400">*</span></label>
-                    <input type="text" name="company_name" placeholder="e.g., DMart (Avenue Supermarts)" class="saarthi-input" required>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Company / Customer Name <span class="text-rose-600">*</span></label>
+                    <input type="text" name="company_name" placeholder="e.g., DMart (Avenue Supermarts)" class="saarthi-input text-xs w-full" required>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Contact Person</label>
-                    <input type="text" name="contact_person" placeholder="e.g., Rahul Sharma" class="saarthi-input">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Contact Person</label>
+                    <input type="text" name="contact_person" placeholder="e.g., Rahul Sharma" class="saarthi-input text-xs w-full">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Designation</label>
-                    <input type="text" name="designation" placeholder="e.g., Purchase Manager" class="saarthi-input">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Designation</label>
+                    <input type="text" name="designation" placeholder="e.g., Purchase Manager" class="saarthi-input text-xs w-full">
                 </div>
             </div>
         </div>
 
         <!-- Date, Time & Location -->
         <div class="saarthi-card p-6">
-            <div class="border-b border-slate-800 pb-4 mb-5">
-                <h3 class="font-bold text-white">Schedule & Location</h3>
-                <p class="text-xs text-slate-400 mt-0.5">Set when and where the meeting will take place.</p>
+            <div class="border-b border-slate-200 pb-3 mb-4">
+                <h3 class="font-bold text-slate-900 text-sm">Schedule &amp; Location</h3>
+                <p class="text-xs text-slate-500 mt-0.5 font-semibold">Set when and where the meeting will take place.</p>
             </div>
-            <div class="grid gap-5 sm:grid-cols-3">
+            <div class="grid gap-4 sm:grid-cols-3">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Meeting Date <span class="text-rose-400">*</span></label>
-                    <input type="date" name="meeting_date" class="saarthi-input" required>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Meeting Date <span class="text-rose-600">*</span></label>
+                    <input type="date" name="meeting_date" class="saarthi-input text-xs w-full" required>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Meeting Time <span class="text-rose-400">*</span></label>
-                    <input type="time" name="meeting_time" class="saarthi-input" required>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Meeting Time <span class="text-rose-600">*</span></label>
+                    <input type="time" name="meeting_time" class="saarthi-input text-xs w-full" required>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Duration</label>
-                    <select name="duration" class="saarthi-select">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Duration</label>
+                    <select name="duration" class="saarthi-select text-xs w-full">
                         <option value="30">30 min</option>
                         <option value="60" selected>1 hour</option>
                         <option value="90">1.5 hours</option>
@@ -112,25 +112,25 @@
                     </select>
                 </div>
                 <div class="sm:col-span-3">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">Location / Address</label>
-                    <input type="text" name="location" placeholder="e.g., DMart Kachiguda Branch, Hyderabad" class="saarthi-input">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Location / Address</label>
+                    <input type="text" name="location" placeholder="e.g., DMart Kachiguda Branch, Hyderabad" class="saarthi-input text-xs w-full">
                 </div>
             </div>
         </div>
 
         <!-- Agenda -->
         <div class="saarthi-card p-6">
-            <div class="border-b border-slate-800 pb-4 mb-5">
-                <h3 class="font-bold text-white">Meeting Agenda</h3>
-                <p class="text-xs text-slate-400 mt-0.5">Describe the objectives. Gemini AI will use this to generate the executive brief.</p>
+            <div class="border-b border-slate-200 pb-3 mb-4">
+                <h3 class="font-bold text-slate-900 text-sm">Meeting Agenda</h3>
+                <p class="text-xs text-slate-500 mt-0.5 font-semibold">Describe the objectives. Gemini AI will use this to generate the executive brief.</p>
             </div>
-            <textarea name="agenda" rows="4" placeholder="Describe the meeting objectives, products to pitch, key accounts to discuss..." class="saarthi-textarea resize-none"></textarea>
+            <textarea name="agenda" rows="4" placeholder="Describe the meeting objectives, products to pitch, key accounts to discuss..." class="saarthi-textarea text-xs w-full resize-none"></textarea>
         </div>
 
         <!-- Submit -->
         <div class="flex items-center justify-between pt-2">
-            <a href="{{ url_for('manager_meetings') }}" class="btn-saarthi-secondary text-sm">Cancel</a>
-            <button type="submit" class="btn-saarthi-primary text-sm px-6">
+            <a href="{{ url_for('manager_meetings') }}" class="btn-saarthi-secondary text-xs">Cancel</a>
+            <button type="submit" class="btn-saarthi-primary text-xs px-6">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                 Create &amp; Assign Meeting
             </button>

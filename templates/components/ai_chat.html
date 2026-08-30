@@ -1,214 +1,98 @@
-<div id="aiAssistant"
-     class="fixed bottom-6 right-6 z-50">
+<div id="aiAssistant" class="fixed bottom-6 right-6 z-50">
 
     <!-- Floating Button -->
-
-    <button id="chatToggle"
-            class="w-16 h-16 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 shadow-2xl hover:scale-110 transition-all duration-300 flex items-center justify-center">
-
-        <svg xmlns="http://www.w3.org/2000/svg"
-             width="28"
-             height="28"
-             fill="white"
-             viewBox="0 0 16 16">
-
+    <button id="chatToggle" class="w-14 h-14 rounded-full bg-blue-600 shadow-xl hover:bg-blue-700 hover:scale-105 transition-all duration-300 flex items-center justify-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 16 16">
             <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0Zm3.5 5.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0Zm-7 0a1.5 1.5 0 1 1 3 0a1.5 1.5 0 0 1-3 0ZM8 14c-2.2 0-4-1.2-4-2.5h8C12 12.8 10.2 14 8 14Z"/>
         </svg>
-
     </button>
 
     <!-- Chat Window -->
-
-    <div id="chatWindow"
-         class="hidden mt-4 w-[430px] h-[720px] rounded-3xl overflow-hidden bg-slate-900 border border-slate-700 shadow-[0_20px_60px_rgba(0,0,0,.5)] flex flex-col">
+    <div id="chatWindow" class="hidden mt-4 w-[400px] h-[650px] rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-2xl flex flex-col">
 
         <!-- Header -->
-
-        <div class="bg-gradient-to-r from-blue-600 to-violet-600 p-5">
-
+        <div class="bg-blue-600 p-4 text-white">
             <div class="flex items-center justify-between">
-
                 <div class="flex items-center gap-3">
-
-                    <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-2xl">
+                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl">
                         🤖
                     </div>
-
                     <div>
-
-                        <h2 class="font-bold text-white">
-                            Saarthi AI
-                        </h2>
-
-                        <p class="text-sm text-blue-100">
-                            Enterprise Sales Copilot
-                        </p>
-
+                        <h2 class="font-bold text-white text-sm">Saarthi AI</h2>
+                        <p class="text-xs text-blue-100">Enterprise Sales Copilot</p>
                     </div>
-
                 </div>
 
                 <div class="flex items-center gap-3">
-
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                        <span class="text-sm text-white">Online</span>
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                        <span class="text-xs text-blue-100 font-semibold">Online</span>
                     </div>
 
                     <!-- Close Button -->
-                    <button id="closeChat"
-                        class="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 transition flex items-center justify-center text-white text-xl">
+                    <button id="closeChat" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 transition flex items-center justify-center text-white text-base">
                         ✕
                     </button>
-
                 </div>
-
             </div>
-
         </div>
 
         <!-- Welcome -->
-
-        <div class="p-5 border-b border-slate-700">
-
-            <h3 class="text-xl font-semibold text-white">
-                Hi Jagadeesh 👋
+        <div class="p-4 border-b border-slate-100 bg-slate-50">
+            <h3 class="text-base font-bold text-slate-900">
+                Hi {{ name|default('User') }} 👋
             </h3>
-
-            <p class="text-slate-400 mt-2">
-                I can help you prepare meetings, research companies, generate emails and answer sales questions.
+            <p class="text-xs text-slate-500 mt-1">
+                I can help you prepare meetings, research accounts, generate emails and answer sales questions.
             </p>
-
         </div>
 
         <!-- Suggestions -->
-
-        <div class="px-5 py-4">
-
-            <div class="flex flex-wrap gap-2">
-
-                <button class="suggestion">
-                    Research Company
-                </button>
-
-                <button class="suggestion">
-                    Meeting Brief
-                </button>
-
-                <button class="suggestion">
-                    Generate Email
-                </button>
-
-                <button class="suggestion">
-                    Competitor Analysis
-                </button>
-
-                <button class="suggestion">
-                    Sales Strategy
-                </button>
-
-                <button class="suggestion">
-                    Summarize News
-                </button>
-
+        <div class="px-4 py-3 border-b border-slate-100">
+            <div class="flex flex-wrap gap-1.5">
+                <button class="suggestion">Research Company</button>
+                <button class="suggestion">Meeting Brief</button>
+                <button class="suggestion">Generate Email</button>
+                <button class="suggestion">Competitor Analysis</button>
             </div>
-
         </div>
 
         <!-- Messages -->
-
-        <div id="chatMessages"
-             class="flex-1 overflow-y-auto px-5 space-y-5">
-
-            <!-- AI -->
-
+        <div id="chatMessages" class="flex-1 overflow-y-auto p-4 space-y-4">
             <div class="flex gap-3">
-
-                <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm flex-shrink-0">
                     🤖
                 </div>
-
-                <div class="bg-slate-800 rounded-2xl p-4 max-w-[85%]">
-
-                    <p class="text-white">
-
-                        Welcome to Saarthi AI.
-
-                        Ask me anything about:
-
-                    </p>
-
-                    <ul class="mt-3 space-y-2 text-slate-300">
-
-                        <li>• Company Research</li>
-
-                        <li>• Meeting Preparation</li>
-
-                        <li>• Sales Strategy</li>
-
-                        <li>• Email Generation</li>
-
-                        <li>• Competitor Analysis</li>
-
+                <div class="bg-slate-100 border border-slate-200 rounded-2xl p-3.5 max-w-[85%] text-xs text-slate-800 leading-relaxed">
+                    <p class="font-bold mb-1">Welcome to Saarthi AI.</p>
+                    <p class="text-slate-600 mb-2">Ask me anything about:</p>
+                    <ul class="space-y-1 text-slate-600">
+                        <li>• Company & Account Research</li>
+                        <li>• Pre-meeting Preparation</li>
+                        <li>• Executive Brief Generation</li>
                     </ul>
-
                 </div>
-
             </div>
-
         </div>
 
         <!-- Typing -->
-
-        <div id="typingIndicator"
-             class="hidden px-5 py-2">
-
+        <div id="typingIndicator" class="hidden px-4 py-2">
             <div class="flex items-center gap-2">
-
-                <div class="w-2 h-2 rounded-full bg-blue-400 animate-bounce"></div>
-
-                <div class="w-2 h-2 rounded-full bg-blue-400 animate-bounce delay-100"></div>
-
-                <div class="w-2 h-2 rounded-full bg-blue-400 animate-bounce delay-200"></div>
-
-                <span class="text-slate-400 text-sm">
-                    Saarthi AI is thinking...
-                </span>
-
+                <div class="w-2 h-2 rounded-full bg-blue-600 animate-bounce"></div>
+                <div class="w-2 h-2 rounded-full bg-blue-600 animate-bounce delay-100"></div>
+                <div class="w-2 h-2 rounded-full bg-blue-600 animate-bounce delay-200"></div>
+                <span class="text-slate-400 text-xs font-semibold">Saarthi AI is thinking...</span>
             </div>
-
         </div>
 
         <!-- Input -->
-
-        <div class="border-t border-slate-700 p-4">
-
-            <div class="flex items-center gap-3">
-
-                <button class="icon-btn">
-                    📎
-                </button>
-
-                <button class="icon-btn">
-                    🎤
-                </button>
-
-                <input
-                    id="chatInput"
-                    type="text"
-                    placeholder="Ask Saarthi AI..."
-                    class="flex-1 bg-slate-800 rounded-xl px-4 py-3 outline-none text-white placeholder-slate-500">
-
-                <button
-                    id="sendMessage"
-                    class="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:scale-105 transition">
-
+        <div class="border-t border-slate-200 p-3 bg-white">
+            <div class="flex items-center gap-2">
+                <input id="chatInput" type="text" placeholder="Ask Saarthi AI..." class="saarthi-input flex-1 text-xs py-2">
+                <button id="sendMessage" class="btn-saarthi-primary text-xs py-2 px-3">
                     ➜
-
                 </button>
-
             </div>
-
         </div>
 
     </div>

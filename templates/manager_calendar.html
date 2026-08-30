@@ -1,13 +1,13 @@
 {% extends "manager_base.html" %}
 
-{% block page_title %}Team Calendar & Schedules | Saarthi AI{% endblock %}
+{% block page_title %}Team Calendar &amp; Schedules | Saarthi AI{% endblock %}
 
 {% block content %}
 <div class="space-y-6 animate-fade-in">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-800 pb-5">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200 pb-5">
         <div>
-            <h1 class="text-2xl font-extrabold text-white tracking-tight">Team Meeting Calendar</h1>
-            <p class="text-sm text-slate-400">View representative schedules, sync status, and trigger AI briefing generation.</p>
+            <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Team Meeting Calendar</h1>
+            <p class="text-xs font-semibold text-slate-500">View representative schedules, sync status, and trigger AI briefing generation.</p>
         </div>
         <div class="flex items-center gap-3">
             {% if calendar_connected %}
@@ -24,10 +24,10 @@
 
     <!-- Representative Meeting Schedule Table -->
     <div class="saarthi-card overflow-hidden">
-        <div class="flex items-center justify-between border-b border-slate-800 px-6 py-4">
+        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
             <div>
-                <h3 class="font-bold text-white">Upcoming Representative Meetings</h3>
-                <p class="text-xs text-slate-400">Sourced from Google Calendar OAuth sync and manual scheduling</p>
+                <h3 class="font-bold text-slate-900">Upcoming Representative Meetings</h3>
+                <p class="text-xs text-slate-500">Sourced from Google Calendar OAuth sync and manual scheduling</p>
             </div>
             <a href="{{ url_for('create_meeting') }}" class="btn-saarthi-primary text-xs py-2">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
@@ -40,7 +40,7 @@
                 <thead>
                     <tr>
                         <th>Meeting Title</th>
-                        <th>Date & Time</th>
+                        <th>Date &amp; Time</th>
                         <th>Source</th>
                         <th>Status</th>
                         <th class="text-right">Actions</th>
@@ -51,13 +51,13 @@
                     <tr>
                         <td>
                             <div class="flex items-center gap-3">
-                                <div class="grid h-9 w-9 place-items-center rounded-xl bg-blue-500/10 text-blue-400 font-extrabold text-sm border border-blue-500/20">
+                                <div class="grid h-9 w-9 place-items-center rounded-xl bg-blue-50 text-blue-600 font-extrabold text-sm border border-blue-100">
                                     {{ meeting.title[0]|upper if meeting.title else 'M' }}
                                 </div>
                                 <div>
-                                    <p class="font-bold text-white">{{ meeting.title }}</p>
+                                    <p class="font-bold text-slate-900 text-xs">{{ meeting.title }}</p>
                                     {% if meeting.location %}
-                                    <span class="text-[11px] text-slate-400">{{ meeting.location[:40] }}</span>
+                                    <span class="text-[11px] text-slate-500">{{ meeting.location[:40] }}</span>
                                     {% endif %}
                                 </div>
                             </div>
@@ -65,8 +65,8 @@
                         <td>
                             {% if meeting.start_time %}
                             <div>
-                                <p class="font-semibold text-white text-xs">{{ meeting.start_time.strftime('%a, %d %b %Y') }}</p>
-                                <p class="text-[11px] text-blue-400 font-semibold">{{ meeting.start_time.strftime('%I:%M %p') }}</p>
+                                <p class="font-semibold text-slate-900 text-xs">{{ meeting.start_time.strftime('%a, %d %b %Y') }}</p>
+                                <p class="text-[11px] text-blue-600 font-semibold">{{ meeting.start_time.strftime('%I:%M %p') }}</p>
                             </div>
                             {% else %}
                             <span class="text-xs text-slate-400">Time TBD</span>
@@ -87,9 +87,9 @@
                     {% else %}
                     <tr>
                         <td colspan="5" class="py-12 text-center">
-                            <svg class="mx-auto h-10 w-10 text-slate-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                            <p class="text-sm font-semibold text-slate-300">No upcoming meetings scheduled</p>
-                            <p class="text-xs text-slate-400 mt-1">Connect Google Calendar or schedule meetings manually to view team schedule.</p>
+                            <svg class="mx-auto h-10 w-10 text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <p class="text-sm font-semibold text-slate-700">No upcoming meetings scheduled</p>
+                            <p class="text-xs text-slate-500 mt-1">Connect Google Calendar or schedule meetings manually to view team schedule.</p>
                         </td>
                     </tr>
                     {% endfor %}
